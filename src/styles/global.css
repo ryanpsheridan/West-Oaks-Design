@@ -833,21 +833,29 @@ svg {
 	max-width: var(--measure);
 }
 
-/* Centred variant. Used where a section has no action link to pin opposite
-   the heading, a lone left-aligned header above a symmetrical grid leaves the
-   whole right half of the row empty. */
-.section-header-center {
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-}
+/* Centred variant, and only above the breakpoint where centring earns its
+   keep. The reason to centre is that a lone left-aligned header above a
+   symmetrical multi-column grid leaves the whole right half of the row empty.
+   That argument is entirely about wide layouts.
 
+   On a phone every grid is one column, so there is no empty half to balance,
+   and a centred header sitting on top of left-aligned cards and body copy
+   just reads as two different alignments fighting on the same screen. Below
+   720px these headers align left like everything else. */
 .section-header-center .section-header-text {
 	max-width: var(--measure-wide);
 }
 
-.section-header-center .lead {
-	margin-inline: auto;
+@media (min-width: 720px) {
+	.section-header-center {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
+
+	.section-header-center .lead {
+		margin-inline: auto;
+	}
 }
 
 .section-header-text > :last-child {
