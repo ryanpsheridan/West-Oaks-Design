@@ -375,7 +375,7 @@ const schema = [
 		width: 2.25rem;
 		height: 2.25rem;
 		border-radius: var(--radius-md);
-		background: var(--surface-fill);
+		background: var(--surface-chip);
 		color: var(--color-text);
 	}
 
@@ -440,9 +440,10 @@ const schema = [
 		height: 2.5rem;
 		margin-bottom: var(--space-4);
 		border-radius: var(--radius-md);
-		/* Mixed from the card's own text colour rather than a surface token:
-		   the card is a tint, and a neutral fill on a tint reads as a patch. */
-		background: color-mix(in srgb, var(--color-text) 8%, transparent);
+		/* Was a color-mix off the card's own text colour, which made sense
+		   while cards were tinted fields and stopped making sense when they
+		   became outlines on a white fill. */
+		background: var(--surface-chip);
 		color: var(--color-text);
 	}
 

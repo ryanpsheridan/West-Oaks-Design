@@ -82,7 +82,7 @@
 	--tint-moss: #E2E9DF;     /* --color-text at 14.5:1 */
 	--tint-clay: #E2D5C1;     /* --color-text at 12.4:1 */
 	--tint-sage: #CBD7C8;     /* --color-text at 11.9:1 */
-	--tint-sand: #EAE1D2;     /* --color-text at 13.8:1, the eyebrow pill's tone */
+	--tint-sand: #E2D7C2;     /* --color-text at 12.6:1, the chip tone */
 	--tint-bone: #EFECE3;     /* --color-text at 15.2:1 */
 
 	/* Shadow base, kept neutral so no elevation ever inherits a brand hue. */
@@ -193,6 +193,18 @@
 	--surface-raised: var(--gray-0);
 	--surface-sunken: var(--color-bg-subtle);
 	--surface-fill: var(--gray-100);
+
+	/* The fill behind every small chip: the eyebrow label, the icon tiles
+	   beside a heading, the tag. These were three different values that
+	   happened to look similar (--surface-fill on the icon tiles, --tint-sand
+	   on the eyebrow, and a color-mix left over from when cards were tinted),
+	   which read as a mistake wherever two of them sat near each other. One
+	   token so they cannot drift apart again.
+
+	   --surface-fill still exists for what it is actually for: a wash over a
+	   surface, like a hover state or inline code. That is a different job
+	   from a chip, which is an object sitting on the page. */
+	--surface-chip: var(--tint-sand);
 
 	--border-hairline: var(--gray-200);
 	--border-default: var(--gray-300);

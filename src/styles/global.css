@@ -221,7 +221,7 @@ a {
 	letter-spacing: var(--tracking-caps);
 	text-transform: uppercase;
 	color: var(--color-text);
-	background: var(--eyebrow-tint, var(--tint-sand));
+	background: var(--eyebrow-tint, var(--surface-chip));
 	padding: var(--space-1) var(--space-3);
 	border-radius: var(--radius-sm);
 	margin: 0 0 var(--space-4);
@@ -1023,7 +1023,7 @@ svg {
 	text-transform: uppercase;
 	padding: var(--space-1) var(--space-3);
 	border-radius: var(--radius-md);
-	background: var(--surface-fill);
+	background: var(--surface-chip);
 	color: var(--color-text-secondary);
 }
 

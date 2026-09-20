@@ -368,7 +368,8 @@ Use CSS variables from `src/styles/tokens.css` for all styling, never hardcode a
 
 `tokens.css` is layered, a raw palette feeds a semantic layer, and only the semantic names get referenced from components. That indirection is what lets dark mode be added later without renaming anything, so don't reach past it to the `--gray-*` palette from a component.
 
-- Surfaces: `--surface-page`, `--surface-raised`, `--surface-sunken`, `--surface-fill`
+- Surfaces: `--surface-page`, `--surface-raised`, `--surface-sunken`, `--surface-fill`, `--surface-chip`
+- **`--surface-chip` is the fill behind every small chip**: the eyebrow label, the icon tiles beside a heading, the tag. These used to be three values that merely looked similar (`--surface-fill` on the icon tiles, `--tint-sand` on the eyebrow, and a `color-mix` left over from when cards were tinted fields), which read as a mistake wherever two of them sat near each other. `--surface-fill` remains for what it is actually for: a wash over a surface, like a hover state or inline code. A wash and a chip are different jobs.
 - Borders: `--border-hairline`, `--border-default`, `--border-strong`. Cards take `--border-hairline`; form controls take `--border-default`, because there the edge is the affordance and on a card it only has to say "separate plane".
 - Text: `--color-text`, `--color-text-secondary`, `--color-text-tertiary`
 - Brand (the per-client re-theme surface): `--color-accent` (+ `-hover`/`-contrast`) for inline links only, `--color-ink` (+ `-hover`/`-contrast`) for primary buttons, `--color-brand` (+ `-hover`/`-contrast`) for saturated fields. `--color-bg` / `--color-bg-subtle` feed the surface tokens.
