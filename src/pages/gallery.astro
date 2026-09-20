@@ -377,13 +377,34 @@ const schema = [
 		max-width: var(--measure-wide);
 	}
 
-	/* Filter bar, pills that read as a set of options rather than as
-	   buttons. Scrolls horizontally on narrow screens instead of wrapping
-	   into a two-row block that pushes the grid down the page. */
+	/* Filter chips, a set of options rather than a row of buttons. Scrolls
+	   horizontally on narrow screens instead of wrapping into a two-row block
+	   that pushes the grid down the page.
+
+	   The strip breaks out of the container's gutter so the cut-off happens
+	   at the edge of the screen rather than at the gutter, and that
+	   difference is the entire affordance. A row that stops short of the
+	   edge with clean space beside it reads as a finished row, and nobody
+	   thinks to push it; a row that runs off under the edge of the screen
+	   reads as something with more to the right of it.
+
+	   The negative margin is exactly the container's own padding, so the
+	   strip spans the container's border box and no further. It cannot cause
+	   page overflow at any width: below --content-width that border box is
+	   the viewport, and above it the container is narrower than the viewport
+	   anyway.
+
+	   The matching padding puts the first and last chip back in line with the
+	   gutter, so nothing looks misaligned at either end of the scroll, and
+	   scroll-padding does the same for a keyboard or programmatic scroll,
+	   which would otherwise land a focused chip flush against the screen. */
 	.filter-bar {
 		display: flex;
 		gap: var(--space-2);
 		margin-bottom: var(--space-6);
+		margin-inline: calc(var(--space-5) * -1);
+		padding-inline: var(--space-5);
+		scroll-padding-inline: var(--space-5);
 		overflow-x: auto;
 		padding-bottom: var(--space-2);
 		scrollbar-width: thin;
