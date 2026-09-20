@@ -1,0 +1,294 @@
+/* ============================================================================
+   DESIGN TOKENS
+
+   Four layers, in dependency order:
+
+     1. Palette      raw values, no meaning attached
+     2. Brand        the per-client re-theme surface
+     3. Semantic     what things mean (surfaces, borders, text roles)
+     4. System       type, space, motion, layout
+
+   Only layers 2-4 should ever be referenced from a stylesheet or component.
+   Layer 1 exists so the semantic layer has something to point at, and so a
+   future `prefers-color-scheme: dark` block can repoint every semantic name
+   without renaming a single token or touching a single component.
+
+   Re-theming for a new client means editing layer 2 and nothing else.
+   ============================================================================ */
+
+:root {
+	/* ------------------------------------------------------------------------
+	   1. PALETTE — never reference these directly outside this file.
+
+	   The neutral ramp is deliberately compressed at the dark end: every text
+	   role has to clear WCAG AA (4.5:1) against both --surface-page and
+	   --surface-sunken, which puts a hard floor around #707070. Anything
+	   lighter reads as "muted" but fails, so the ramp has no #999-class step.
+	   ------------------------------------------------------------------------ */
+	--gray-0: #FFFFFF;    /* cards and raised surfaces */
+	--gray-25: #FBFAF9;   /* page — warm off-white, not pure white */
+	--gray-50: #F4F2EE;   /* recessed section bands */
+	--gray-100: #EFEDE8;  /* inline code, subtle fills */
+	--gray-200: #E7E4DE;  /* hairline dividers */
+	--gray-300: #DCD8D1;  /* default borders */
+	--gray-400: #C6C2B9;  /* emphasised / hover borders */
+	--gray-500: #666B75;  /* tertiary text — 5.13:1 on page, 4.78:1 on sunken */
+	--gray-600: #575D68;  /* secondary text — 6.36:1 on page, 5.93:1 on sunken */
+	--gray-900: #081122;  /* primary text — 18.9:1 on page */
+
+	--ink-900: #081122;
+	--ink-950: #030812;
+
+	/* ------------------------------------------------------------------------
+	   Tints. Light card and section-band fields, used as whole backgrounds
+	   rather than as small accents.
+
+	   This starter ships them neutral on purpose — every hue below is a step
+	   off the same warm-grey ramp, not a colour. That's deliberate: this is a
+	   template meant to be duplicated per client, and the tint set is where
+	   their brand personality goes back in during re-theming. Shipping it
+	   grey means every new project starts from a genuinely blank slate
+	   instead of inheriting a previous client's palette.
+
+	   --color-text clears AA on every tint by a wide margin (>15:1, being
+	   near-white). --color-text-secondary clears it too, comfortably — unlike
+	   a saturated tint, a light neutral doesn't tighten that margin the way a
+	   client's eventual brand hue might, so re-check contrast after a
+	   re-theme rather than assuming it still holds.
+	   ------------------------------------------------------------------------ */
+	--tint-lime: #E6E4E2;
+	--tint-mint: #F3F2F0;
+	--tint-sky: #EEEDEB;
+	--tint-lavender: #E0DDDA;
+	--tint-cream: #F2F0ED;
+
+	/* Shadow base, kept neutral so no elevation ever inherits a brand hue. */
+	--shadow-rgb: 8, 17, 34;
+
+	/* ------------------------------------------------------------------------
+	   2. BRAND — the re-theme surface. Swap these per client; everything
+	   else in the system derives from them.
+
+	   Two separate roles, deliberately kept apart:
+	     --color-accent  inline links, and nothing else
+	     --color-ink     primary buttons and high-emphasis controls
+
+	   Keeping buttons on ink rather than accent is what lets the site stay
+	   monochromatic while a client's brand color still shows up where it
+	   carries meaning. Check any new accent against AA before shipping.
+	   ------------------------------------------------------------------------ */
+	--color-bg: var(--gray-25);
+	--color-bg-subtle: var(--gray-50);
+
+	/* The one hue in this starter — reserved for links and nothing else, so
+	   it always reads as "this is clickable" rather than decoration. */
+	--color-accent: #2447BE;        /* 7.42:1 on white */
+	--color-accent-hover: #1B3691;
+	--color-accent-contrast: #FFFFFF;
+
+	/* The highlight. Unlike --color-accent (which is link-only and must clear
+	   AA as text), this is a *field* color: it is only ever a background, with
+	   --color-brand-contrast on top. That inversion is what would let it be
+	   far more saturated than anything else in the system without failing
+	   contrast, once a client's brand color is dropped in here.
+
+	   Until then it's intentionally aliased to --color-ink: there is no
+	   brand color yet, so a saturated .section-brand band would just be an
+	   arbitrary color with no meaning. Re-theming per client: point this at
+	   their actual brand color instead. If theirs is dark rather than light,
+	   swap --color-brand-contrast to white and re-check the pairing. */
+	--color-brand: var(--ink-900);
+	--color-brand-hover: var(--ink-950);
+	--color-brand-contrast: #FFFFFF;
+
+	--color-ink: var(--ink-900);
+	--color-ink-hover: var(--ink-950);
+	--color-ink-contrast: #FFFFFF;
+	/* Secondary text on an ink surface — ~9:1, so it still clears AA while
+	   reading as a step down from full white. */
+	--color-ink-contrast-muted: rgba(255, 255, 255, 0.72);
+
+	/* ------------------------------------------------------------------------
+	   3. SEMANTIC — what a value means, not what it looks like.
+
+	   Surfaces are the layering vocabulary: `page` is the base, `sunken`
+	   recesses a section band out of it, `raised` lifts a card back up. A card
+	   on `page` reads as raised via border + shadow; the same card on `sunken`
+	   reads as raised via contrast. One class, both contexts.
+	   ------------------------------------------------------------------------ */
+	--surface-page: var(--color-bg);
+	/* White, while the page itself is warm off-white — so a card lifts by being
+	   cleaner than its background rather than by borrowing a shadow. */
+	--surface-raised: var(--gray-0);
+	--surface-sunken: var(--color-bg-subtle);
+	--surface-fill: var(--gray-100);
+
+	--border-hairline: var(--gray-200);
+	--border-default: var(--gray-300);
+	--border-strong: var(--gray-400);
+
+	--color-text: var(--gray-900);
+	--color-text-secondary: var(--gray-600);
+	--color-text-tertiary: var(--gray-500);
+
+	/* Overlay surfaces — modal scrims and the controls that sit on top of
+	   them. Derived rather than hardcoded so they follow a re-theme, and
+	   neutral so a scrim never tints the image behind it. */
+	--overlay-scrim: rgba(var(--shadow-rgb), 0.9);
+	--overlay-chip: color-mix(in srgb, var(--surface-page) 92%, transparent);
+
+	/* Semantic accents — reserved for real state (success, warning, error,
+	   informational). Never decoration. Always paired with text or an icon,
+	   never carrying the signal on color alone. */
+	--color-accent-positive: #1B8A5A;
+	--color-accent-positive-bg: #E6F4EC;
+	--color-accent-caution: #B5720A;
+	--color-accent-caution-bg: #FBF0DD;
+	--color-accent-critical: #C23A3A;
+	--color-accent-critical-bg: #FBEAEA;
+	--color-accent-info: #2952CC;
+	--color-accent-info-bg: #EAEFFB;
+
+	/* ------------------------------------------------------------------------
+	   4a. TYPOGRAPHY
+
+	   Aspekta for everything. Hierarchy comes from size, tracking, and leading
+	   — never from a second typeface, and barely from weight: the whole scale
+	   sits at medium (500), with size and tracking doing the separating. That
+	   is why the headings can be this large without the page shouting.
+
+	   Three weights are defined, but semibold is a rarely-needed emphasis
+	   step, not the heading default. There is no 700.
+	   ------------------------------------------------------------------------ */
+	--font-sans: 'Aspekta Variable', system-ui, -apple-system, sans-serif;
+	--font-heading: 'Aspekta Variable', system-ui, -apple-system, sans-serif;
+
+	/* Body scale — large for lead paragraphs, body as the default, small for
+	   captions and fine print. Eyebrow is the uppercase overline label. */
+	--text-eyebrow: 0.8125rem;
+	--text-small: 0.875rem;
+	--text-body: 1rem;
+	--text-large: 1.125rem;
+
+	/* Heading scale. h5 intentionally matches body size — a heading sized like
+	   a paragraph, for tight label-style headings — then steps up to h1.
+	   Display sits above h1 for hero headlines only, layered on top of it
+	   rather than replacing it.
+
+	   h1/h2/h3/display use clamp() so they scale down fluidly on narrow phones
+	   instead of eating a 375px screen. Display's lower bound is held well
+	   clear of h1's so the two don't converge at mid-size viewports — a
+	   display headline that lands on the same size as an h1 is just an h1. */
+	--text-h5: 1.25rem;                                      /* 20px */
+	--text-h4: clamp(1.375rem, 1.25rem + 0.6vw, 1.5rem);     /* →24px */
+	--text-h3: clamp(1.625rem, 1.35rem + 1.4vw, 2rem);       /* →32px */
+	--text-h2: clamp(2rem, 1.5rem + 2.4vw, 2.625rem);        /* →42px */
+	--text-h1: clamp(2.5rem, 1.75rem + 3.6vw, 3.5rem);       /* →56px */
+	--text-display: clamp(3rem, 1.8rem + 5.6vw, 4.5rem);     /* →72px */
+
+	--weight-normal: 400;
+	--weight-medium: 500;
+	--weight-semibold: 600;
+
+	/* Tracking. Large type set at default tracking reads loose and generic;
+	   pulling it in is most of what separates a display headline from a big
+	   paragraph. Small uppercase type needs the opposite treatment. */
+	--tracking-tight: -0.024em;   /* display */
+	--tracking-snug: -0.02em;     /* h1-h5, and buttons */
+	--tracking-body: -0.01em;     /* lead paragraphs at 20px */
+	--tracking-normal: 0;         /* body at 16px and below */
+	--tracking-caps: 0.06em;      /* eyebrows, uppercase labels */
+
+	/* Leading. Tighter as type gets larger — a 3.75rem headline at 1.2 has
+	   caverns between its lines, while a 1rem label at 1.2 is cramped. */
+	--leading-display: 1.08;
+	--leading-tight: 1.12;
+	--leading-snug: 1.25;
+	--leading-body: 1.5;
+
+	/* ------------------------------------------------------------------------
+	   4b. SPACING — 4px grid.
+
+	   Numerically named on purpose. The previous t-shirt scale had uneven
+	   ratios and no step between 1rem and 1.75rem, which forced one token to
+	   serve as both card padding and grid gap. Numeric names also mean a
+	   missed migration fails loudly: an undefined custom property invalidates
+	   the declaration and the spacing visibly collapses, rather than quietly
+	   shifting by a quarter rem.
+
+	   Rough intent: 1-4 inside components, 5-7 between components,
+	   8-10 between sections.
+	   ------------------------------------------------------------------------ */
+	--space-1: 0.25rem;   /*   4px */
+	--space-2: 0.5rem;    /*   8px */
+	--space-3: 0.75rem;   /*  12px */
+	--space-4: 1rem;      /*  16px */
+	--space-5: 1.5rem;    /*  24px */
+	--space-6: 2rem;      /*  32px */
+	--space-7: 3rem;      /*  48px */
+	--space-8: 4rem;      /*  64px */
+	--space-9: 6rem;      /*  96px */
+	--space-10: 8rem;     /* 128px */
+
+	/* ------------------------------------------------------------------------
+	   4c. RADIUS, ELEVATION
+
+	   Shadows are stacked rather than single-blur: a tight contact shadow for
+	   the edge plus a wider ambient one for the lift. One 10px blur at 6%
+	   reads as a grey smudge; two layers at 4% read as a surface sitting
+	   above another surface. All neutral, so elevation never picks up a hue.
+	   ------------------------------------------------------------------------ */
+	--radius-sm: 6px;
+	--radius-md: 10px;
+	--radius-lg: 16px;
+	--radius-xl: 24px;
+	--radius-pill: 999px;
+
+	--shadow-xs: 0 1px 2px rgba(var(--shadow-rgb), 0.04);
+	--shadow-sm:
+		0 1px 2px rgba(var(--shadow-rgb), 0.04),
+		0 1px 1px rgba(var(--shadow-rgb), 0.03);
+	--shadow-md:
+		0 2px 4px rgba(var(--shadow-rgb), 0.04),
+		0 4px 8px rgba(var(--shadow-rgb), 0.04);
+	--shadow-lg:
+		0 4px 8px rgba(var(--shadow-rgb), 0.04),
+		0 12px 24px rgba(var(--shadow-rgb), 0.06);
+
+	/* Inset hairline. Pairs with a shadow to define an edge without spending
+	   a real border, so a raised surface can sit on a same-colored one. */
+	--ring: inset 0 0 0 1px rgba(var(--shadow-rgb), 0.06);
+
+	/* ------------------------------------------------------------------------
+	   4d. MOTION
+
+	   One easing family, three durations. --ease-out is the workhorse for
+	   anything entering or responding to input: fast at the start, long
+	   settle, which reads as responsive rather than floaty. --ease-in-out is
+	   for things that move and stop symmetrically.
+
+	   Everything using these must still sit behind the prefers-reduced-motion
+	   block in global.css.
+	   ------------------------------------------------------------------------ */
+	--duration-fast: 120ms;
+	--duration-base: 200ms;
+	--duration-slow: 320ms;
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+	/* ------------------------------------------------------------------------
+	   4e. LAYOUT
+
+	   --content-width is the outer page gutter. The measure tokens cap line
+	   length for running text: past roughly 75 characters the eye loses the
+	   line return, so prose gets a measure even when the container is wider.
+	   ------------------------------------------------------------------------ */
+	--content-width: 1200px;
+	--measure-narrow: 34rem;  /* 544px — forms, tight single-column pages */
+	--measure: 40rem;         /* 640px — lead paragraphs, section intros */
+	--measure-wide: 45rem;    /* 720px — long-form body copy, FAQ lists */
+
+	/* Derived from --color-accent rather than hardcoded, so re-theming a
+	   client's brand color carries the focus ring with it. */
+	--focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-accent) 38%, transparent);
+}

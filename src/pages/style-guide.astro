@@ -1,0 +1,1175 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import Testimonial from '../components/Testimonial.astro';
+import StatBand from '../components/StatBand.astro';
+
+const demoStats = [
+	{ value: '20+', label: 'Years in business' },
+	{ value: '500+', label: 'Projects completed' },
+	{ value: '4.9', label: 'Average rating' },
+];
+
+// Living reference for the design system. Every token group and every shared
+// component class in global.css must be represented here — if something isn't
+// on this page, it isn't in the system. When you add a token or a component,
+// add it here in the same commit.
+
+const surfaces = [
+	{ name: '--surface-page', label: 'Page', note: 'Base background' },
+	{ name: '--surface-raised', label: 'Raised', note: 'Cards, popovers' },
+	{ name: '--surface-sunken', label: 'Sunken', note: 'Recessed section bands' },
+	{ name: '--surface-fill', label: 'Fill', note: 'Inline code, subtle fills' },
+];
+
+const borders = [
+	{ name: '--border-hairline', label: 'Hairline', note: 'Dividers, header rule' },
+	{ name: '--border-default', label: 'Default', note: 'Card and field borders' },
+	{ name: '--border-strong', label: 'Strong', note: 'Hover and emphasis' },
+];
+
+const textRoles = [
+	{ name: '--color-text', label: 'Primary', note: '15.5:1 — body copy, headings' },
+	{ name: '--color-text-secondary', label: 'Secondary', note: '6.7:1 — supporting copy' },
+	{ name: '--color-text-tertiary', label: 'Tertiary', note: '5.0:1 — captions, metadata' },
+];
+
+const brand = [
+	{ name: '--color-accent', label: 'Accent', note: 'Inline links only' },
+	{ name: '--color-accent-hover', label: 'Accent hover', note: '' },
+	{ name: '--color-ink', label: 'Ink', note: 'Primary buttons' },
+	{ name: '--color-ink-hover', label: 'Ink hover', note: '' },
+	{ name: '--color-brand', label: 'Brand', note: 'Field colour — background only, never text' },
+];
+
+const tints = [
+	{ name: '--tint-lime', label: 'Tint 1' },
+	{ name: '--tint-mint', label: 'Tint 2' },
+	{ name: '--tint-sky', label: 'Tint 3' },
+	{ name: '--tint-lavender', label: 'Tint 4' },
+	{ name: '--tint-cream', label: 'Tint 5' },
+];
+
+const semanticSwatches = [
+	{ name: '--color-accent-positive', bg: '--color-accent-positive-bg', label: 'Positive' },
+	{ name: '--color-accent-caution', bg: '--color-accent-caution-bg', label: 'Caution' },
+	{ name: '--color-accent-critical', bg: '--color-accent-critical-bg', label: 'Critical' },
+	{ name: '--color-accent-info', bg: '--color-accent-info-bg', label: 'Info' },
+];
+
+const headingScale = [
+	{ token: '--text-display', label: 'Display', cls: 'display' },
+	{ token: '--text-h1', label: 'H1' },
+	{ token: '--text-h2', label: 'H2' },
+	{ token: '--text-h3', label: 'H3' },
+	{ token: '--text-h4', label: 'H4' },
+	{ token: '--text-h5', label: 'H5' },
+];
+
+const textScale = [
+	{ token: '--text-large', label: 'Large', sample: 'The quick brown fox jumps over the lazy dog.' },
+	{ token: '--text-body', label: 'Body', sample: 'The quick brown fox jumps over the lazy dog.' },
+	{ token: '--text-small', label: 'Small', sample: 'The quick brown fox jumps over the lazy dog.' },
+	{ token: '--text-eyebrow', label: 'Eyebrow', sample: 'The quick brown fox jumps over the lazy dog.' },
+];
+
+const weights = [
+	{ token: '--weight-normal', label: 'Normal (400)' },
+	{ token: '--weight-medium', label: 'Medium (500) — UI, labels, buttons' },
+	{ token: '--weight-semibold', label: 'Semibold (600) — headings, heaviest in the system' },
+];
+
+const tracking = [
+	{ token: '--tracking-tight', label: '-0.022em', note: 'Display' },
+	{ token: '--tracking-snug', label: '-0.014em', note: 'H1, H2' },
+	{ token: '--tracking-normal', label: '0', note: 'Body and below' },
+	{ token: '--tracking-caps', label: '0.06em', note: 'Uppercase labels' },
+];
+
+const leading = [
+	{ token: '--leading-display', label: '1.05', note: 'Display headlines' },
+	{ token: '--leading-tight', label: '1.15', note: 'H1, H2' },
+	{ token: '--leading-snug', label: '1.3', note: 'H3–H5' },
+	{ token: '--leading-body', label: '1.6', note: 'Running text' },
+];
+
+const spacingScale = [
+	{ token: '--space-1', px: '4px' },
+	{ token: '--space-2', px: '8px' },
+	{ token: '--space-3', px: '12px' },
+	{ token: '--space-4', px: '16px' },
+	{ token: '--space-5', px: '24px' },
+	{ token: '--space-6', px: '32px' },
+	{ token: '--space-7', px: '48px' },
+	{ token: '--space-8', px: '64px' },
+	{ token: '--space-9', px: '96px' },
+	{ token: '--space-10', px: '128px' },
+];
+
+const radii = [
+	{ token: '--radius-sm', label: 'sm' },
+	{ token: '--radius-md', label: 'md' },
+	{ token: '--radius-lg', label: 'lg' },
+	{ token: '--radius-pill', label: 'pill' },
+];
+
+const shadows = [
+	{ token: '--shadow-xs', label: 'xs' },
+	{ token: '--shadow-sm', label: 'sm' },
+	{ token: '--shadow-md', label: 'md' },
+	{ token: '--shadow-lg', label: 'lg' },
+	{ token: '--ring', label: 'ring' },
+];
+
+const durations = [
+	{ token: '--duration-fast', label: '120ms', note: 'Hover, press, color changes' },
+	{ token: '--duration-base', label: '200ms', note: 'Cards, overlays, transforms' },
+	{ token: '--duration-slow', label: '320ms', note: 'Image scale, large movement' },
+];
+
+const iconNames = [
+	'check', 'shield', 'star', 'pin', 'clock', 'award', 'users',
+	'phone', 'mail', 'wrench', 'truck', 'calendar', 'leaf',
+	'arrowLeft', 'arrowRight', 'expand',
+] as const;
+
+const measures = [
+	{ token: '--measure-narrow', label: '34rem / 544px', note: 'Forms, tight single-column pages' },
+	{ token: '--measure', label: '40rem / 640px', note: 'Lead paragraphs, section intros' },
+	{ token: '--measure-wide', label: '45rem / 720px', note: 'Long-form body copy, FAQ lists' },
+	{ token: '--content-width', label: '1120px', note: 'Outer page container' },
+];
+---
+
+<BaseLayout
+	title="Style Guide"
+	description="Visual reference for this site's design tokens — colors, typography, spacing, motion, and components."
+>
+	<section class="section">
+		<div class="container">
+			<h1>Style Guide</h1>
+			<p class="lead">
+				A living reference for the design tokens and components this site is built from. Every
+				value below comes from <code>src/styles/tokens.css</code> and
+				<code>src/styles/global.css</code> &mdash; re-theme those and this page updates with them.
+			</p>
+			<p class="text-secondary measure">
+				If a token or component class isn't documented here, it isn't part of the system. Add to
+				this page in the same commit that adds to the stylesheet.
+			</p>
+
+			<h2>Color</h2>
+			<p class="text-secondary measure">
+				Tokens are layered: a raw palette feeds a semantic layer, and only the semantic names are
+				referenced from components. That indirection is what lets a dark mode be added later
+				without renaming anything.
+			</p>
+
+			<h3>Surfaces</h3>
+			<ul class="grid-auto swatch-grid">
+				{surfaces.map((s) => (
+					<li>
+						<div class="swatch swatch-bordered" style={`background:var(${s.name});`}></div>
+						<p class="swatch-label">{s.label}</p>
+						<code>{s.name}</code>
+						<p class="swatch-note">{s.note}</p>
+					</li>
+				))}
+			</ul>
+
+			<h3>Borders</h3>
+			<ul class="grid-auto swatch-grid">
+				{borders.map((b) => (
+					<li>
+						<div class="swatch swatch-border-demo" style={`border-color:var(${b.name});`}></div>
+						<p class="swatch-label">{b.label}</p>
+						<code>{b.name}</code>
+						<p class="swatch-note">{b.note}</p>
+					</li>
+				))}
+			</ul>
+
+			<h3>Text roles</h3>
+			<p class="text-secondary measure">
+				All three clear WCAG AA (4.5:1) against both <code>--surface-page</code> and
+				<code>--surface-sunken</code>. That floor is why the ramp has no lighter step — anything
+				paler reads as muted but fails.
+			</p>
+			<ul class="text-role-list">
+				{textRoles.map((t) => (
+					<li>
+						<span class="text-role-sample" style={`color:var(${t.name});`}>
+							The quick brown fox jumps over the lazy dog.
+						</span>
+						<span class="text-role-meta">
+							<code>{t.name}</code>
+							<span class="swatch-note">{t.note}</span>
+						</span>
+					</li>
+				))}
+			</ul>
+
+			<h3>Brand</h3>
+			<p class="text-secondary measure">
+				The tokens a client re-theme touches. Accent is for inline links and nothing else;
+				ink carries primary buttons. Brand is different in kind from both — it is a
+				<em>field</em> colour, only ever a background with <code>--color-brand-contrast</code>
+				on top, which is what would let it be far more saturated than anything that has to
+				pass contrast as text, once a client's brand colour lands here. Until then it's
+				aliased to ink, since a placeholder has no brand colour to show.
+			</p>
+			<ul class="grid-auto swatch-grid">
+				{brand.map((c) => (
+					<li>
+						<div class="swatch" style={`background:var(${c.name});`}></div>
+						<p class="swatch-label">{c.label}</p>
+						<code>{c.name}</code>
+						{c.note && <p class="swatch-note">{c.note}</p>}
+					</li>
+				))}
+			</ul>
+
+			<h3>Tints</h3>
+			<p class="text-secondary measure">
+				Whole-field colours for tinted cards (<code>.card-tint</code>) and eyebrow pills.
+				Shipped neutral here — steps off the same warm-grey ramp rather than a colour — so a
+				new client project starts from a blank slate instead of inheriting a previous one's
+				palette. <code>--color-text</code> clears AA on every tint with room to spare (being
+				near-white). <code>.card-tint</code> still mixes its muted tone down from the primary
+				text colour instead of reaching for the secondary role, so that stays safe once a
+				client re-themes these darker.
+			</p>
+			<ul class="grid-auto swatch-grid">
+				{tints.map((c) => (
+					<li>
+						<div class="swatch" style={`background:var(${c.name});`}></div>
+						<p class="swatch-label">{c.label}</p>
+						<code>{c.name}</code>
+					</li>
+				))}
+			</ul>
+
+			<h3>Semantic accents</h3>
+			<p class="text-secondary measure">
+				Reserved for actual state — success, warning, error, informational — never decoration.
+				Always paired with text or a glyph so color never carries the signal alone.
+			</p>
+			<ul class="grid-auto swatch-grid">
+				{semanticSwatches.map((s) => (
+					<li>
+						<div class="swatch semantic" style={`background:var(${s.bg});color:var(${s.name});border:1px solid var(${s.name});`}>Aa</div>
+						<p class="swatch-label">{s.label}</p>
+						<code>{s.name}</code>
+					</li>
+				))}
+			</ul>
+
+			<h2>Typography</h2>
+			<p class="text-secondary measure">
+				<strong>DM Sans</strong> for both body and headings. Hierarchy comes from size, weight,
+				tracking, and leading — never a second typeface.
+			</p>
+
+			<h3>Headings</h3>
+			<p class="text-secondary measure">
+				H5 intentionally matches body size — a heading sized like a paragraph, for tight
+				label-style headings — then steps up through H1. Display sits above H1 for hero
+				headlines, layered on an H1 rather than replacing it, so the page keeps exactly one H1.
+			</p>
+			<ul class="type-scale">
+				{headingScale.map((t) => (
+					<li>
+						<span
+							class:list={['type-sample', t.cls]}
+							style={t.cls ? undefined : `font-size:var(${t.token});`}
+						>
+							Aa
+						</span>
+						<code>{t.token}</code>
+					</li>
+				))}
+			</ul>
+
+			<h3>Text sizes</h3>
+			<ul class="type-scale">
+				{textScale.map((t) => (
+					<li>
+						<span class="type-sample type-sample-body" style={`font-size:var(${t.token});`}>{t.sample}</span>
+						<code>{t.token}</code>
+					</li>
+				))}
+			</ul>
+
+			<h3>Weights</h3>
+			<ul class="plain-list">
+				{weights.map((w) => (
+					<li style={`font-weight:var(${w.token});`}>
+						{w.label} <code>{w.token}</code>
+					</li>
+				))}
+			</ul>
+
+			<h3>Tracking</h3>
+			<p class="text-secondary measure">
+				Large type set at default tracking reads loose and generic. Pulling it in is most of what
+				separates a display headline from a big paragraph; small uppercase type needs the
+				opposite treatment.
+			</p>
+			<ul class="type-scale">
+				{tracking.map((t) => (
+					<li>
+						<span class="type-sample tracking-sample" style={`letter-spacing:var(${t.token});`}>
+							Typography
+						</span>
+						<span class="text-role-meta">
+							<code>{t.token}</code>
+							<span class="swatch-note">{t.label} &middot; {t.note}</span>
+						</span>
+					</li>
+				))}
+			</ul>
+
+			<h3>Leading</h3>
+			<ul class="plain-list">
+				{leading.map((l) => (
+					<li>
+						<code>{l.token}</code>
+						<span class="swatch-note"> {l.label} &middot; {l.note}</span>
+					</li>
+				))}
+			</ul>
+
+			<h3>Eyebrow</h3>
+			<p class="text-secondary measure">
+				Uppercase overline label, set in a tinted pill. Adds a level of hierarchy above a
+				heading without spending another type size — as plain grey caps it disappears next to
+				headings at this scale. Set the fill with <code>--eyebrow-tint</code>; text stays
+				<code>--color-text</code>, since the tints are only guaranteed AA against it.
+			</p>
+			<div class="demo-block">
+				<p class="eyebrow">Section label</p>
+				<h4>The heading it sits above</h4>
+			</div>
+			<div class="component-row">
+				{tints.slice(0, 4).map((t) => (
+					<span class="eyebrow" style={`--eyebrow-tint: var(${t.name}); margin: 0;`}>{t.label}</span>
+				))}
+			</div>
+			<p class="swatch-note">
+				<code>.eyebrow-plain</code> drops the pill for places it's too loud — inside a card,
+				or stacked directly above another label.
+			</p>
+			<div class="demo-block">
+				<p class="eyebrow eyebrow-plain">Plain variant</p>
+				<h4>The heading it sits above</h4>
+			</div>
+
+			<h2>Spacing</h2>
+			<p class="text-secondary measure">
+				A 4px grid, numerically named. Used for every padding, margin, and gap — never a raw
+				pixel value. Rough intent: 1&ndash;4 inside components, 5&ndash;7 between components,
+				8&ndash;10 between sections.
+			</p>
+			<ul class="spacing-list">
+				{spacingScale.map((s) => (
+					<li>
+						<code>{s.token}</code>
+						<span class="spacing-px">{s.px}</span>
+						<span class="spacing-bar" style={`width:var(${s.token});`}></span>
+					</li>
+				))}
+			</ul>
+
+			<h2>Radius &amp; elevation</h2>
+			<ul class="radius-grid">
+				{radii.map((r) => (
+					<li>
+						<div
+							class={`radius-box${r.token === '--radius-pill' ? ' radius-box-pill' : ''}`}
+							style={`border-radius:var(${r.token});`}
+						></div>
+						<code>{r.token}</code>
+					</li>
+				))}
+			</ul>
+
+			<p class="text-secondary measure">
+				Shadows are stacked rather than single-blur: a tight contact shadow for the edge plus a
+				wider ambient one for the lift. <code>--ring</code> is an inset hairline that defines an
+				edge without spending a real border.
+			</p>
+			<ul class="radius-grid">
+				{shadows.map((s) => (
+					<li>
+						<div class="shadow-box" style={`box-shadow:var(${s.token});`}></div>
+						<code>{s.token}</code>
+					</li>
+				))}
+			</ul>
+
+			<h2>Motion</h2>
+			<p class="text-secondary measure">
+				One easing family, three durations. <code>--ease-out</code> is the workhorse for anything
+				entering or responding to input. Everything using these sits behind the
+				<code>prefers-reduced-motion</code> block in <code>global.css</code> — new animation must
+				not bypass it.
+			</p>
+			<ul class="plain-list">
+				{durations.map((d) => (
+					<li>
+						<code>{d.token}</code>
+						<span class="swatch-note"> {d.label} &middot; {d.note}</span>
+					</li>
+				))}
+				<li><code>--ease-out</code><span class="swatch-note"> cubic-bezier(0.16, 1, 0.3, 1)</span></li>
+				<li><code>--ease-in-out</code><span class="swatch-note"> cubic-bezier(0.65, 0, 0.35, 1)</span></li>
+			</ul>
+			<div class="demo-block">
+				<p class="swatch-note">Hover each box to compare the durations.</p>
+				<div class="motion-row">
+					<div class="motion-box motion-fast"><span>fast</span></div>
+					<div class="motion-box motion-base"><span>base</span></div>
+					<div class="motion-box motion-slow"><span>slow</span></div>
+				</div>
+			</div>
+
+			<h3>Micro-interactions</h3>
+			<p class="text-secondary measure">
+				The site's motion budget is small on purpose, and all of it is CSS-first — no
+				animation library, which would outweigh the entire rest of the build. Each of these
+				degrades to its static state where the feature isn't supported, and all of them stop
+				under <code>prefers-reduced-motion</code>.
+			</p>
+			<ul class="plain-list">
+				<li><code>@view-transition</code><span class="swatch-note"> cross-page fade and rise; the header opts out by name</span></li>
+				<li><code>animation-timeline: scroll()</code><span class="swatch-note"> sticky header gains blur, border, and shadow once scrolled</span></li>
+				<li><code>--i</code> stagger<span class="swatch-note"> mobile menu items rise in 40ms apart</span></li>
+				<li><code>.card-tint:hover</code><span class="swatch-note"> deepens its own fill instead of casting a shadow</span></li>
+				<li><code>.btn-arrow:hover</code><span class="swatch-note"> the badge nudges up and to the right</span></li>
+				<li><code>::details-content</code><span class="swatch-note"> FAQ accordion opens smoothly; the + rotates rather than swapping glyph</span></li>
+				<li><code>StatBand</code><span class="swatch-note"> figures count up once, the first time they scroll into view</span></li>
+				<li>Tap-to-copy<span class="swatch-note"> contact details copy on click, with an announced confirmation</span></li>
+			</ul>
+			<p class="swatch-note measure">
+				Deliberately absent: fade-up-on-scroll. Content is in the HTML and visible
+				immediately — the count-up is the sole scroll-triggered effect, and even it only
+				re-animates text that already rendered.
+			</p>
+
+			<h2>Layout</h2>
+			<p class="text-secondary measure">
+				<code>.container</code> sets the page gutter; the measure tokens cap line length for
+				running text inside it. Past roughly 75 characters the eye starts losing the line return,
+				so prose gets a measure even when its container is wider.
+			</p>
+			<ul class="plain-list">
+				{measures.map((m) => (
+					<li>
+						<code>{m.token}</code>
+						<span class="swatch-note"> {m.label} &middot; {m.note}</span>
+					</li>
+				))}
+			</ul>
+			<p class="text-secondary measure">
+				Section rhythm has three densities rather than one — <code>.section-tight</code>,
+				<code>.section</code>, and <code>.section-loose</code>. Uniform section padding is a large
+				part of what makes a page read flat, because nothing tells the eye which breaks matter
+				more than others. <code>.section-sunken</code> adds a full-bleed recessed band.
+			</p>
+
+			<h2>Components</h2>
+
+			<h3>Buttons</h3>
+			<div class="component-row">
+				<button type="button" class="btn btn-primary">Primary</button>
+				<button type="button" class="btn btn-brand">Brand</button>
+				<button type="button" class="btn btn-secondary">Secondary</button>
+			</div>
+			<div class="component-row">
+				<button type="button" class="btn btn-primary btn-sm">Small</button>
+				<button type="button" class="btn btn-primary">Default</button>
+				<button type="button" class="btn btn-primary btn-lg">Large</button>
+			</div>
+			<p class="swatch-note">
+				Medium weight rather than semibold — at button size on a filled pill, semibold reads
+				heavy, and semibold is also the heading weight. Hover, press, and focus states are all
+				live above.
+			</p>
+
+			<h4>Arrow badge</h4>
+			<div class="component-row">
+				<button type="button" class="btn btn-brand btn-arrow">Brand</button>
+				<button type="button" class="btn btn-primary btn-arrow">Primary</button>
+				<button type="button" class="btn btn-secondary btn-arrow">Secondary</button>
+			</div>
+			<p class="swatch-note">
+				<code>.btn-arrow</code> adds an inverted disc inside the pill's right edge — the detail
+				that makes a button read as a destination rather than a form control. Each variant
+				supplies its own badge colours, so the disc is always the button inverted. Reserve it
+				for navigation; a submit button shouldn't imply it takes you somewhere.
+			</p>
+
+			<h3>Cards</h3>
+			<p class="text-secondary measure">
+				One class for both contexts: on <code>--surface-page</code> a card reads as raised via its
+				border and shadow, on <code>--surface-sunken</code> via contrast. Add
+				<code>.card-interactive</code> when the whole card is a link or control.
+			</p>
+			<ul class="grid-auto demo-grid">
+				<li class="card">
+					<h4>Static card</h4>
+					<p class="text-secondary">Uses <code>.card</code> — border, radius, and padding from the system. No hover state.</p>
+				</li>
+				<li class="card card-interactive">
+					<h4>Interactive card</h4>
+					<p class="text-secondary">Adds <code>.card-interactive</code>. Hover it: border, shadow, and a 2px lift.</p>
+				</li>
+			</ul>
+
+			<h4>Tinted cards</h4>
+			<p class="text-secondary measure">
+				<code>.card-tint</code> drops the border entirely and fills the card with a tint set
+				per instance via <code>--card-tint</code> — a saturated field doesn't need an edge
+				drawn around it. It also re-points <code>--color-text-secondary</code> and
+				<code>--color-text-tertiary</code> to tint-safe tones, so anything inside — including
+				a page's own scoped CSS reaching for those tokens — lands on a safe value without
+				needing an override. <code>.section-brand</code> does the same from
+				<code>--color-brand-contrast</code>.
+			</p>
+			<ul class="grid-auto demo-grid">
+				{tints.slice(1, 4).map((t) => (
+					<li class="card card-tint" style={`--card-tint: var(${t.name});`}>
+						<h4>{t.label}</h4>
+						<p class="text-secondary"><code>--card-tint: var({t.name})</code></p>
+					</li>
+				))}
+			</ul>
+
+			<h3>Grid</h3>
+			<p class="text-secondary measure">
+				<code>.grid-auto</code> replaces every hand-rolled <code>auto-fit</code> template. Tune
+				density per instance with the <code>--grid-min</code> custom property instead of
+				redeclaring the template.
+			</p>
+			<ul class="grid-auto demo-grid" style="--grid-min:160px;">
+				<li class="card demo-tile">160px</li>
+				<li class="card demo-tile">160px</li>
+				<li class="card demo-tile">160px</li>
+				<li class="card demo-tile">160px</li>
+			</ul>
+
+			<h3>Section header</h3>
+			<p class="text-secondary measure">
+				Groups the eyebrow, heading, and lead into one unit, with an optional action link
+				pinned to the opposite end. Pairing a section's "see everything" link with its heading —
+				rather than stranding a button under the grid — is what keeps a long page from reading
+				as a stack of loose blocks.
+			</p>
+			<div class="demo-block">
+				<div class="section-header">
+					<div class="section-header-text">
+						<p class="eyebrow">Eyebrow</p>
+						<h4>The section heading</h4>
+						<p class="lead">The lead paragraph, capped at <code>--measure</code>.</p>
+					</div>
+					<a href="/style-guide/" class="link-arrow">Action link</a>
+				</div>
+			</div>
+			<p class="swatch-note">
+				Add <code>.section-header-center</code> for sections with no action link — a lone
+				left-aligned header above a symmetrical grid leaves the whole right half of the row
+				empty.
+			</p>
+			<div class="demo-block">
+				<div class="section-header section-header-center">
+					<div class="section-header-text">
+						<p class="eyebrow">Eyebrow</p>
+						<h4>Centred section heading</h4>
+						<p class="lead">Used when nothing is pinned opposite the heading.</p>
+					</div>
+				</div>
+			</div>
+
+			<h3>Split</h3>
+			<p class="text-secondary measure">
+				Two-column content/media layout. Single column until there's room for both, so the media
+				never gets squeezed into a letterbox on a tablet. Tune the ratio with
+				<code>--split-cols</code>; add <code>.split-reverse</code> to flip the visual order at
+				desktop only, so stacked reading order stays correct on mobile.
+			</p>
+			<div class="demo-block">
+				<div class="split" style="--split-cols: 1.1fr 1fr;">
+					<div>
+						<h4>Content column</h4>
+						<p class="text-secondary">Capped at a readable measure while the media carries the rest of the width.</p>
+					</div>
+					<div class="media-frame" style="--media-ratio: 4 / 3;">
+						<img src="/images/gallery/placeholder-1.svg" alt="Example placeholder image inside a media frame" loading="lazy" />
+					</div>
+				</div>
+			</div>
+
+			<h3>Media frame</h3>
+			<p class="text-secondary measure">
+				Image container with a reserved aspect ratio, so the page doesn't reflow as photos load.
+				Override per instance with <code>--media-ratio</code>.
+			</p>
+			<div class="component-row">
+				<div class="media-frame demo-frame" style="--media-ratio: 1 / 1;">
+					<img src="/images/gallery/placeholder-2.svg" alt="Square media frame example" loading="lazy" />
+				</div>
+				<div class="media-frame demo-frame" style="--media-ratio: 4 / 3;">
+					<img src="/images/gallery/placeholder-3.svg" alt="Four by three media frame example" loading="lazy" />
+				</div>
+			</div>
+
+			<h3>Topline</h3>
+			<p class="text-secondary measure">
+				Borderless grid item with a rule above it. Gives a list of features structure without the
+				weight of a card — useful inside a sunken band, where a card would be layering twice for
+				one level of hierarchy.
+			</p>
+			<ul class="grid-auto demo-grid" style="--grid-min: 220px;">
+				<li class="topline">
+					<h4>With a rule</h4>
+					<p class="text-secondary">Structure without a box around it.</p>
+				</li>
+				<li class="topline">
+					<h4>Second item</h4>
+					<p class="text-secondary">Reads as a list, not a set of objects.</p>
+				</li>
+			</ul>
+
+			<h3>Stats</h3>
+			<ul class="grid-auto demo-grid" style="--grid-min: 180px;">
+				<li>
+					<span class="stat-value">20+</span>
+					<span class="stat-label">Years in business</span>
+				</li>
+				<li>
+					<span class="stat-value">500+</span>
+					<span class="stat-label">Projects completed</span>
+				</li>
+				<li>
+					<span class="stat-value">4.9</span>
+					<span class="stat-label">Average rating</span>
+				</li>
+			</ul>
+			<p class="swatch-note">
+				The <code>StatBand</code> component groups the same figures into a sunken panel
+				split by hairlines, and collapses to a single column below 720px where the vertical
+				rules would be dividing nothing. Tune the column count with the <code>cols</code>
+				prop. The numbers count up the first time the band scrolls into view — once only,
+				skipped entirely under reduced motion, and the finished values are in the HTML so
+				nothing is hidden waiting on a scroll position.
+			</p>
+			<StatBand stats={demoStats} />
+
+			<h3>Tag</h3>
+			<div class="component-row">
+				<span class="tag">Most popular</span>
+				<span class="tag">New</span>
+			</div>
+
+			<h3>Icons</h3>
+			<p class="text-secondary measure">
+				Drawn on a 24px grid at 1.5 stroke, so an icon sits at the same optical weight as
+				<code>--weight-medium</code> text beside it. Icons inherit <code>currentColor</code> and
+				scale with the <code>size</code> prop — set the color on the parent and the icon follows.
+				Decorative by default; pass a <code>title</code> only when the icon is the sole carrier of
+				meaning, which it should almost never be. Add new icons to
+				<code>src/components/Icon.astro</code> rather than inlining SVG in a page.
+			</p>
+			<ul class="icon-grid">
+				{iconNames.map((name) => (
+					<li>
+						<span class="icon-chip"><Icon name={name} size={20} /></span>
+						<code>{name}</code>
+					</li>
+				))}
+			</ul>
+
+			<h3>Testimonial</h3>
+			<p class="text-secondary measure">
+				Deliberately not a giant decorative quote mark over a slab of italic text — that reads as
+				stock. Credibility comes from the concrete parts: a rating, a real name, a role, and a
+				face. Every optional part degrades cleanly, so a client with only a quote still gets a
+				card that looks finished.
+			</p>
+			<ul class="grid-auto demo-grid testimonial-demo" style="--grid-min: 300px;">
+				<li><Testimonial quote="With a rating and a role — the fullest version." name="Dana Whitfield" role="Operations lead, Northgate" rating={5} /></li>
+				<li><Testimonial quote="No rating and no role. Still reads as finished rather than broken." name="Sam Ortiz" /></li>
+			</ul>
+
+			<h3>Quote</h3>
+			<p class="text-secondary measure">
+				A rule instead of quotation marks — the attribution already signals that it's a quote, so
+				the marks are redundant weight.
+			</p>
+			<div class="demo-block">
+				<blockquote class="quote">
+					<p>Specific results read as more credible than generic praise.</p>
+					<footer><cite>Client name</cite>, their role or company</footer>
+				</blockquote>
+			</div>
+
+			<h3>CTA band</h3>
+			<p class="text-secondary measure">
+				Full-bleed inverted section for a closing call to action. One per page at most — its whole
+				job is to be the only thing that inverts, so a second one costs the first its impact. The
+				focus ring goes white inside it, since the accent-derived ring can fall too close to ink.
+			</p>
+			<div class="cta-band demo-cta">
+				<h4>Ready to get started?</h4>
+				<p>Uses <code>.cta-band</code> with <code>.btn-inverse</code>.</p>
+				<div class="component-row">
+					<a href="/style-guide/" class="btn btn-inverse">Primary action</a>
+					<a href="/style-guide/" class="link-arrow demo-cta-link">Secondary</a>
+				</div>
+			</div>
+
+			<h3>Brand band</h3>
+			<p class="text-secondary measure">
+				<code>.section-brand</code> is the same idea in the brand colour rather than ink —
+				a full-bleed saturated band, once per page at most. Renders identically to the CTA
+				band above until a client's brand colour is dropped into <code>--color-brand</code>,
+				since this starter has none yet. Text stays primary, since the brand colour only
+				clears AA against <code>--color-text</code>; the eyebrow pill and any hairlines inside
+				it re-derive from the band's own contrast colour so they don't vanish into the field.
+			</p>
+			<div class="section-brand demo-cta">
+				<p class="eyebrow">Why us</p>
+				<h4>A full-bleed brand band</h4>
+				<p class="lead">Uses <code>.section-brand</code>.</p>
+			</div>
+
+			<h3>Form fields</h3>
+			<p class="text-secondary measure">
+				Every field gets a real <code>&lt;label for&gt;</code>, never a placeholder standing in for
+				one. Focus changes the border as well as raising the global ring — the ring alone leaves
+				the field itself looking inert while it's active.
+			</p>
+			<div class="demo-form">
+				<div class="field">
+					<label for="sg-name">Name</label>
+					<input type="text" id="sg-name" name="sg-name" autocomplete="off" />
+				</div>
+				<div class="field">
+					<label for="sg-email">Email</label>
+					<input type="email" id="sg-email" name="sg-email" autocomplete="off" />
+					<p class="field-hint">Helper text uses <code>.field-hint</code>.</p>
+				</div>
+				<div class="field field-invalid">
+					<label for="sg-phone">Phone</label>
+					<input type="tel" id="sg-phone" name="sg-phone" autocomplete="off" aria-describedby="sg-phone-error" />
+					<p class="field-error" id="sg-phone-error">Enter a phone number we can reach you on.</p>
+				</div>
+				<div class="field">
+					<label for="sg-message">Message</label>
+					<textarea id="sg-message" name="sg-message" rows="3"></textarea>
+				</div>
+			</div>
+			<p class="swatch-note">
+				The error state pairs the critical color with a glyph and a sentence, so the signal
+				survives for anyone who can't distinguish the color.
+			</p>
+
+			<h3>Text utilities</h3>
+			<div class="demo-block">
+				<p class="lead">
+					<code>.lead</code> — the sentence directly under a page or section heading. Larger,
+					secondary tone, capped at <code>--measure</code>.
+				</p>
+				<p><code>.text-secondary</code> and <code>.text-tertiary</code> step body copy down:</p>
+				<p class="text-secondary">Secondary — supporting copy inside a card or section.</p>
+				<p class="text-tertiary">Tertiary — captions, metadata, attribution lines.</p>
+				<hr class="divider" />
+				<p class="swatch-note">Above is <code>.divider</code>.</p>
+			</div>
+
+			<h3>Images</h3>
+			<p class="text-secondary measure">
+				Gallery images use a fixed aspect ratio, <code>object-fit: cover</code>, and a
+				<code>--radius-md</code> corner. Every one needs descriptive alt text.
+			</p>
+			<ul class="grid-auto demo-grid image-grid" style="--grid-min:200px;">
+				<li><img src="/images/gallery/placeholder-1.svg" alt="Example placeholder image showing the standard image treatment" loading="lazy" /></li>
+				<li><img src="/images/gallery/placeholder-2.svg" alt="Example placeholder image showing the standard image treatment" loading="lazy" /></li>
+			</ul>
+
+			<h3>Links</h3>
+			<p class="text-secondary">
+				An <a href="/">inline link</a> in body copy, showing the default and hover accent colors.
+				Accent is reserved for these — buttons use ink.
+			</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	h2 {
+		margin-top: var(--space-9);
+		padding-top: var(--space-6);
+		border-top: 1px solid var(--border-default);
+	}
+
+	h3 {
+		margin-top: var(--space-7);
+	}
+
+	code {
+		background: var(--surface-fill);
+		color: var(--color-text);
+		border-radius: var(--radius-sm);
+		padding: 0.1em 0.4em;
+		font-size: 0.85em;
+		overflow-wrap: anywhere;
+	}
+
+	.plain-list {
+		list-style: none;
+		margin: var(--space-5) 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+
+	.demo-block {
+		margin: var(--space-5) 0;
+		padding: var(--space-6);
+		border: 1px solid var(--border-hairline);
+		border-radius: var(--radius-lg);
+		background: var(--surface-sunken);
+	}
+
+	.demo-block > :last-child {
+		margin-bottom: 0;
+	}
+
+	/* Color */
+	.swatch-grid {
+		--grid-min: 160px;
+		margin: var(--space-5) 0;
+	}
+
+	.swatch {
+		height: 64px;
+		border-radius: var(--radius-md);
+		box-shadow: var(--ring);
+	}
+
+	.swatch-bordered {
+		border: 1px solid var(--border-default);
+	}
+
+	.swatch-border-demo {
+		background: var(--surface-page);
+		border: 2px solid var(--border-default);
+		box-shadow: none;
+	}
+
+	.swatch.semantic {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: var(--weight-semibold);
+	}
+
+	.swatch-label {
+		margin: var(--space-3) 0 var(--space-1);
+		font-weight: var(--weight-medium);
+		color: var(--color-text);
+	}
+
+	.swatch-note {
+		font-size: var(--text-small);
+		color: var(--color-text-tertiary);
+		margin: var(--space-1) 0 0;
+	}
+
+	.text-role-list {
+		list-style: none;
+		margin: var(--space-5) 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+	}
+
+	.text-role-list li {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-4);
+		border-bottom: 1px solid var(--border-hairline);
+		padding-bottom: var(--space-4);
+	}
+
+	.text-role-sample {
+		font-size: var(--text-large);
+	}
+
+	/* Wraps rather than holding its width — at narrow viewports the token
+	   name and its contrast note can't sit on one line beside the sample. */
+	.text-role-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--space-1) var(--space-3);
+		min-width: 0;
+	}
+
+	.text-role-meta .swatch-note {
+		margin: 0;
+	}
+
+	/* Typography */
+	.type-scale {
+		list-style: none;
+		margin: var(--space-5) 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+	}
+
+	.type-scale li {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-5);
+		border-bottom: 1px solid var(--border-hairline);
+		padding-bottom: var(--space-4);
+	}
+
+	.type-sample {
+		font-family: var(--font-heading);
+		font-weight: var(--weight-semibold);
+		color: var(--color-text);
+		line-height: var(--leading-tight);
+		flex: 1;
+		min-width: 0;
+	}
+
+	.type-sample-body {
+		font-weight: var(--weight-normal);
+		line-height: var(--leading-body);
+	}
+
+	.tracking-sample {
+		font-size: var(--text-h2);
+	}
+
+	/* Spacing */
+	.spacing-list {
+		list-style: none;
+		margin: var(--space-5) 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+
+	.spacing-list li {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+	}
+
+	.spacing-list code {
+		min-width: 6.5rem;
+		flex-shrink: 0;
+	}
+
+	.spacing-px {
+		min-width: 3.5rem;
+		flex-shrink: 0;
+		font-size: var(--text-small);
+		color: var(--color-text-tertiary);
+	}
+
+	.spacing-bar {
+		height: 0.75rem;
+		background: var(--color-ink);
+		border-radius: var(--radius-sm);
+		display: block;
+		flex-shrink: 0;
+	}
+
+	/* Radius / elevation */
+	.radius-grid {
+		list-style: none;
+		margin: var(--space-5) 0;
+		padding: 0;
+		display: flex;
+		gap: var(--space-5);
+		flex-wrap: wrap;
+	}
+
+	.radius-box,
+	.shadow-box {
+		width: 80px;
+		height: 80px;
+		background: var(--surface-sunken);
+		border: 1px solid var(--border-default);
+		margin-bottom: var(--space-1);
+	}
+
+	.radius-box-pill {
+		width: 120px;
+		height: 44px;
+	}
+
+	.shadow-box {
+		background: var(--surface-raised);
+		border: none;
+		border-radius: var(--radius-md);
+	}
+
+	/* Motion */
+	.motion-row {
+		display: flex;
+		gap: var(--space-4);
+		flex-wrap: wrap;
+	}
+
+	.motion-box {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 96px;
+		height: 64px;
+		border-radius: var(--radius-md);
+		background: var(--surface-raised);
+		border: 1px solid var(--border-default);
+		font-size: var(--text-small);
+		color: var(--color-text-secondary);
+		cursor: default;
+	}
+
+	.motion-box:hover {
+		background: var(--color-ink);
+		border-color: var(--color-ink);
+		color: var(--color-ink-contrast);
+		transform: translateY(-4px);
+	}
+
+	.motion-fast {
+		transition:
+			background-color var(--duration-fast) var(--ease-out),
+			border-color var(--duration-fast) var(--ease-out),
+			color var(--duration-fast) var(--ease-out),
+			transform var(--duration-fast) var(--ease-out);
+	}
+
+	.motion-base {
+		transition:
+			background-color var(--duration-base) var(--ease-out),
+			border-color var(--duration-base) var(--ease-out),
+			color var(--duration-base) var(--ease-out),
+			transform var(--duration-base) var(--ease-out);
+	}
+
+	.motion-slow {
+		transition:
+			background-color var(--duration-slow) var(--ease-out),
+			border-color var(--duration-slow) var(--ease-out),
+			color var(--duration-slow) var(--ease-out),
+			transform var(--duration-slow) var(--ease-out);
+	}
+
+	/* Components */
+	.component-row {
+		display: flex;
+		gap: var(--space-4);
+		flex-wrap: wrap;
+		align-items: center;
+		margin: var(--space-5) 0;
+	}
+
+	.demo-grid {
+		margin: var(--space-5) 0;
+	}
+
+	.demo-tile {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: var(--text-small);
+		color: var(--color-text-tertiary);
+	}
+
+	.icon-grid {
+		list-style: none;
+		margin: var(--space-5) 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(120px, 100%), 1fr));
+		gap: var(--space-4);
+	}
+
+	.icon-grid li {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		min-width: 0;
+	}
+
+	.icon-chip {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: var(--radius-md);
+		background: var(--surface-fill);
+		color: var(--color-text);
+	}
+
+	.testimonial-demo > li {
+		display: flex;
+	}
+
+	.demo-frame {
+		width: 160px;
+	}
+
+	.demo-cta {
+		margin: var(--space-5) 0;
+		padding: var(--space-7);
+		border-radius: var(--radius-lg);
+	}
+
+	.demo-cta > :last-child {
+		margin-bottom: 0;
+	}
+
+	.demo-cta-link,
+	.demo-cta-link:hover {
+		color: var(--color-ink-contrast);
+	}
+
+	.demo-form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-5);
+		max-width: var(--measure-narrow);
+		margin: var(--space-5) 0;
+	}
+
+	.image-grid {
+		max-width: var(--measure);
+	}
+
+	.image-grid img {
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: var(--radius-md);
+		background: var(--surface-sunken);
+	}
+</style>

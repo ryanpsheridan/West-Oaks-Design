@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+import { SITE_TITLE } from '../consts';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
+
+interface Props {
+	title: string;
+	description: string;
+	image?: string;
+	noindex?: boolean;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const { title, description, image = '/images/og-default.png', noindex } = Astro.props;
+const ogImage = new URL(image, Astro.site).toString();
+---
+
+<meta charset="utf-8" />
+
+<Analytics />
+<SpeedInsights />
+
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!--
+	Aspekta, self-hosted. One 30KB variable file covers weights 100-900, which
+	is smaller than the three static DM Sans cuts it replaced and costs no
+	third-party connection — so there's no preconnect/DNS round trip before
+	text can paint, and no Google Fonts request in the privacy story.
+
+	Preloaded because the @font-face lives in global.css: without this the
+	browser can't discover the file until the stylesheet has parsed.
+	Licence: OFL 1.1, shipped alongside at /fonts/Aspekta-OFL-LICENSE.txt.
+-->
+<link rel="preload" href="/fonts/AspektaVF.woff2" as="font" type="font/woff2" crossorigin />
+
+<link rel="canonical" href={canonicalURL} />
+
+<!--
+	SEO / AEO baseline — every page must pass a unique title + description
+	as props. Titles should read naturally for both search engines and
+	answer engines (how people actually ask, not keyword-stuffed).
+-->
+<title>{title} | {SITE_TITLE}</title>
+<meta name="title" content={`${title} | ${SITE_TITLE}`} />
+<meta name="description" content={description} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={ogImage} />

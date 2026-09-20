@@ -1,0 +1,416 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Testimonial from '../components/Testimonial.astro';
+import Icon from '../components/Icon.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_PHONE, SITE_EMAIL, SITE_ADDRESS } from '../consts';
+
+// ---------------------------------------------------------------------------
+// PAGE CONTENT — everything a client edit touches lives in this block. The
+// markup below reads from it, so copy changes never mean hunting through JSX.
+//
+// Section order follows the standard small-business homepage pattern:
+// hero → trust signals → services → why-us → work → testimonials → contact.
+// ---------------------------------------------------------------------------
+
+const hero = {
+	headline: 'Headline that says what you do and for whom',
+	sub: 'One or two sentences of supporting copy. Lead with the outcome the visitor cares about, not a list of features.',
+	primaryCta: { label: 'Get in touch', href: '/contact/' },
+	secondaryCta: { label: 'See our work', href: '/gallery/' },
+	// Swap for a real photo of the client's work, team, or storefront.
+	image: { src: '/images/gallery/placeholder-1.svg', alt: 'Replace with a real, descriptive alt text for this photo' },
+};
+
+// Icon names come from src/components/Icon.astro — swap for whichever of that
+// set fits the client's actual credentials. Three is the right number: a fourth
+// starts reading as a list rather than a set of proof points.
+const trustSignals = [
+	{ icon: 'shield', label: 'Licensed & insured', detail: 'Replace with the real license number or coverage detail.' },
+	{ icon: 'star', label: '5-star rated', detail: 'Replace with a real review count and where the reviews live.' },
+	{ icon: 'pin', label: 'Serving [area] since 20XX', detail: 'Replace with the real service area and the year they started.' },
+];
+
+const servicesSection = {
+	eyebrow: 'Services',
+	heading: 'What we do',
+	lead: 'Short section introducing the core service(s) — answer the question a visitor is actually asking when they land here.',
+	action: { label: 'All services', href: '/services/' },
+};
+
+// Tints cycle across the service cards in order. Swap or reorder to change
+// which card gets which colour; add a fourth entry and a fourth card picks it
+// up automatically rather than repeating the first.
+const serviceTints = ['--tint-mint', '--tint-sky', '--tint-lavender'];
+
+const services = [
+	{ title: 'Service one', description: 'Replace with a real description of what this includes.' },
+	{ title: 'Service two', description: 'Replace with a real description of what this includes.' },
+	{ title: 'Service three', description: 'Replace with a real description of what this includes.' },
+];
+
+const benefitsSection = {
+	eyebrow: 'Why us',
+	heading: 'Why choose us',
+	lead: 'Four reasons a visitor should pick this business over the next result down the page.',
+};
+
+const benefits = [
+	{ title: 'Fast, reliable service', description: 'Replace with what makes response time or turnaround a real advantage.' },
+	{ title: 'Transparent, upfront pricing', description: 'Replace with how you handle quotes — no surprise costs.' },
+	{ title: 'Locally owned and operated', description: 'Replace with real local/community credibility.' },
+	{ title: 'Satisfaction guaranteed', description: 'Replace with the real guarantee or standard you hold work to.' },
+];
+
+const workSection = {
+	eyebrow: 'Portfolio',
+	heading: 'Our work',
+	lead: 'A look at recent projects.',
+	action: { label: 'Full gallery', href: '/gallery/' },
+};
+
+const galleryPreview = [
+	{ src: '/images/gallery/placeholder-1.svg', alt: 'Replace with a real, descriptive alt text for this photo' },
+	{ src: '/images/gallery/placeholder-2.svg', alt: 'Replace with a real, descriptive alt text for this photo' },
+	{ src: '/images/gallery/placeholder-3.svg', alt: 'Replace with a real, descriptive alt text for this photo' },
+];
+
+const testimonials = [
+	{
+		quote: 'Replace with a real quote from a client — specific results read as more credible than generic praise.',
+		name: 'Client name',
+		role: 'Replace with their role or company',
+		rating: 5,
+	},
+	{
+		quote: 'Replace with a second real quote, ideally from a different type of client to show range.',
+		name: 'Client name',
+		role: 'Replace with their role or company',
+		rating: 5,
+	},
+];
+
+const contactSection = {
+	eyebrow: 'Contact',
+	heading: 'Get in touch',
+	lead: 'Replace with a short line inviting the visitor to reach out — restate the outcome one more time before they leave the page.',
+};
+
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'LocalBusiness', // TODO: swap for the more specific type if one fits (Restaurant, Plumber, ProfessionalService, etc.)
+	name: SITE_TITLE,
+	description: SITE_DESCRIPTION,
+	url: Astro.site,
+};
+---
+
+<BaseLayout title="Home" description={SITE_DESCRIPTION}>
+	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+	<section class="section-loose">
+		<div class="container">
+			<div class="split hero" style="--split-cols: 1.3fr 1fr;">
+				<div class="hero-copy">
+					<h1 class="display">{hero.headline}</h1>
+					<p class="lead hero-sub">{hero.sub}</p>
+					<div class="hero-actions">
+						<a href={hero.primaryCta.href} class="btn btn-brand btn-lg btn-arrow">{hero.primaryCta.label}</a>
+						<a href={hero.secondaryCta.href} class="btn btn-secondary btn-lg">{hero.secondaryCta.label}</a>
+					</div>
+				</div>
+				<div class="media-frame hero-media" style="--media-ratio: 5 / 4;">
+					<img src={hero.image.src} alt={hero.image.alt} fetchpriority="high" />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="trust-bar" aria-label="Why clients trust us">
+		<div class="container">
+			<ul class="trust-list">
+				{trustSignals.map((signal) => (
+					<li class="trust-item">
+						<span class="trust-icon"><Icon name={signal.icon} size={20} /></span>
+						<span class="trust-text">
+							<span class="trust-label">{signal.label}</span>
+							<span class="trust-detail">{signal.detail}</span>
+						</span>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<div class="section-header">
+				<div class="section-header-text">
+					<p class="eyebrow">{servicesSection.eyebrow}</p>
+					<h2>{servicesSection.heading}</h2>
+					<p class="lead">{servicesSection.lead}</p>
+				</div>
+				<a href={servicesSection.action.href} class="btn btn-primary btn-arrow">{servicesSection.action.label}</a>
+			</div>
+			<ul class="grid-auto">
+				{services.map((service, i) => (
+					<li class="card card-tint card-interactive" style={`--card-tint: var(${serviceTints[i % serviceTints.length]});`}>
+						<h3>{service.title}</h3>
+						<p class="text-secondary">{service.description}</p>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section-loose section-brand">
+		<div class="container">
+			<div class="section-header section-header-center">
+				<div class="section-header-text">
+					<p class="eyebrow">{benefitsSection.eyebrow}</p>
+					<h2>{benefitsSection.heading}</h2>
+					<p class="lead">{benefitsSection.lead}</p>
+				</div>
+			</div>
+			<ul class="grid-auto benefit-grid">
+				{benefits.map((benefit) => (
+					<li class="topline">
+						<h3>{benefit.title}</h3>
+						<p class="text-secondary">{benefit.description}</p>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<div class="section-header">
+				<div class="section-header-text">
+					<p class="eyebrow">{workSection.eyebrow}</p>
+					<h2>{workSection.heading}</h2>
+					<p class="lead">{workSection.lead}</p>
+				</div>
+				<a href={workSection.action.href} class="btn btn-primary btn-arrow">{workSection.action.label}</a>
+			</div>
+			<ul class="work-grid">
+				{galleryPreview.map((image) => (
+					<li>
+						<a href="/gallery/" class="work-item media-frame">
+							<img src={image.src} alt={image.alt} loading="lazy" />
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section section-sunken">
+		<div class="container">
+			<ul class="grid-auto testimonial-grid">
+				{testimonials.map((t) => (
+					<li>
+						<Testimonial quote={t.quote} name={t.name} role={t.role} rating={t.rating} />
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<div class="split split-top" style="--split-cols: 1fr 1.1fr;">
+				<div>
+					<p class="eyebrow">{contactSection.eyebrow}</p>
+					<h2>{contactSection.heading}</h2>
+					<p class="text-secondary measure">{contactSection.lead}</p>
+					<p class="contact-details">
+						<a href={`tel:${SITE_PHONE.replace(/[^\d+]/g, '')}`}>{SITE_PHONE}</a>
+						<br />
+						<a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a>
+						{SITE_ADDRESS && (
+							<>
+								<br />
+								{SITE_ADDRESS}
+							</>
+						)}
+					</p>
+				</div>
+				<div class="card contact-card">
+					<ContactForm />
+				</div>
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	/* Hero — asymmetric split so the headline column stays inside a readable
+	   measure while the media carries the remaining width. Stacks to a single
+	   column below the split breakpoint, text first. */
+	.hero-copy {
+		max-width: var(--measure);
+	}
+
+	.hero-sub {
+		margin-bottom: var(--space-6);
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: var(--space-3);
+		flex-wrap: wrap;
+	}
+
+	.hero-media {
+		box-shadow: var(--shadow-lg);
+	}
+
+	/* Trust bar — proof points between the hero and the first real section,
+	   full-bleed so the hairlines run the whole width.
+
+	   Each item is an icon plus a two-level text block rather than a single
+	   grey string: the claim carries weight, the detail behind it carries the
+	   evidence. A row of same-weight grey text reads as boilerplate nobody
+	   is meant to actually check. */
+	.trust-bar {
+		padding-block: var(--space-6);
+		border-block: 1px solid var(--border-hairline);
+	}
+
+	.trust-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-5);
+	}
+
+	.trust-item {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-3);
+	}
+
+	.trust-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: var(--radius-md);
+		background: var(--surface-fill);
+		color: var(--color-text);
+	}
+
+	.trust-text {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+		min-width: 0;
+	}
+
+	.trust-label {
+		font-size: var(--text-body);
+		font-weight: var(--weight-medium);
+		line-height: var(--leading-snug);
+		color: var(--color-text);
+	}
+
+	.trust-detail {
+		font-size: var(--text-small);
+		line-height: var(--leading-snug);
+		color: var(--color-text-tertiary);
+	}
+
+	@media (min-width: 720px) {
+		.trust-list {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 0;
+		}
+
+		/* Hairline separators reinforce that these are three distinct claims
+		   rather than one run-on sentence. */
+		.trust-item + .trust-item {
+			border-left: 1px solid var(--border-hairline);
+			padding-left: var(--space-6);
+			margin-left: var(--space-6);
+		}
+	}
+
+	.card h3,
+	.topline h3 {
+		font-size: var(--text-h4);
+	}
+
+	/* Wide enough that three columns can't fit, so four items land as a
+	   balanced 2x2 rather than a 3+1 orphan row. */
+	.benefit-grid {
+		--grid-min: 360px;
+		gap: var(--space-6) var(--space-7);
+	}
+
+	/* Work preview */
+	.work-grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-4);
+	}
+
+	.work-item {
+		display: block;
+	}
+
+	.work-item img {
+		transition: transform var(--duration-slow) var(--ease-out);
+	}
+
+	.work-item:hover img {
+		transform: scale(1.03);
+	}
+
+	@media (max-width: 640px) {
+		.work-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 400px) {
+		.work-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	/* Testimonials carry the section on their own — no header above them, so
+	   the quotes are the first thing read rather than a label about quotes. */
+	.testimonial-grid {
+		--grid-min: 340px;
+		gap: var(--space-5);
+	}
+
+	.testimonial-grid > li {
+		display: flex;
+	}
+
+	/* Contact */
+	.contact-details {
+		margin-top: var(--space-5);
+		margin-bottom: 0;
+		font-size: var(--text-large);
+	}
+
+	.contact-card {
+		padding: var(--space-7);
+	}
+
+	@media (max-width: 560px) {
+		.contact-card {
+			padding: var(--space-5);
+		}
+	}
+</style>

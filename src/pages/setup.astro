@@ -1,0 +1,205 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+	title="Setup Reference"
+	description="Internal build reference — not for the client."
+	noindex
+>
+	<section class="section container container-narrow">
+		<div class="delete-notice">
+			<strong>Builder-only page, not linked anywhere on the site.</strong> This is your own
+			reference while building and pitching &mdash; the client never sees this URL. To hand
+			the client their setup steps, send them <code>SETUP.md</code> directly (copy its
+			content into an email/text, or share the file's link on GitHub) &mdash; don't point them
+			at this page. Delete <code>src/pages/setup.astro</code> before this site goes live for a
+			client &mdash; see the "Before Launch" rule in <code>CLAUDE.md</code>.
+		</div>
+
+		<h1>Setup Reference</h1>
+		<p class="intro">Everything needed to pitch, set up, and build a client site from this template.</p>
+
+		<h2>1. The workflow, in one paragraph (for talking through with a client)</h2>
+		<p>
+			Instead of a visual page builder, this site is built with <strong>Claude Code</strong>:
+			you describe what you want in plain English &mdash; "add a testimonials section,"
+			"change the phone number in the footer" &mdash; and it writes the actual code, checks
+			it, and can publish it live. There's no drag-and-drop editor to learn. By default the
+			developer builds the site solo in their own GitHub/Vercel accounts and shares a preview
+			link for approval; once approved, ownership transfers to the client's own accounts (the
+			developer is re-added as a collaborator, never given the client's login). A technical
+			client who'd rather self-serve from day one can set up their own GitHub/Vercel accounts
+			immediately instead &mdash; see the alternate path below.
+		</p>
+
+		<h2>2. Build &amp; handoff sequence (default path)</h2>
+		<p>Assume the client has little to no technical experience &mdash; you'll assist with every account setup below (call or written instructions), but every account is still created with the client's own email, never yours.</p>
+		<ol>
+			<li><strong>Build solo.</strong> Create the repo under your own GitHub account, import it into your own Vercel project. Wire up forms/scheduling/payments against a temporary/sandbox account of your own so real functionality can be tested before the client is involved.</li>
+			<li><strong>Share a preview link</strong> with the client for approval. Iterate until approved &mdash; no accounts needed on their end yet.</li>
+			<li><strong>Once approved, transfer ownership:</strong> GitHub repo via Settings → Transfer ownership (preserves full history; re-add yourself as a collaborator after), and the Vercel project to the client's account/team.</li>
+			<li><strong>Swap in the client's real accounts</strong> &mdash; Formspree, Calendly, Stripe, etc. (see decision trees below), created under their own email, then swap the placeholder/sandbox endpoints from step 1 for their real ones.</li>
+			<li><strong>Domain</strong> &mdash; help the client register or point their domain, then connect it in the now-transferred Vercel project.</li>
+			<li><strong>Google Search Console</strong> &mdash; help the client set it up under their own Google account, submit the sitemap, request indexing (see section 6 below).</li>
+			<li>
+				<strong>Optional &mdash; self-editing setup</strong>, only if intake indicated the client wants to edit the site themselves:
+				<ul>
+					<li>Claude Code (open-ended editing) &mdash; help them set up their own Claude account (Pro/Max); no further connection step needed once they own the repo.</li>
+					<li>Decap CMS (structured fields, blog-style content) &mdash; see "Content editing / light CMS" below.</li>
+					<li>A mix of both, or fully developer-handled with no self-editing &mdash; the default, no extra setup.</li>
+				</ul>
+			</li>
+		</ol>
+		<p class="note">
+			Assisting a client on a call or via instructions is not the same as owning the account
+			for them. Every account (GitHub, Vercel, Formspree, Calendly, Stripe, Google) is created
+			with the client's own email; for anything involving sensitive personal/financial info
+			(Stripe bank/tax details especially), have the client type those fields in themselves
+			even during an assisted screen-share. Recovery emails, phone numbers, and 2FA on every
+			account should be the client's, never yours.
+		</p>
+
+		<h3>Alternate path &mdash; technical client wants to self-serve immediately</h3>
+		<p>Send the client <code>SETUP.md</code>, or walk through it together (~10 minutes):</p>
+		<ol>
+			<li>Client creates a free GitHub account.</li>
+			<li>Client clicks <strong>"Use this template"</strong> on the starter repo, creating their own repo under their own account.</li>
+			<li>Client adds you as a collaborator on that new repo.</li>
+			<li>Client creates a free Vercel account and imports the repo — Vercel auto-deploys it.</li>
+			<li>Confirm Deployment Protection is off in Vercel settings, so preview links work without logging in.</li>
+		</ol>
+		<p>The rest of the sequence above (forms/scheduling/payments/domain/GSC/self-editing) proceeds the same either way.</p>
+
+		<h2>3. Intake</h2>
+		<p>Fill out <code>INTAKE.md</code> with the client before writing any code. Covers:</p>
+		<ul>
+			<li>Business basics (name, description, audience, branding, reference sites)</li>
+			<li>Which pages are needed</li>
+			<li>Forms, scheduling, payments, gallery — needed or not, and expected volume/frequency</li>
+			<li>Whether the client will ever self-edit content, and how</li>
+			<li>Domain ownership</li>
+		</ul>
+		<p>
+			Two ways to gather it: fill out <code>INTAKE.md</code> live with the client, or send them
+			<a href="https://www.ryansheridan.studio/project-questionnaire" target="_blank" rel="noopener">ryansheridan.studio/project-questionnaire</a>
+			— the questionnaire on the portfolio site — and let them answer on their own time.
+			Submissions land in your inbox via Formspree; paste the answers into the first Claude Code
+			prompt on a fresh copy of this template to kick off the build. That questionnaire isn't
+			part of this template (it lives on the portfolio site, one instance for all clients) — its
+			design/UX playbook is documented under Forms in <code>CLAUDE.md</code> for reference if it
+			ever needs updating.
+		</p>
+
+		<h2>4. Build conventions</h2>
+		<p>Full detail lives in <code>CLAUDE.md</code>. Summary:</p>
+		<ul>
+			<li>Fill in <code>src/consts.ts</code> first — real business name, description, contact info, nav.</li>
+			<li>Re-theme <code>src/styles/tokens.css</code> for the client's brand colors — everything else reads from these tokens.</li>
+			<li>Font is DM Sans, loaded in <code>BaseHead.astro</code> — don't add a second typeface without updating both the token and the font link.</li>
+			<li>Accessibility defaults (focus states, skip link, reduced-motion, alt text, label pairing) are baked in — don't strip them out.</li>
+			<li>Every page needs a unique SEO title/description — no copy-pasted meta.</li>
+		</ul>
+
+		<h2>5. Stack decision trees</h2>
+
+		<h3>Forms</h3>
+		<p><strong>Default: Formspree.</strong> Free, no backend code, submissions land in the client's inbox. Switch to Basin only if Formspree's free tier becomes a real limit; build a Vercel Serverless Function only if custom logic (e.g. writing to a database) is required.</p>
+		<p>
+			The self-serve project questionnaire mentioned above lives on the portfolio site, not
+			this template — its design (progressive disclosure, honeypot spam protection, the
+			<code>fetch()</code>-based inline "Thanks!" submit pattern) is documented under Forms in
+			<code>CLAUDE.md</code> for reference if it ever needs updating.
+		</p>
+		<p><strong>Formspree setup</strong> (client's own account, same as every other third-party service here):</p>
+		<ol>
+			<li>Client signs up free at <a href="https://formspree.io/register" target="_blank" rel="noopener">formspree.io/register</a>, using their own business email.</li>
+			<li>In the Formspree dashboard, click <strong>New Form</strong> and give it an internal label (e.g. "Contact Page") — visitors never see this name.</li>
+			<li>Set the notification email to wherever the client wants submissions delivered (defaults to the account email).</li>
+			<li>Formspree shows a form endpoint like <code>https://formspree.io/f/{'{'}form_id{'}'}</code> — paste that into the <code>action</code> attribute of the form in <code>src/pages/contact.astro</code>, replacing the <code>FORMSPREE_ID</code> placeholder.</li>
+			<li>Submit a test entry after deploying to confirm it lands in the client's inbox before considering the form done.</li>
+		</ol>
+
+		<h3>Scheduling</h3>
+		<p><strong>Default: Calendly</strong> under the client's own account. Use Cal.com only if the client specifically prefers an open-source alternative.</p>
+
+		<h3>Payments</h3>
+		<p><strong>Default: Stripe Payment Links</strong> — no code, hosted checkout. Use embedded Stripe Checkout only if the flow needs to feel fully on-site. Use PayPal Buttons only if the client already strongly prefers PayPal.</p>
+
+		<h3>Gallery / photo uploads</h3>
+		<p><strong>Default: manual upload via GitHub's web UI</strong> (<code>public/images/gallery/</code>), zero new accounts. Only add a dedicated image host (e.g. Cloudinary) if the client updates photos frequently and self-serves without you.</p>
+
+		<h3>Content editing / light CMS</h3>
+		<p><strong>Default: no CMS.</strong> Most clients don't need one — occasional content changes routed through the developer (or the client describing changes in plain English via Claude Code) covers the large majority of sites. This is opt-in per client, same reasoning as Gallery's "don't default to a dedicated image host."</p>
+		<p><strong>When to reach for it:</strong> the client specifically wants to edit content themselves on an ongoing basis without going through the developer or Claude Code each time — most commonly for a blog they'll post to regularly.</p>
+		<p><strong>Recommended option: Decap CMS</strong> (free, open-source, git-based — formerly Netlify CMS).</p>
+		<ul>
+			<li>It's not a separate content database — it's a form-based UI (<code>/admin</code>) that writes the exact same markdown/frontmatter files this template's content collections already use. A save from the CMS is a git commit, indistinguishable from one made via Claude Code. Both the client (via the CMS) and the developer (via Claude Code) can post to the same blog without conflict.</li>
+			<li>Best fit: blog posts, since Astro content collections (markdown + frontmatter) are exactly the shape Decap CMS expects. Fields can be as detailed as needed — title, slug, author, publish date, featured image, a full markdown rich-text body, tags, SEO meta fields, and repeatable field groups (e.g. FAQ question/answer pairs).</li>
+			<li>Important limitation to set expectations on: Decap CMS only edits content that's been deliberately structured into a content file. Hardcoded copy inside a page's component (e.g. the homepage hero text in <code>index.astro</code>) isn't editable through the CMS out of the box — it would need to be extracted into a small data file (e.g. <code>src/content/home.json</code>) first, a one-time refactor per section made editable. Don't imply to a client that installing this gives them Webflow-style "click anywhere and edit" — it's closer to unlocking specific fields.</li>
+			<li>Custom Astro/MDX components aren't freely composable through the CMS either — each one made available to the client needs its own explicit field definition (e.g. a dropdown to insert a predefined promo), not open-ended authoring.</li>
+			<li>Setup isn't as turnkey as Formspree/Calendly/Stripe: Decap CMS needs an OAuth backend to authenticate the client against GitHub, and since this template deploys to Vercel (not Netlify, where Decap's auth is native), that backend has to be a small serverless function added to the project. Research the current recommended approach for wiring Decap CMS's GitHub OAuth flow on Vercel before implementing this for a real client — the ecosystem around this shifts, so verify rather than assuming the setup is a five-minute account signup like the other decision trees.</li>
+			<li>Access to <code>/admin</code> should be gated to the client (and the developer) — never left open to the public.</li>
+		</ul>
+
+		<p class="note">Every third-party account above belongs to the <strong>client</strong>, not you — it's their inbox, their calendar, their money.</p>
+
+		<h2>6. Google Search Console</h2>
+		<p>Set this up once the site is on its real domain — needed for the site to actually show up in Google search results, not just be reachable by URL.</p>
+		<ol>
+			<li>The property should be verified under the <strong>client's own Google account</strong> — same ownership principle as everything else — create one for the business if they don't already have one.</li>
+			<li>Go to <a href="https://search.google.com/search-console" target="_blank" rel="noopener">search.google.com/search-console</a> and add a property.</li>
+			<li>Prefer a <strong>Domain property</strong> (covers all subdomains/protocols) — verify via a DNS TXT record at the domain registrar. If DNS access isn't available, use the <strong>URL-prefix</strong> method instead (HTML file upload or meta tag — Astro can serve a verification file from <code>public/</code>).</li>
+			<li>Once verified, submit the sitemap: <code>Sitemaps → Add a new sitemap → sitemap-index.xml</code> (already generated automatically by <code>@astrojs/sitemap</code>).</li>
+			<li>Use <strong>URL Inspection → Request Indexing</strong> on the homepage and any other key pages so Google crawls them sooner rather than waiting for organic discovery.</li>
+		</ol>
+
+		<h2>7. Before launch</h2>
+		<ul>
+			<li>Delete <code>src/pages/setup.astro</code>.</li>
+			<li>Replace placeholder copy, images, and favicon with the client's real content.</li>
+			<li>Set <code>astro.config.mjs</code>'s <code>site</code> to the real domain.</li>
+			<li>Connect the custom domain in Vercel once DNS is ready.</li>
+			<li>Complete the Google Search Console setup above and request indexing.</li>
+		</ul>
+	</section>
+</BaseLayout>
+
+<style>
+	.delete-notice {
+		background: var(--color-accent-caution-bg);
+		color: var(--color-text);
+		border: 1px solid var(--color-accent-caution);
+		border-radius: var(--radius-md);
+		padding: var(--space-4);
+		margin-bottom: var(--space-7);
+		font-size: var(--text-small);
+	}
+
+	.intro {
+		font-size: var(--text-large);
+		color: var(--color-text-secondary);
+	}
+
+	.note {
+		font-style: italic;
+	}
+
+	code {
+		background: var(--surface-fill);
+		color: var(--color-text);
+		border-radius: var(--radius-sm);
+		padding: 0.1em 0.4em;
+		font-size: 0.9em;
+		overflow-wrap: anywhere;
+	}
+
+	li {
+		margin-bottom: var(--space-1);
+		color: var(--color-text-secondary);
+	}
+
+	h2 {
+		margin-top: var(--space-7);
+	}
+</style>
