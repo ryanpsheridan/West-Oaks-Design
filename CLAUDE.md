@@ -59,14 +59,24 @@ claims or feed structured data:
   darker than `--surface-raised` so fill alone distinguishes a card. Form
   inputs keep their borders: there, the border is the affordance. Restoring
   card borders means lightening the page back, so do both or neither.
-- **Tinted cards do not alternate.** Every `.card-tint` on the site takes the
-  same fill, `--tint-fern`, via the class default — no page passes
-  `--card-tint` per card. Cycling tints across a grid made the grid itself the
-  thing worth looking at rather than the content in it, and it meant a
-  seventh service couldn't be added without someone picking a colour for it.
-  `--tint-moss`, `--tint-sage` and `--tint-bone` stay defined as the ramp
-  around fern; `--tint-sand` is the eyebrow pill's warm tone. Use the knob for
-  a genuine one-off only.
+- **Tinted cards are warm, and they do not alternate.** Every `.card-tint` on
+  the site takes the same fill, `--tint-clay`, via the class default — no page
+  passes `--card-tint` per card. Two separate decisions, both deliberate:
+
+  *Warm, not green*, because a pale green card beside a deep green band reads
+  as a washed-out version of the band. The green tried here sat at 19%
+  saturation and came off elementary; clay sits at 36% and is its own
+  material. It also puts the site's two colours where the business's own
+  materials already are — limestone and decomposed granite against cedar and
+  live oak. Green stays where it carries weight: the bands, buttons and links.
+
+  *Uniform*, because cycling tints across a grid made the grid the thing worth
+  looking at rather than the six services in it, and meant a seventh service
+  couldn't be added without someone picking a colour for it.
+
+  `--tint-sand` is the eyebrow pill. `--tint-moss` and `--tint-sage` are
+  currently unused and kept as options. Use the knob for a genuine one-off
+  only.
 - **`--color-brand` is the darkest thing on the site**, darker than
   `--color-ink`, which inverts the usual arrangement on purpose: the brand
   band should be the deepest note on a page and the closing CTA band a step up
@@ -305,7 +315,7 @@ Use CSS variables from `src/styles/tokens.css` for all styling — never hardcod
 - Text: `--color-text`, `--color-text-secondary`, `--color-text-tertiary`
 - Brand (the per-client re-theme surface): `--color-accent` (+ `-hover`/`-contrast`) for inline links only, `--color-ink` (+ `-hover`/`-contrast`) for primary buttons, `--color-brand` (+ `-hover`/`-contrast`) for saturated fields. `--color-bg` / `--color-bg-subtle` feed the surface tokens.
 - `--color-ink` is set to its own value rather than aliased to `--ink-900`. It was aliased in the starter, but `--ink-900` is also `--color-text`, and a value tuned to read crisply at 16px body size becomes flat black once it is a full-bleed `.cta-band`. Keep them separate: text wants the darkest value, the band wants one two steps lighter that still belongs to the palette.
-- Tints: `--tint-moss`, `--tint-fern`, `--tint-sage` (greens), `--tint-sand` (the one warm tone, used sparingly), `--tint-bone` — whole-field colors for tinted cards, eyebrow pills, and brand bands. **These are backgrounds only.** `--color-text` clears AA on all of them comfortably (11.1:1 at worst, measured). `--color-text-secondary` clears it by as little as 0.2, which is too thin to build on — so anything on a tint takes primary text, or a muted tone mixed down from it via `color-mix`, never the secondary/tertiary roles.
+- Tints: `--tint-clay` (every tinted card), `--tint-sand` (the eyebrow pill), `--tint-bone`, plus `--tint-moss` and `--tint-sage` (greens, currently unused) — whole-field colors for tinted cards, eyebrow pills, and brand bands. **These are backgrounds only.** `--color-text` clears AA on all of them comfortably (11.9:1 at worst, measured). `--color-text-secondary` clears it by as little as 0.2, which is too thin to build on — so anything on a tint takes primary text, or a muted tone mixed down from it via `color-mix`, never the secondary/tertiary roles.
 
   These have been renamed twice, both times because the names stopped matching the values. A token called `--tint-lime` holding a clay colour is a trap for whoever edits a page next. If you re-theme again, rename again — the names are part of the value.
 - Semantic accents (use sparingly, only for actual state — positive/caution/critical/info): `--color-accent-positive`, `--color-accent-caution`, `--color-accent-critical`, `--color-accent-info` (each with a matching `-bg` variant)

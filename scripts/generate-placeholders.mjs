@@ -31,7 +31,7 @@ const token = (name) => {
 };
 const BRAND = token('color-brand');
 const BRAND_HOVER = token('color-brand-hover');
-const TINT_FERN = token('tint-fern');
+const TINT_SAND = token('tint-sand');
 
 // Neutral on purpose, and not drawn from tokens.css. These are scaffolding,
 // not part of the design — a placeholder tinted to the brand palette starts
@@ -101,8 +101,8 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="${OGW}" height="${OGH
 	<rect width="${OGW}" height="${OGH}" fill="${BRAND}"/>
 	<ellipse cx="${OGW * 0.5}" cy="${OGH * 1.25}" rx="${OGW * 0.9}" ry="${OGH * 0.6}" fill="${BRAND_HOVER}"/>
 	<text x="80" y="290" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="88" font-weight="500" letter-spacing="-2.5" fill="#FFFFFF">West Oaks Design</text>
-	<text x="80" y="366" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="38" font-weight="400" fill="${TINT_FERN}">Landscape design, build and stewardship</text>
-	<text x="80" y="424" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="400" fill="${TINT_FERN}" opacity="0.8">Austin and the Texas Hill Country</text>
+	<text x="80" y="366" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="38" font-weight="400" fill="${TINT_SAND}">Landscape design, build and stewardship</text>
+	<text x="80" y="424" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="400" fill="${TINT_SAND}" opacity="0.8">Austin and the Texas Hill Country</text>
 </svg>`;
 
 await mkdir('public/images', { recursive: true });

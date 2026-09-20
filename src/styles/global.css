@@ -607,7 +607,7 @@ svg {
 /* Tinted card. The border goes away entirely — a saturated field doesn't need
    an edge drawn around it, and a hairline on top of one reads as a mistake.
 
-   The fill defaults to --tint-fern and every tinted card on the site uses
+   The fill defaults to --tint-clay and every tinted card on the site uses
    that default — cards deliberately do not alternate. --card-tint remains as
    an escape hatch for a genuine one-off, but passing it per card is how the
    grid ended up looking like a colour swatch instead of a list of services.
@@ -616,7 +616,7 @@ svg {
    but by as little as 0.2, so it breaks as soon as a tint is re-themed a shade
    darker. See the tint block in tokens.css. */
 .card-tint {
-	background: var(--card-tint, var(--tint-fern));
+	background: var(--card-tint, var(--tint-clay));
 	border-color: transparent;
 	color: var(--color-text);
 	/* Re-point the muted text tokens rather than overriding a list of classes.
@@ -651,7 +651,7 @@ svg {
 
 .card-tint.card-interactive:hover {
 	box-shadow: none;
-	background: color-mix(in srgb, var(--card-tint, var(--tint-fern)) 88%, var(--color-text));
+	background: color-mix(in srgb, var(--card-tint, var(--tint-clay)) 88%, var(--color-text));
 }
 
 /* ----------------------------------------------------------------------------

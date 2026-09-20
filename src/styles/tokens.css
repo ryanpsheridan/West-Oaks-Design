@@ -54,8 +54,18 @@
 	   Tints. Light card and section-band fields, used as whole backgrounds
 	   rather than as small accents.
 
-	   IN LIVE USE: --tint-fern on every tinted card, and --tint-sand on the
+	   IN LIVE USE: --tint-clay on every tinted card, --tint-sand on the
 	   eyebrow pill. That is the whole set in practice.
+
+	   The cards are warm, not green, and that is load-bearing rather than
+	   arbitrary. A pale green card next to a deep green band reads as a
+	   washed-out version of the band — the earlier one sat at 19% saturation
+	   and came off elementary, like a colour chosen because it was available
+	   rather than because it meant something. Clay sits at 36%: warm enough
+	   to be its own material, and it puts the site's two colours where the
+	   business's own materials already are, limestone and decomposed granite
+	   against cedar and live oak. Green stays where it carries the most
+	   weight — the bands, the buttons, the links.
 
 	   Cards do not alternate. An earlier pass cycled three or four tints
 	   across a card grid, which made the grid itself read as the thing worth
@@ -63,10 +73,9 @@
 	   puts the attention back on the words, and it means a seventh service
 	   can be added without anyone deciding what colour it should be.
 
-	   The other three stay defined because they are a ramp, not spare parts:
-	   moss and sage are the steps either side of fern, and bone is the
-	   neutral. Reach for one only for a genuine one-off, via the --card-tint
-	   knob. Do not reintroduce alternation.
+	   The two greens stay defined as options, not spare parts, and both are
+	   currently unused. Reach for one only for a genuine one-off, via the
+	   --card-tint knob. Do not reintroduce alternation.
 
 	   --color-text clears AA on every tint by a wide margin (13.8:1 at
 	   worst, measured). --color-text-secondary does not clear it by enough
@@ -75,8 +84,8 @@
 	   .section-brand already do for you.
 	   ------------------------------------------------------------------------ */
 	--tint-moss: #E2E9DF;     /* --color-text at 14.5:1 */
-	--tint-fern: #D2DFD0;     /* --color-text at 13.0:1 */
-	--tint-sage: #BFD0BE;     /* --color-text at 11.1:1 — the deepest of the three */
+	--tint-clay: #E2D5C1;     /* --color-text at 12.4:1 */
+	--tint-sage: #CBD7C8;     /* --color-text at 11.9:1 */
 	--tint-sand: #EAE1D2;     /* --color-text at 13.8:1 — the eyebrow pill's tone */
 	--tint-bone: #EFECE3;     /* --color-text at 15.2:1 */
 
