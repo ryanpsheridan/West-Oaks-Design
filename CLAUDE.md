@@ -55,10 +55,10 @@ claims or feed structured data:
   field that used to be black (menu button, primary buttons, closing band)
   now reads green. Near-black stays correct for *text* only, the rule is
   about fields, not glyphs. See the note on `--color-ink` in `tokens.css`.
-- **No borders on cards, pills or tabs.** The page surface is a real step
-  darker than `--surface-raised` so fill alone distinguishes a card. Form
-  inputs keep their borders: there, the border is the affordance. Restoring
-  card borders means lightening the page back, so do both or neither.
+- **No borders on pills or tabs.** An eyebrow, a tag and a filter chip carry
+  a fill and a tight radius and nothing else. Cards are the deliberate
+  exception and do take an outline, see the card rule below. Form inputs keep
+  their borders too: there, the border is the affordance.
 - **Never two dark sections in a row.** Alternate them with a light or sunken
   section. Two saturated bands back to back read as one long dark stripe with
   a seam in it rather than as two sections. The About page's founder quote
@@ -201,7 +201,7 @@ Set up once the site is live on its real domain:
 
 - Font: **Aspekta** for both body and headings (`--font-sans` / `--font-heading` in `tokens.css`), **self-hosted**, one 30KB variable file at `public/fonts/AspektaVF.woff2` covering weights 100–900, `@font-face` in `global.css`, preloaded in `BaseHead.astro`. No Google Fonts request, no third-party connection.
 - Licensed OFL 1.1; the licence ships alongside the font at `public/fonts/Aspekta-OFL-LICENSE.txt` and must stay there.
-- The whole scale sits at **medium (500)**, including headings. Hierarchy comes from size and tracking, not weight, that's what lets headings run this large without shouting. Semibold is a rare emphasis step, not the heading default.
+- Running text sits at **normal (400)**; headings, buttons and field labels at **medium (500)**. Hierarchy comes from size and tracking, not weight, that's what lets headings run this large without shouting. Semibold is a rare emphasis step, not the heading default.
 - Don't introduce a second typeface without updating the token, the `@font-face`, and the preload together.
 
 ## Accessibility. Non-Negotiable Defaults
@@ -218,8 +218,8 @@ Set up once the site is live on its real domain:
 
 - Every page passes a unique `title` and `description` to `BaseLayout`/`BaseHead`, no page should reuse another page's description.
 - Titles should read naturally for both search engines and AI answer engines, phrase them the way a person would actually search or ask, not keyword-stuffed.
-- `@astrojs/sitemap` is already wired in `astro.config.mjs`, no manual sitemap maintenance needed.
-- Add JSON-LD structured data per page where it makes sense (the homepage already has a `LocalBusiness` example in `index.astro`, swap the `@type` for whatever fits the client's actual business).
+- `@astrojs/sitemap` is already wired in `astro.config.mjs`, no manual sitemap maintenance needed. The integration is gated on `SITE_INDEXABLE`, so no sitemap is emitted while the site is in preview.
+- Add JSON-LD structured data per page where it makes sense. Every builder lives in `src/lib/schema.ts` and a page passes the result as its `schema` prop, never hand-written in the page; see "Structured Data" below. The business `@type` is `LandscapingBusiness`, swap it for whatever fits the client's actual business.
 - Internal links between pages (e.g. a service page linking to the contact page) should read naturally in body copy, not just exist in nav.
 - Heading hierarchy must be logical: one `<h1>` per page, `<h2>` for major sections, never skipping a level.
 - Canonical URLs and Open Graph/Twitter tags are handled automatically by `BaseHead.astro`, don't hand-roll these per page.
@@ -348,7 +348,7 @@ Rules for any new motion:
 - **Don't call `scrollIntoView` to reposition something inside a scrollable strip.** It scrolls *every* scrollable ancestor including the document, so even `block: 'nearest'` will move the page, which is how the gallery carousel silently scrolled every visitor past the top of the page on load. Set the container's `scrollLeft`/`scrollTop` instead; that can only move the container.
 - **Don't use the `animation` shorthand with a scroll timeline.** It resets `animation-timeline` to `auto`, and the CSS minifier may reorder declarations so the reset lands last. Use longhands (see `Header.astro`).
 
-What's in place: cross-page view transitions; scroll-aware sticky header; staggered mobile-menu reveal; tinted cards deepening their fill on hover; the arrow nudge on `.btn-arrow`; tap-to-copy on the contact details; a smooth FAQ accordion; and the `StatBand` count-up.
+What's in place: cross-page view transitions; scroll-aware sticky header; staggered mobile-menu reveal; interactive cards darkening their outline to the brand green on hover; the arrow nudge on `.btn-arrow`; tap-to-copy on the contact details; a smooth FAQ accordion; and the `StatBand` count-up.
 
 ## Design Tokens
 
@@ -374,7 +374,7 @@ Use CSS variables from `src/styles/tokens.css` for all styling, never hardcode a
 - Text: `--color-text`, `--color-text-secondary`, `--color-text-tertiary`
 - Brand (the per-client re-theme surface): `--color-accent` (+ `-hover`/`-contrast`) for inline links only, `--color-ink` (+ `-hover`/`-contrast`) for primary buttons, `--color-brand` (+ `-hover`/`-contrast`) for saturated fields. `--color-bg` / `--color-bg-subtle` feed the surface tokens.
 - `--color-ink` is set to its own value rather than aliased to `--ink-900`. It was aliased in the starter, but `--ink-900` is also `--color-text`, and a value tuned to read crisply at 16px body size becomes flat black once it is a full-bleed `.cta-band`. Keep them separate: text wants the darkest value, the band wants one two steps lighter that still belongs to the palette.
-- Tints: `--tint-clay` (every tinted card), `--tint-sand` (the eyebrow pill), `--tint-bone`, plus `--tint-moss` and `--tint-sage` (greens, currently unused), whole-field colors for tinted cards, eyebrow pills, and brand bands. **These are backgrounds only.** `--color-text` clears AA on all of them comfortably (11.9:1 at worst, measured). `--color-text-secondary` clears it by as little as 0.2, which is too thin to build on, so anything on a tint takes primary text, or a muted tone mixed down from it via `color-mix`, never the secondary/tertiary roles.
+- Tints: `--tint-sand`, the fill behind every chip on the site, reached through `--surface-chip` rather than by name. `--tint-clay`, `--tint-bone`, `--tint-moss` and `--tint-sage` are currently unused: they are a kept ramp, not an invitation to tint cards again. **These are backgrounds only.** `--color-text` clears AA on all of them comfortably (11.9:1 at worst, measured). `--color-text-secondary` clears it by as little as 0.2, which is too thin to build on, so anything on a tint takes primary text, or a muted tone mixed down from it via `color-mix`, never the secondary/tertiary roles.
 
   These have been renamed twice, both times because the names stopped matching the values. A token called `--tint-lime` holding a clay colour is a trap for whoever edits a page next. If you re-theme again, rename again, the names are part of the value.
 - Semantic accents (use sparingly, only for actual state, positive/caution/critical/info): `--color-accent-positive`, `--color-accent-caution`, `--color-accent-critical`, `--color-accent-info` (each with a matching `-bg` variant)
@@ -394,14 +394,14 @@ Shared classes live in `src/styles/global.css`. Reach for these before writing a
 - **A horizontally scrolling strip inside a `.container` should bleed past the gutter**, so the cut-off happens at the edge of the screen rather than at the gutter. That difference is the whole affordance: a row that stops short of the edge with clean space beside it reads as a finished row and nobody thinks to push it. Negative `margin-inline` of exactly the container's padding, with matching `padding-inline` and `scroll-padding-inline` to put the first and last items back on the gutter. Sized that way it spans the container's border box and no further, so it cannot cause page overflow at any width. See `.filter-bar` in `gallery.astro`, currently the only one.
 - Layout: `.container` (+ `.container-narrow`), `.section` / `.section-tight` / `.section-loose` / `.section-hero`, `.section-sunken`, `.grid-auto` (tune with `--grid-min`), `.split` (+ `.split-reverse`, `.split-top`, tune with `--split-cols`), `.stack`, `.divider`
 - Form fields have no fill. An input takes the colour of whatever container it sits in and its border alone draws it, because a field painted a different shade from its own card reads as a second surface stacked inside the first, and a form of a dozen fields becomes a stack of tinted slabs.
-- Components: `.card` (+ `.card-interactive`, `.card-tint` tuned with `--card-tint`), `.btn` with `.btn-primary`/`.btn-brand`/`.btn-secondary`/`.btn-inverse`, `.btn-sm`/`.btn-lg`, and `.btn-arrow`, `.field` (+ `.field-hint`, `.field-error`, `.field-invalid`), `.media-frame` (tune with `--media-ratio`), `.topline`, `.tag`, `.quote`, `.stat-value`/`.stat-label`, `.stat-band` (tune with `--stat-cols`), `.faq-list` + `.faq-item`
+- Components: `.card` (+ `.card-interactive`), `.btn` with `.btn-primary`/`.btn-brand`/`.btn-secondary`/`.btn-inverse`, `.btn-sm`/`.btn-lg`, and `.btn-arrow`, `.field` (+ `.field-hint`, `.field-error`, `.field-invalid`), `.media-frame` (tune with `--media-ratio`), `.topline`, `.tag`, `.quote`, `.stat-value`/`.stat-label`, `.stat-band` (tune with `--stat-cols`), `.faq-list` + `.faq-item`
 - `.faq-list`/`.faq-item` are the site's only accordion, used for the FAQs and for the per-step disclosures on `/process/`. Don't write a second one. They wrap a native `<details>`/`<summary>`: an accordion the browser already knows how to open, keyboard-operate and announce, with no JavaScript and every answer present in the HTML whether expanded or not. That last part is what makes the `FAQPage` schema honest, build the visible list and the schema from one array, never mark up an answer a visitor cannot reach.
-- `.btn-arrow` adds the inverted disc inside the pill's right edge. It's a navigation signal, reserve it for links that go somewhere, not for submit buttons.
+- `.btn-arrow` adds an arrow glyph inside the button's right edge, drawn as a mask over `currentColor` so it takes the label's colour on every button variant without a per-variant rule. It's a navigation signal, reserve it for links that go somewhere, not for submit buttons.
 - Section headers: `.section-header` wrapping a `.section-header-text` (eyebrow + heading + lead), with an optional `.link-arrow` action pinned to the opposite end. Use this rather than stranding a button under the grid. Add `.section-header-center` when there's no action to pin opposite.
 - **Centring is a desktop device and is gated at 720px.** The reason to centre a header is that a lone left-aligned one above a symmetrical multi-column grid leaves the right half of the row empty, which is an argument entirely about wide layouts. On a phone every grid is one column, so there is no empty half to balance and a centred header on top of left-aligned cards just reads as two alignments fighting. `.section-header-center` and `.pay-card` both align left below 720px. Anything new that centres should do the same unless it is a genuine standalone device.
 - The one deliberate exception is the About founder quote (`.quote-feature`), which stays centred at every width. A pull quote is a self-contained statement with nothing left-aligned beside it to clash with, so centring reads as intent rather than inconsistency.
 - Saturated bands: `.cta-band` (ink) for a full-bleed closing call to action with `.btn-inverse` inside it, and `.section-brand` (brand color) for a full-bleed highlight band. **One of each per page at most**, each works by being the only thing on the page that inverts or saturates, so a second costs the first its impact.
-- `.card-tint` and `.section-brand` re-point `--color-text-secondary` / `--color-text-tertiary` (and `--color-text`, on the brand band) to tint-safe tones on themselves. So a page's scoped CSS can keep referencing those tokens normally inside either one, don't add per-page color overrides for muted text on a tint, and don't reach for a raw palette value to work around it.
+- `.cta-band` and `.section-brand` re-point `--color-text`, `--color-text-secondary` and `--color-text-tertiary` to band-safe tones on themselves. So a page's scoped CSS can keep referencing those tokens normally inside either one, don't add per-page color overrides for muted text on a band, and don't reach for a raw palette value to work around it.
 - Text: `.display`, `.eyebrow` (a tinted pill, tuned with `--eyebrow-tint`; `.eyebrow-plain` drops the pill), `.lead`, `.text-secondary`, `.text-tertiary`, `.measure` / `.measure-narrow` / `.measure-wide`
 
 ### Navigation
