@@ -131,10 +131,24 @@ claims or feed structured data:
   ellipsed to make room for a button that duplicates what is inside the menu.
   The mobile panel carries the same action instead.
 
+**The site is currently noindex.** `SITE_INDEXABLE` in `src/site-flags.mjs`
+is `false`, which is the single switch controlling it: every page sends
+`noindex, nofollow`, no sitemap is generated, and `robots.txt` publishes no
+Sitemap line. The site stays reachable by anyone with the link and findable by
+nobody, which is what a client preview wants. Flip that one constant at launch.
+
+Note that `robots.txt` still *allows* crawling while this is false, which looks
+backwards and is not: a crawler blocked by robots.txt never fetches the page,
+so it never sees the `noindex`, and the URL can still surface in results as a
+bare link. Letting crawlers in to read the directive is what keeps the site
+out of the index. Don't "tighten" this to `Disallow: /`.
+
 **Before this goes anywhere near production:** clear the TODOs, delete
 `src/pages/setup.astro`, remove the yellow draft note at the top of
-`gallery.astro`, and set the real domain in `astro.config.mjs`,
-`public/robots.txt` and `SITE_EMAIL`.
+`gallery.astro`, flip `SITE_INDEXABLE` in `src/site-flags.mjs`, and set the
+real domain in `astro.config.mjs` and `SITE_EMAIL`. (`robots.txt` is generated
+from `src/pages/robots.txt.ts` now and follows the flag and the domain on its
+own.)
 
 ## Build & Handoff Sequence
 

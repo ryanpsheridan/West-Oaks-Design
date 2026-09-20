@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /
-
-# Internal design-system reference, not customer-facing. It is also
-# noindex'd at the page level; this is the belt-and-braces half.
-Disallow: /style-guide/
-
-Sitemap: https://www.westoaksdesign.com/sitemap-index.xml

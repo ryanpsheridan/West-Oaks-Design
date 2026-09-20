@@ -1,6 +1,7 @@
 // @ts-check
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
+import { SITE_INDEXABLE } from './src/site-flags.mjs';
 
 export default defineConfig({
 	// TODO: confirm at launch. The client does not own a domain yet and gave
@@ -17,7 +18,11 @@ export default defineConfig({
 		// flash of unstyled (browser-default) content before it loads.
 		inlineStylesheets: 'always',
 	},
-	integrations: [
+	// No sitemap while the site is noindex. A sitemap is an invitation to
+	// index, and handing a crawler a list of pages that all say "do not index"
+	// is a contradiction Search Console reports as an error.
+	integrations: SITE_INDEXABLE
+		? [
 		sitemap({
 			// Internal and utility pages. All three are noindex'd at the page level too, but a
 			// noindex page listed in a sitemap is a contradictory signal:
@@ -28,5 +33,6 @@ export default defineConfig({
 				!page.includes('/setup') &&
 				!page.includes('/pay'),
 		}),
-	],
+		]
+		: [],
 });

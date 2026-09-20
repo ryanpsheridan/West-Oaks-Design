@@ -246,16 +246,26 @@
 	   Display sits above h1 for hero headlines only, layered on top of it
 	   rather than replacing it.
 
-	   h1/h2/h3/display use clamp() so they scale down fluidly on narrow phones
-	   instead of eating a 375px screen. Display's lower bound is held well
-	   clear of h1's so the two don't converge at mid-size viewports, a
-	   display headline that lands on the same size as an h1 is just an h1. */
+	   h1/h2/h3/display use clamp() so they scale down fluidly on narrow
+	   phones. The slopes were re-cut once because they were not doing that
+	   hard enough: the intercepts were high and the slopes shallow, so the
+	   floor almost never engaged and a phone still got a 51px hero headline.
+	   Each one is now pinned at two points, a deliberate size at 390px and
+	   the same maximum as before, with the slope solved between them. That is
+	   why the numbers look unrounded.
+
+	   Roughly, at 390px: display 38, h1 32, h2 26, h3 22. Unchanged at
+	   desktop: 72, 56, 42, 32.
+
+	   Display's lower bound is still held clear of h1's so the two don't
+	   converge at mid-size viewports. A display headline that lands on the
+	   same size as an h1 is just an h1. */
 	--text-h5: 1.25rem;                                      /* 20px */
-	--text-h4: clamp(1.375rem, 1.25rem + 0.6vw, 1.5rem);     /* →24px */
-	--text-h3: clamp(1.625rem, 1.35rem + 1.4vw, 2rem);       /* →32px */
-	--text-h2: clamp(2rem, 1.5rem + 2.4vw, 2.625rem);        /* →42px */
-	--text-h1: clamp(2.5rem, 1.75rem + 3.6vw, 3.5rem);       /* →56px */
-	--text-display: clamp(3rem, 1.8rem + 5.6vw, 4.5rem);     /* →72px */
+	--text-h4: clamp(1.375rem, 1.25rem + 0.6vw, 1.5rem);     /* 22 → 24px */
+	--text-h3: clamp(1.375rem, 1.03rem + 1.41vw, 2rem);      /* 22 → 32px */
+	--text-h2: clamp(1.625rem, 1rem + 2.62vw, 2.625rem);     /* 26 → 42px */
+	--text-h1: clamp(2rem, 0.85rem + 4.71vw, 3.5rem);        /* 32 → 56px */
+	--text-display: clamp(2.25rem, 0.25rem + 8.72vw, 4.5rem);/* 36 → 72px */
 
 	--weight-normal: 400;
 	--weight-medium: 500;

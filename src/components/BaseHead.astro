@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { BRAND_COLOR } from '../lib/brand';
+import { SITE_INDEXABLE } from '../site-flags.mjs';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -31,6 +32,11 @@ const {
 } = Astro.props;
 
 const pageTitle = fullTitle ? title : `${title} | ${SITE_TITLE}`;
+
+// A page can opt out on its own (the style guide, the payment page), and while
+// SITE_INDEXABLE is false the whole site opts out regardless. One flag, so
+// launch cannot half-flip it.
+const isNoindex = noindex || !SITE_INDEXABLE;
 const ogImage = new URL(image, Astro.site).toString();
 ---
 
@@ -42,7 +48,7 @@ const ogImage = new URL(image, Astro.site).toString();
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+{isNoindex && <meta name="robots" content="noindex, nofollow" />}
 
 <!--
 	Aspekta, self-hosted. One 30KB variable file covers weights 100-900, which
@@ -71,7 +77,7 @@ const ogImage = new URL(image, Astro.site).toString();
 	social cards build from. Without it, some crawlers default to a truncated
 	snippet, which is the opposite of what an AEO-focused build wants.
 -->
-{!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+{!isNoindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
 
 <!-- Tints the browser chrome on mobile to the brand colour. A meta tag
      can't read a custom property, so the value is parsed out of tokens.css
