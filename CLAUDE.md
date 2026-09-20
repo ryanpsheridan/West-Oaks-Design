@@ -59,20 +59,33 @@ claims or feed structured data:
   darker than `--surface-raised` so fill alone distinguishes a card. Form
   inputs keep their borders: there, the border is the affordance. Restoring
   card borders means lightening the page back, so do both or neither.
+- **Never two dark sections in a row.** Alternate them with a light or sunken
+  section. Two saturated bands back to back read as one long dark stripe with
+  a seam in it rather than as two sections. The About page's founder quote
+  moved off the brand band for exactly this reason: it sat directly above the
+  closing CTA band.
 - **Cards are an outline plus one step of value.** One `.card` class, a light
-  outline, an 8px corner, and a fill exactly one step off whatever the card
-  sits on: `--surface-card` on the page, `--surface-page` on a sunken band
-  (because `--surface-card` is within a hair of `--surface-sunken` and would
-  vanish), and a faint wash of the contrast colour on a dark band. One step of
-  *value*, never a hue. Filled cards were tried white and then warm tan and
+  outline, an 8px corner, and a white fill. White works against both the
+  limestone page (1.15:1) and the darker sunken band (1.29:1), so a card needs
+  no variant per surface; on a dark band it inverts to a faint wash of that
+  band's contrast colour. An earlier pass made the fill one step *darker* than
+  the page, which was invisible at 1.06:1 and left the outline carrying the
+  card alone. One step of *value*, never a hue. Filled cards were tried white and then warm tan and
   both turned a grid of cards into a set of coloured objects to look at rather
   than a list of things to read. `--tint-sand` survives on the eyebrow pill;
   the other tints are a kept ramp, not an invitation to tint cards again.
-- **Corners are tight.** The radius scale runs 2/4/6/8px. Cards and images
-  take `--radius-xl`, which is 8px. `--radius-pill` stays fully round, but
-  only for things that are genuinely capsule-shaped: buttons, the eyebrow, the
-  filter pills, the header shell. The shape is the component there, not a
-  softening applied to one.
+- **Corners are tight and nothing is a capsule.** The radius scale runs
+  2/4/6/8px: chips and the menu button at 4px, buttons at 6px, cards, images
+  and the header shell at 8px. `--radius-pill` is effectively retired. A page
+  of capsules was the single biggest thing making this read as a brochure
+  rather than a piece of software. Genuine circles (the arrow badge, the
+  process step markers) still use 50%, because there the circle *is* the
+  shape rather than a softened rectangle.
+- **No secondary metadata lines under headings.** The process page used to
+  carry a duration under every step title. A second, quieter line under each
+  heading turns a list into a table of specifications, and a published
+  timeline is a number the client gets held to. Where a duration matters it
+  belongs in an FAQ answer, in a sentence.
 - **`--color-brand` is the darkest thing on the site**, darker than
   `--color-ink`, which inverts the usual arrangement on purpose: the brand
   band should be the deepest note on a page and the closing CTA band a step up
@@ -86,6 +99,13 @@ claims or feed structured data:
   client standing preference. Pick the punctuation the sentence actually
   needs: a colon before a list or an explanation, a full stop between two
   independent clauses, parentheses around an aside, a comma for an appositive.
+  Check for `&mdash;` as well as the literal character; a sweep for one missed
+  the other.
+- **Watch for text glued to an inline element.** Astro trims the whitespace
+  between a text node and an element on the next source line, so
+  `... on the\n<a>process page</a>` renders as "on theprocess page". Keep the
+  space inside the previous text node. The audit greps the built HTML for
+  `\w<a>\w` to catch it.
 
 **Deliberate decisions worth not undoing:**
 

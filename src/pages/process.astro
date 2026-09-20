@@ -19,9 +19,14 @@ import { SITE_TITLE } from '../consts';
 // project take" are all questions with no good local answer, and this page
 // answers them in HowTo-marked steps.
 //
-// ⚠️ FIRST DRAFT, the stage names, durations and deliverables are informed
-// guesses at how this firm works. Walk through them with the client; the
-// durations in particular are quoted back at you later.
+// ⚠️ FIRST DRAFT, the stage names and deliverables are informed guesses at
+// how this firm works. Walk through them with the client.
+//
+// The per-stage duration line that used to sit under each heading is gone.
+// It was a second, quieter line of metadata under every title, which made
+// the list read as a table of specifications rather than an explanation, and
+// a published timeline is a number a client gets held to. Where a duration
+// genuinely matters it is in the FAQ answers instead, in a sentence.
 // ---------------------------------------------------------------------------
 
 const intro = {
@@ -38,7 +43,6 @@ const steps = [
 	{
 		icon: 'mail',
 		title: 'Send us the project form',
-		duration: 'A few minutes · No charge',
 		description:
 			'The form asks what kind of work you are after, where the property is, roughly when you want it done and roughly what budget it sits in. Those four answers are what let us reply with something useful instead of a request for more information. We read every one ourselves.',
 		client: 'A few minutes and an honest budget range. Skip anything you are unsure about. "Not sure yet" is a real answer on every question.',
@@ -46,7 +50,6 @@ const steps = [
 	{
 		icon: 'pin',
 		title: 'Walking the property',
-		duration: 'About an hour · No charge',
 		description:
 			'If the project looks like a fit, we come out and walk it with you. You show us what you want; we look at what is already there: the slope, the soil, where water goes in a storm, which trees are worth building the whole design around. We arrange the time by email or phone once we have read your enquiry.',
 		client: 'Nothing to prepare. If you have a survey or plat, have it handy.',
@@ -54,7 +57,6 @@ const steps = [
 	{
 		icon: 'ruler',
 		title: 'Proposal and agreement',
-		duration: 'Within a week',
 		description:
 			'A written scope, a fee for the design, and an honest construction range for what we discussed. No drawings yet. If the number and the scope work for you, we sign and start.',
 		client: 'Read it properly and ask about anything unclear before signing.',
@@ -62,7 +64,6 @@ const steps = [
 	{
 		icon: 'sprout',
 		title: 'Design',
-		duration: 'Four to eight weeks',
 		description:
 			'We measure and document the site, then draw. You see a concept first (the big moves, in plan and in rough sketch), and we take it through two rounds of revisions with you. Once the shape is settled it goes to a full plan: planting, hardscape, levels, irrigation, lighting.',
 		client: 'Two sessions of your time, and honest reactions. Changing your mind at concept stage is free; changing it during construction is not.',
@@ -70,7 +71,6 @@ const steps = [
 	{
 		icon: 'wrench',
 		title: 'Pricing and scheduling',
-		duration: 'Two to three weeks',
 		description:
 			'The finished plan gets priced line by line, so you can see what each part of it costs and decide what to build now and what to leave for a later phase. Then we schedule, and tell you what we will be doing when.',
 		client: 'Decide the phasing. Nearly everyone builds in stages, and the plan is drawn to allow it.',
@@ -78,7 +78,6 @@ const steps = [
 	{
 		icon: 'truck',
 		title: 'Construction',
-		duration: 'Two weeks to several months',
 		description:
 			'The same people who drew it build it. Tree protection goes up before any machine arrives. We work in the order the site dictates (drainage and grading, then hardscape, then irrigation, then planting, then lighting), and you get a weekly update on where things stand.',
 		client: 'Access to the property, and a decision or two along the way when the ground tells us something the drawings did not.',
@@ -86,7 +85,6 @@ const steps = [
 	{
 		icon: 'leaf',
 		title: 'Walkthrough and aftercare',
-		duration: 'Ongoing',
 		description:
 			'We walk the finished project together and hand over a written care plan: what to water and for how long, what gets pruned when, what to expect in the first two summers. We come back at thirty days and again at a year to check how things took. After that you can keep us on a stewardship plan or take it from there yourself.',
 		client: 'Follow the watering schedule for the first summer. It is the single biggest factor in whether new planting establishes.',
@@ -218,7 +216,6 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 								hear it.
 							*/}
 							<h3><span class="step-index">{i + 1}.</span> {step.title}</h3>
-							<p class="step-duration">{step.duration}</p>
 							<p class="text-secondary">{step.description}</p>
 							<p class="step-client">
 								<span class="step-client-label">What we need from you</span>
@@ -358,7 +355,7 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 
 	.step-body h3 {
 		font-size: var(--text-h4);
-		margin-bottom: var(--space-1);
+		margin-bottom: var(--space-3);
 	}
 
 	/* Same colour as the rest of the heading. Muting it made the number read
@@ -366,12 +363,6 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 	   backwards: the number is how you find your place in the sequence. */
 	.step-index {
 		font-variant-numeric: tabular-nums;
-	}
-
-	.step-duration {
-		font-size: var(--text-small);
-		color: var(--color-text-tertiary);
-		margin-bottom: var(--space-4);
 	}
 
 	/* The "what we need from you" line is the one thing on this page a

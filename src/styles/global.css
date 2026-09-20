@@ -534,7 +534,7 @@ svg {
 	letter-spacing: var(--tracking-snug);
 	min-height: var(--btn-h);
 	padding: 0 var(--space-5);
-	border-radius: var(--radius-pill);
+	border-radius: var(--radius-lg);
 	border: 1px solid transparent;
 	text-decoration: none;
 	white-space: nowrap;
@@ -715,22 +715,15 @@ svg {
    tan, and both turned a grid of cards into a set of coloured objects to look
    at rather than a list of things to read. One step of value, no hue.
 
-   The fill flips depending on what the card sits on, because "one step off
-   the ground" is the rule rather than any particular colour. On the page it
-   goes darker, on a sunken band lighter, and on a dark band it is a faint
-   wash of that band's own contrast colour. All three are below. */
+   White works against both the limestone page and the darker sunken band, so
+   a card does not need a variant per surface. On a dark band it inverts to a
+   faint wash of that band's own contrast colour, which is the one case a
+   light fill cannot cover. */
 .card {
 	background: var(--surface-card);
 	border: 1px solid var(--border-default);
 	border-radius: var(--radius-xl);
 	padding: var(--space-6);
-}
-
-/* --surface-card is within a hair of --surface-sunken, so a card keeping its
-   default fill would disappear into a sunken band. It steps up to the page
-   colour instead and still reads as one layer off its ground. */
-.section-sunken .card {
-	background: var(--surface-page);
 }
 
 .card > :last-child {
@@ -1023,7 +1016,7 @@ svg {
 	letter-spacing: var(--tracking-caps);
 	text-transform: uppercase;
 	padding: var(--space-1) var(--space-3);
-	border-radius: var(--radius-pill);
+	border-radius: var(--radius-md);
 	background: var(--surface-fill);
 	color: var(--color-text-secondary);
 }

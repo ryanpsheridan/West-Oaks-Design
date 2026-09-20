@@ -35,7 +35,7 @@
 	   ------------------------------------------------------------------------ */
 	--gray-0: #FFFFFF;    /* cards and raised surfaces */
 	--gray-25: #F2EFE7;   /* page, limestone, deliberately not near-white */
-	--gray-40: #ECE8DE;   /* card fill, one step off the page and no more */
+
 	--gray-50: #E6E2D8;   /* recessed section bands */
 	--gray-100: #DCD7CA;  /* inline code, subtle fills */
 	--gray-200: #D6D0C1;  /* hairline dividers */
@@ -98,13 +98,19 @@
 	--color-bg: var(--gray-25);
 	--color-bg-subtle: var(--gray-50);
 
-	/* Links, and nothing else. Deep enough to clear AA as text at 7.61:1 on
-	   the page surface, and far enough off --color-text that an inline link
-	   in a paragraph is unmistakable without an underline doing all the work.
-	   It's a lighter, wetter green than the brand field, same family, read
-	   as a different role. */
-	--color-accent: #175449;        /* 7.61:1 on --surface-page */
-	--color-accent-hover: #0F3A32;
+	/* Links, and nothing else.
+
+	   Lighter than the brand field on purpose, and lighter again now that the
+	   brand has gone darker twice: a link has to read as a *different* role
+	   from a dark band or a button, not as the same colour at a smaller size.
+
+	   It is the one green on the site with a ceiling on how light it can go,
+	   because it is the only one that has to clear AA as text. 5.59:1 on the
+	   page and 4.97:1 on a sunken band is most of the headroom spent; a
+	   further step would fail on sunken. Check both surfaces before touching
+	   it, not just the page. */
+	--color-accent: #1E6A5B;        /* 5.59:1 page, 4.97:1 sunken, 6.43:1 card */
+	--color-accent-hover: #175449;
 	--color-accent-contrast: #FFFFFF;
 
 	/* The brand field. This is West Oaks' dark blue-green, and unlike
@@ -128,8 +134,8 @@
 	   inverts the usual arrangement on purpose: the brand band should be the
 	   deepest note on a page, and the closing CTA band a step up from it, not
 	   the other way round. */
-	--color-brand: #06261B;         /* white on it: 16.1:1 */
-	--color-brand-hover: #041B13;
+	--color-brand: #03190F;         /* white on it: 18.3:1 */
+	--color-brand-hover: #020F09;
 	--color-brand-contrast: #FFFFFF;
 
 	/* Primary buttons and the closing CTA band, the near-black end of the
@@ -151,8 +157,8 @@
 
 	   Near-black is still correct for *text*, which is why --color-text keeps
 	   --gray-900. The rule is about fields, not glyphs. */
-	--color-ink: #10392C;           /* white on it: 13.6:1 */
-	--color-ink-hover: #0A2A20;
+	--color-ink: #0A2A1E;           /* white on it: 15.4:1 */
+	--color-ink-hover: #061B13;
 	--color-ink-contrast: #FFFFFF;
 	/* Secondary text on an ink surface, ~9:1, so it still clears AA while
 	   reading as a step down from full white. */
@@ -167,15 +173,16 @@
 	   reads as raised via contrast. One class, both contexts.
 	   ------------------------------------------------------------------------ */
 	--surface-page: var(--color-bg);
-	/* Cards. One step off the page and no further: a card here is defined by
-	   its outline, and the fill is only there to stop it reading as a hole
-	   cut in the background. Anything darker starts competing with
-	   --surface-sunken and the two layering devices stop being distinguishable.
+	/* Cards. White, against a limestone page and a darker sunken band.
 
-	   A card on a sunken band inverts this and takes --surface-page instead,
-	   because this value is almost exactly --surface-sunken and a card filled
-	   with it would vanish into the band. See .section-sunken .card. */
-	--surface-card: var(--gray-40);
+	   An earlier pass had this one step *darker* than the page, on the theory
+	   that a card should sit into its ground rather than on it. In practice
+	   that was invisible: a 1.06:1 step is below what anyone perceives as an
+	   edge, so the fill did nothing and the outline was carrying the card by
+	   itself. Going the other way gives 1.15:1 against the page and 1.29:1
+	   against a sunken band, and the same value works on both, so a card no
+	   longer needs to know what it is sitting on. */
+	--surface-card: var(--gray-0);
 	/* White, while the page itself is warm off-white, so a card lifts by being
 	   cleaner than its background rather than by borrowing a shadow. */
 	--surface-raised: var(--gray-0);
@@ -304,14 +311,15 @@
 	   ------------------------------------------------------------------------ */
 	/* Tight on purpose. The scale used to run 6/10/16/24, which put a 24px
 	   corner on every card and image and made the whole page read as a set
-	   of soft-edged bubbles floating on a background. At 8px a card still
-	   reads as a considered object rather than a raw rectangle, but the
-	   corner stops being the first thing you notice about it.
+	   of soft-edged bubbles floating on a background.
 
-	   --radius-pill is untouched and still fully round: it is for things
-	   that are genuinely capsule-shaped (buttons, the eyebrow, the filter
-	   pills, the header shell), where the shape is the component rather than
-	   a softening applied to one. */
+	   --radius-pill is now nearly unused. Buttons, the eyebrow, the filter
+	   pills and the header were all fully round, and a page of capsules is
+	   the single biggest thing standing between this and looking like a
+	   piece of software rather than a brochure. They run 4 to 8px now.
+	   Genuine circles (the arrow badge, the step markers) use 50% and are
+	   unaffected: those are circles because the shape means something, not
+	   because a rectangle was softened. */
 	--radius-sm: 2px;
 	--radius-md: 4px;
 	--radius-lg: 6px;
@@ -362,7 +370,15 @@
 	--measure: 40rem;         /* 640px, lead paragraphs, section intros */
 	--measure-wide: 45rem;    /* 720px, long-form body copy, FAQ lists */
 
-	/* Derived from --color-accent rather than hardcoded, so re-theming a
-	   client's brand color carries the focus ring with it. */
-	--focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-accent) 38%, transparent);
+	/* Two rings, not one soft glow: a band of the page colour to separate the
+	   ring from the control, then a solid 2px of accent. A single 3px ring at
+	   38% opacity reads as a halo and disappears against a busy background;
+	   this reads as a control that is focused, and the solid colour clears
+	   the 3:1 that WCAG 2.4.11 asks of a focus indicator.
+
+	   Derived from --color-accent rather than hardcoded, so re-theming
+	   carries the focus ring with it. */
+	--focus-ring:
+		0 0 0 2px var(--surface-page),
+		0 0 0 4px var(--color-accent);
 }

@@ -10,11 +10,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	<section class="section container container-narrow">
 		<div class="delete-notice">
 			<strong>Builder-only page, not linked anywhere on the site.</strong> This is your own
-			reference while building and pitching &mdash; the client never sees this URL. To hand
+			reference while building and pitching, the client never sees this URL. To hand
 			the client their setup steps, send them <code>SETUP.md</code> directly (copy its
-			content into an email/text, or share the file's link on GitHub) &mdash; don't point them
+			content into an email/text, or share the file's link on GitHub), don't point them
 			at this page. Delete <code>src/pages/setup.astro</code> before this site goes live for a
-			client &mdash; see the "Before Launch" rule in <code>CLAUDE.md</code>.
+			client, see the "Before Launch" rule in <code>CLAUDE.md</code>.
 		</div>
 
 		<h1>Setup Reference</h1>
@@ -23,31 +23,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		<h2>1. The workflow, in one paragraph (for talking through with a client)</h2>
 		<p>
 			Instead of a visual page builder, this site is built with <strong>Claude Code</strong>:
-			you describe what you want in plain English &mdash; "add a testimonials section,"
-			"change the phone number in the footer" &mdash; and it writes the actual code, checks
+			you describe what you want in plain English, "add a testimonials section,"
+			"change the phone number in the footer", and it writes the actual code, checks
 			it, and can publish it live. There's no drag-and-drop editor to learn. By default the
 			developer builds the site solo in their own GitHub/Vercel accounts and shares a preview
 			link for approval; once approved, ownership transfers to the client's own accounts (the
 			developer is re-added as a collaborator, never given the client's login). A technical
 			client who'd rather self-serve from day one can set up their own GitHub/Vercel accounts
-			immediately instead &mdash; see the alternate path below.
+			immediately instead, see the alternate path below.
 		</p>
 
 		<h2>2. Build &amp; handoff sequence (default path)</h2>
-		<p>Assume the client has little to no technical experience &mdash; you'll assist with every account setup below (call or written instructions), but every account is still created with the client's own email, never yours.</p>
+		<p>Assume the client has little to no technical experience, you'll assist with every account setup below (call or written instructions), but every account is still created with the client's own email, never yours.</p>
 		<ol>
 			<li><strong>Build solo.</strong> Create the repo under your own GitHub account, import it into your own Vercel project. Wire up forms/scheduling/payments against a temporary/sandbox account of your own so real functionality can be tested before the client is involved.</li>
-			<li><strong>Share a preview link</strong> with the client for approval. Iterate until approved &mdash; no accounts needed on their end yet.</li>
+			<li><strong>Share a preview link</strong> with the client for approval. Iterate until approved, no accounts needed on their end yet.</li>
 			<li><strong>Once approved, transfer ownership:</strong> GitHub repo via Settings → Transfer ownership (preserves full history; re-add yourself as a collaborator after), and the Vercel project to the client's account/team.</li>
-			<li><strong>Swap in the client's real accounts</strong> &mdash; Formspree, Calendly, Stripe, etc. (see decision trees below), created under their own email, then swap the placeholder/sandbox endpoints from step 1 for their real ones.</li>
-			<li><strong>Domain</strong> &mdash; help the client register or point their domain, then connect it in the now-transferred Vercel project.</li>
-			<li><strong>Google Search Console</strong> &mdash; help the client set it up under their own Google account, submit the sitemap, request indexing (see section 6 below).</li>
+			<li><strong>Swap in the client's real accounts</strong>. Formspree, Calendly, Stripe, etc. (see decision trees below), created under their own email, then swap the placeholder/sandbox endpoints from step 1 for their real ones.</li>
+			<li><strong>Domain</strong>, help the client register or point their domain, then connect it in the now-transferred Vercel project.</li>
+			<li><strong>Google Search Console</strong>, help the client set it up under their own Google account, submit the sitemap, request indexing (see section 6 below).</li>
 			<li>
-				<strong>Optional &mdash; self-editing setup</strong>, only if intake indicated the client wants to edit the site themselves:
+				<strong>Optional, self-editing setup</strong>, only if intake indicated the client wants to edit the site themselves:
 				<ul>
-					<li>Claude Code (open-ended editing) &mdash; help them set up their own Claude account (Pro/Max); no further connection step needed once they own the repo.</li>
-					<li>Decap CMS (structured fields, blog-style content) &mdash; see "Content editing / light CMS" below.</li>
-					<li>A mix of both, or fully developer-handled with no self-editing &mdash; the default, no extra setup.</li>
+					<li>Claude Code (open-ended editing), help them set up their own Claude account (Pro/Max); no further connection step needed once they own the repo.</li>
+					<li>Decap CMS (structured fields, blog-style content), see "Content editing / light CMS" below.</li>
+					<li>A mix of both, or fully developer-handled with no self-editing, the default, no extra setup.</li>
 				</ul>
 			</li>
 		</ol>
@@ -60,7 +60,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			account should be the client's, never yours.
 		</p>
 
-		<h3>Alternate path &mdash; technical client wants to self-serve immediately</h3>
+		<h3>Alternate path, technical client wants to self-serve immediately</h3>
 		<p>Send the client <code>SETUP.md</code>, or walk through it together (~10 minutes):</p>
 		<ol>
 			<li>Client creates a free GitHub account.</li>
@@ -81,8 +81,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			<li>Domain ownership</li>
 		</ul>
 		<p>
-			Two ways to gather it: fill out <code>INTAKE.md</code> live with the client, or send them
-			<a href="https://www.ryansheridan.studio/project-questionnaire" target="_blank" rel="noopener">ryansheridan.studio/project-questionnaire</a>
+			Two ways to gather it: fill out <code>INTAKE.md</code> live with the client, or send them <a href="https://www.ryansheridan.studio/project-questionnaire" target="_blank" rel="noopener">ryansheridan.studio/project-questionnaire</a>
 			the questionnaire on the portfolio site, and let them answer on their own time.
 			Submissions land in your inbox via Formspree; paste the answers into the first Claude Code
 			prompt on a fresh copy of this template to kick off the build. That questionnaire isn't
@@ -107,9 +106,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		<p><strong>Default: Formspree.</strong> Free, no backend code, submissions land in the client's inbox. Switch to Basin only if Formspree's free tier becomes a real limit; build a Vercel Serverless Function only if custom logic (e.g. writing to a database) is required.</p>
 		<p>
 			The self-serve project questionnaire mentioned above lives on the portfolio site, not
-			this template, its design (progressive disclosure, honeypot spam protection, the
-			<code>fetch()</code>-based inline "Thanks!" submit pattern) is documented under Forms in
-			<code>CLAUDE.md</code> for reference if it ever needs updating.
+			this template, its design (progressive disclosure, honeypot spam protection, the <code>fetch()</code>-based inline "Thanks!" submit pattern) is documented under Forms in <code>CLAUDE.md</code> for reference if it ever needs updating.
 		</p>
 		<p><strong>Formspree setup</strong> (client's own account, same as every other third-party service here):</p>
 		<ol>

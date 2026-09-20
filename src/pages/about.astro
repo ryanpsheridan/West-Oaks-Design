@@ -140,8 +140,8 @@ const schema = [
 						<p class="text-secondary">{text}</p>
 					))}
 					<p class="text-secondary">
-						What that looks like in practice is set out on the
-						<a href="/process/">process page</a>, and the range of work we take on is
+						What that looks like in practice is set out on the <a
+							href="/process/">process page</a>, and the range of work we take on is
 						on the <a href="/services/">services page</a>.
 					</p>
 				</div>
@@ -168,7 +168,13 @@ const schema = [
 		</div>
 	</section>
 
-	<section class="section-loose section-brand">
+	{/*
+		This sits on a light surface, not the brand band it used to use. The
+		closing CTA band directly below it is dark, and two saturated bands
+		back to back read as one long dark stripe with a seam in it rather
+		than as two sections. Light, dark, light, dark down the page.
+	*/}
+	<section class="section-loose">
 		<div class="container">
 			<blockquote class="quote quote-feature">
 				<p>{quote.text}</p>
@@ -206,14 +212,17 @@ const schema = [
 		font-size: var(--text-h4);
 	}
 
-	/* Four values land as a balanced 2x2 rather than a 3+1 orphan row. */
+	/* Four values, and the point of the minimum is to force a 2x2 rather than
+	   a 3+1 orphan row. 340px did not do that: the container is 1200px, so a
+	   340px track still fits three across and the fourth card was stranded on
+	   its own line. It has to exceed a third of the container. */
 	.value-grid {
-		--grid-min: 340px;
+		--grid-min: 420px;
 	}
 
-	/* On the brand band the quote carries the whole section, so it loses the
-	   left rule and centres, a 2px marker pinned to one side of a full-bleed
-	   colour field reads as a stray mark rather than a quote. */
+	/* The quote carries the whole section on its own, so it loses the left
+	   rule and centres. A 2px marker pinned to one side of a centred block
+	   reads as a stray mark rather than as a quote. */
 	.quote-feature {
 		max-width: var(--measure-wide);
 		margin-inline: auto;

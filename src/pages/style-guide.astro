@@ -151,8 +151,8 @@ const measures = [
 			<h1>Style Guide</h1>
 			<p class="lead">
 				A living reference for the design tokens and components this site is built from. Every
-				value below comes from <code>src/styles/tokens.css</code> and
-				<code>src/styles/global.css</code> &mdash; re-theme those and this page updates with them.
+				value below comes from <code>src/styles/tokens.css</code> and <code
+					>src/styles/global.css</code>, re-theme those and this page updates with them.
 			</p>
 			<p class="text-secondary measure">
 				If a token or component class isn't documented here, it isn't part of the system. Add to
@@ -410,8 +410,8 @@ const measures = [
 			<h2>Motion</h2>
 			<p class="text-secondary measure">
 				One easing family, three durations. <code>--ease-out</code> is the workhorse for anything
-				entering or responding to input. Everything using these sits behind the
-				<code>prefers-reduced-motion</code> block in <code>global.css</code>, new animation must
+				entering or responding to input. Everything using these sits behind the <code
+					>prefers-reduced-motion</code> block in <code>global.css</code>, new animation must
 				not bypass it.
 			</p>
 			<ul class="plain-list">
@@ -667,8 +667,8 @@ const measures = [
 				<code>--weight-medium</code> text beside it. Icons inherit <code>currentColor</code> and
 				scale with the <code>size</code> prop, set the color on the parent and the icon follows.
 				Decorative by default; pass a <code>title</code> only when the icon is the sole carrier of
-				meaning, which it should almost never be. Add new icons to
-				<code>src/components/Icon.astro</code> rather than inlining SVG in a page.
+				meaning, which it should almost never be. Add new icons to <code
+					>src/components/Icon.astro</code> rather than inlining SVG in a page.
 			</p>
 			<ul class="icon-grid">
 				{iconNames.map((name) => (
