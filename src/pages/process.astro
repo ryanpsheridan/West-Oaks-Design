@@ -342,32 +342,31 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 
 	   The disc inverts against the band it sits on. This section is the brand
 	   colour, so a brand-coloured disc would be invisible on it; it takes the
-	   band's contrast colour and puts the brand back on the icon. */
+	   band's contrast colour and puts the brand back on the icon.
+
+	   No connector line between markers any more. It was drawn to imply a
+	   sequence, but the steps are already numbered in their own headings, so
+	   the line was restating that and trailing off under each disc into
+	   whitespace.
+
+	   The negative margin centres the disc on the FIRST LINE of the heading
+	   rather than on the top of the grid row. Both start flush at the row's
+	   top by default, and since the disc is taller than a line of h4 it then
+	   hangs low against the text. Shifting it up by half the difference puts
+	   the two centres on the same axis, and because the figure is derived
+	   from the same tokens the heading uses, it stays aligned as --text-h4
+	   scales between 22 and 24px rather than needing a value per breakpoint. */
 	.step-marker {
-		position: relative;
+		--step-disc: 2.75rem;
+		align-self: start;
+		margin-top: calc((var(--text-h4) * var(--leading-snug) - var(--step-disc)) / 2);
 		display: grid;
 		place-items: center;
-		width: 2.75rem;
-		height: 2.75rem;
+		width: var(--step-disc);
+		height: var(--step-disc);
 		border-radius: 50%;
 		background: var(--color-brand-contrast);
 		color: var(--color-brand);
-	}
-
-	/* The connector between markers. Measured from the marker's own height to
-	   the next one, and suppressed on the last step where there is nothing
-	   below to connect to. */
-	.step:not(:last-child) .step-marker::after {
-		content: '';
-		position: absolute;
-		top: 100%;
-		left: 50%;
-		width: 1px;
-		height: var(--space-7);
-		transform: translateX(-50%);
-		/* Drawn from the band's own contrast colour: --border-default is a
-		   light-page neutral and vanishes here. */
-		background: color-mix(in srgb, var(--color-brand-contrast) 30%, transparent);
 	}
 
 	.step-body h3 {
