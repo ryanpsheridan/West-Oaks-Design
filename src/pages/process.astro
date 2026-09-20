@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import { breadcrumbSchema, faqSchema, abs } from '../lib/schema';
-import { BOOKING_URL, SITE_TITLE } from '../consts';
+import { SITE_TITLE } from '../consts';
 
 // ---------------------------------------------------------------------------
 // PAGE CONTENT — everything a client edit touches lives in this block.
@@ -27,7 +27,7 @@ import { BOOKING_URL, SITE_TITLE } from '../consts';
 const intro = {
 	eyebrow: 'Process',
 	heading: 'How a project actually runs',
-	lead: 'Six stages from the first walk around the property to the last visit after everything is planted. Nothing here is a surprise on purpose — you should know what happens next at every point, including what it costs and what we need from you.',
+	lead: 'Seven stages from the first enquiry to the last visit after everything is planted. Nothing here is a surprise on purpose — you should know what happens next at every point, including what it costs and what we need from you.',
 	image: {
 		src: '/images/gallery/site-plan-drawing.svg',
 		alt: 'Photo placeholder — a hand-drafted site plan over a measured grid, showing a building footprint, a path and three tree canopies',
@@ -36,12 +36,20 @@ const intro = {
 
 const steps = [
 	{
+		icon: 'mail',
+		title: 'Send us the project form',
+		duration: 'A few minutes · No charge',
+		description:
+			'The form asks what kind of work you are after, where the property is, roughly when you want it done and roughly what budget it sits in. Those four answers are what let us reply with something useful instead of a request for more information. We read every one ourselves.',
+		client: 'A few minutes and an honest budget range. Skip anything you are unsure about — "not sure yet" is a real answer on every question.',
+	},
+	{
 		icon: 'pin',
-		title: 'Site visit',
+		title: 'Walking the property',
 		duration: 'About an hour · No charge',
 		description:
-			'We walk the property with you. You show us what you want; we look at what is already there — the slope, the soil, where water goes in a storm, which trees are worth building the whole design around. By the end of it we both know whether this is a fit.',
-		client: 'Nothing to prepare. If you have a survey or plat, bring it.',
+			'If the project looks like a fit, we come out and walk it with you. You show us what you want; we look at what is already there — the slope, the soil, where water goes in a storm, which trees are worth building the whole design around. We arrange the time by email or phone once we have read your enquiry.',
+		client: 'Nothing to prepare. If you have a survey or plat, have it handy.',
 	},
 	{
 		icon: 'ruler',
@@ -116,7 +124,7 @@ const faqs = [
 	{
 		question: 'What happens at a landscape design consultation?',
 		answer:
-			'We spend about an hour walking the property with you. You describe how you want to use the space and what is not working now; we look at drainage, soil, sun, existing trees and access, and talk through what is realistic. No drawings are produced at this stage and there is no charge for it. Within a week you get a written proposal with a design fee and a construction range.',
+			'It starts with the project form, which asks what you are after, where, roughly when and roughly what budget. If it looks like a fit we arrange to come out and spend about an hour walking the property with you. You describe how you want to use the space and what is not working now; we look at drainage, soil, sun, existing trees and access, and talk through what is realistic. No drawings are produced at this stage and there is no charge for it. Within a week you get a written proposal with a design fee and a construction range.',
 	},
 	{
 		question: 'Do I pay for the design even if I do not build it?',
@@ -165,7 +173,7 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 
 <BaseLayout
 	title="Our Process"
-	description="From first site visit to final walkthrough: six stages, how long each takes, what it costs, and what we need from you at every point."
+	description="From first enquiry to final walkthrough: seven stages, how long each takes, what it costs, and what we need from you at every point."
 	schema={schema}
 >
 	<section class="section-loose">
@@ -175,7 +183,7 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 					<p class="eyebrow">{intro.eyebrow}</p>
 					<h1>{intro.heading}</h1>
 					<p class="lead">{intro.lead}</p>
-					<a href="/contact/#book" class="btn btn-brand btn-lg btn-arrow intro-cta">Start with a site visit</a>
+					<a href="/contact/#project" class="btn btn-brand btn-lg btn-arrow intro-cta">Start your project</a>
 				</div>
 				<div class="media-frame" style="--media-ratio: 4 / 5;">
 					<img src={intro.image.src} alt={intro.image.alt} fetchpriority="high" width="1600" height="1200" />
@@ -189,7 +197,7 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 			<div class="section-header section-header-center">
 				<div class="section-header-text">
 					<p class="eyebrow">The stages</p>
-					<h2>Six stages, start to finish</h2>
+					<h2>Seven stages, start to finish</h2>
 				</div>
 			</div>
 			<ol class="step-list">
@@ -259,13 +267,13 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 	<section class="section cta-band">
 		<div class="container">
 			<div class="cta-inner">
-				<h2>Stage one is an hour of your time</h2>
+				<h2>Stage one takes a few minutes</h2>
 				<p class="cta-lead">
-					No charge, no drawings, no obligation to go further. Just the two of us walking
-					the property and working out what is possible.
+					One form: what the property is, what you want from it, roughly when and roughly
+					what budget. No charge, no drawings, no obligation to go further.
 				</p>
 				<div class="cta-actions">
-					<a href={BOOKING_URL} class="btn btn-inverse btn-lg btn-arrow">Book a site visit</a>
+					<a href="/contact/#project" class="btn btn-inverse btn-lg btn-arrow">Start your project</a>
 					<a href="/services/" class="link-arrow cta-link">See what we do</a>
 				</div>
 			</div>
@@ -365,7 +373,6 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 		padding: var(--space-4);
 		border-radius: var(--radius-md);
 		background: var(--surface-raised);
-		border: 1px solid var(--border-hairline);
 		font-size: var(--text-small);
 		color: var(--color-text-secondary);
 	}

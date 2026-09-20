@@ -214,7 +214,7 @@ a:hover {
 	letter-spacing: var(--tracking-caps);
 	text-transform: uppercase;
 	color: var(--color-text);
-	background: var(--eyebrow-tint, var(--tint-clay));
+	background: var(--eyebrow-tint, var(--tint-sand));
 	padding: var(--space-1) var(--space-3);
 	border-radius: var(--radius-sm);
 	margin: 0 0 var(--space-4);
@@ -584,13 +584,18 @@ svg {
 /* ----------------------------------------------------------------------------
    Cards
 
-   One class for both contexts: on --surface-page a card reads as raised via
-   its border and shadow, on --surface-sunken it reads as raised via contrast.
+   One class for both contexts: a card is white, the page is limestone and a
+   sunken band is darker still, so the same class reads as raised on either
+   without changing anything about itself. Contrast does the whole job.
    ---------------------------------------------------------------------------- */
 
+/* No border. The page surface is deliberately a real step darker than
+   --surface-raised (see the palette note in tokens.css), so a card is legible
+   as a distinct plane by fill alone — and a hairline drawn around a plane
+   that already reads as raised is just a line. Restoring the border means
+   lightening the page back, so do both or neither. */
 .card {
 	background: var(--surface-raised);
-	border: 1px solid var(--border-hairline);
 	border-radius: var(--radius-xl);
 	padding: var(--space-6);
 }
@@ -626,8 +631,8 @@ svg {
 		transform var(--duration-base) var(--ease-out);
 }
 
+/* With no border to darken, the hover signal is the lift alone. */
 .card-interactive:hover {
-	border-color: var(--border-default);
 	box-shadow: var(--shadow-md);
 	transform: translateY(-2px);
 }
@@ -642,7 +647,6 @@ svg {
 }
 
 .card-tint.card-interactive:hover {
-	border-color: transparent;
 	box-shadow: none;
 	background: color-mix(in srgb, var(--card-tint, var(--tint-bone)) 88%, var(--color-text));
 }

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ContactForm from '../components/ContactForm.astro';
+import ProjectForm from '../components/ProjectForm.astro';
 import Icon from '../components/Icon.astro';
 import {
 	SITE_TITLE,
@@ -9,7 +9,6 @@ import {
 	SITE_ADDRESS,
 	SERVICE_AREA,
 	SERVICE_AREA_LABEL,
-	BOOKING_URL,
 } from '../consts';
 import { breadcrumbSchema, abs } from '../lib/schema';
 
@@ -26,8 +25,8 @@ import { breadcrumbSchema, abs } from '../lib/schema';
 
 const intro = {
 	eyebrow: 'Contact',
-	heading: 'Start with a site visit',
-	lead: 'Every project here begins the same way: about an hour walking the property together, looking at what is there and what you want from it. There is no charge for it, no drawings are made yet, and nothing obliges you to go further.',
+	heading: 'Tell us about your project',
+	lead: 'The form below is how every project starts. The more you can tell us about the property, the timeline and the budget you have in mind, the more useful our first reply will be. Nothing on it commits you to anything.',
 };
 
 // TODO: confirm real hours.
@@ -40,7 +39,7 @@ const hours = [
 // TODO: confirm. This is a promise, not copy — only ship it if the client
 // will actually keep it.
 const responseNote =
-	'We reply to every message by the end of the next business day. Telling us the town you are in and roughly what you are hoping to do gets you a more useful first reply.';
+	'Every enquiry is read by the people who would do the work, not a call centre. We reply by the end of the next business day.';
 
 const trail = [{ name: 'Contact', path: '/contact/' }];
 const schema = [
@@ -55,8 +54,8 @@ const schema = [
 ---
 
 <BaseLayout
-	title="Contact & Book a Site Visit"
-	description={`Book a free site visit, send a message, or call. ${SITE_TITLE} works across ${SERVICE_AREA_LABEL} — phone, email and hours below.`}
+	title="Contact & Project Enquiries"
+	description={`Tell us about your landscape project and we will reply by the end of the next business day. ${SITE_TITLE} works across ${SERVICE_AREA_LABEL}.`}
 	schema={schema}
 >
 	<section class="section">
@@ -121,73 +120,15 @@ const schema = [
 					</div>
 				</div>
 
-				<div class="card form-card">
-					<h2 class="form-heading">Send a message</h2>
+				<div class="card form-card" id="project">
+					<h2 class="form-heading">Project enquiry</h2>
 					<p class="text-secondary form-note">{responseNote}</p>
-					<ContactForm />
+					<ProjectForm />
 				</div>
 			</div>
 		</div>
 	</section>
 
-	{/*
-		The booking section is the page's primary conversion, but it sits
-		below the form rather than above it: the scheduler is a third-party
-		iframe that cannot be made to paint before the rest of the page, and
-		putting it first means the first thing a visitor sees is a loading
-		rectangle.
-
-		#book is linked from the header CTA and from every page's closing
-		band, so the anchor has to survive any reordering of this page.
-	*/}
-	<section class="section section-sunken" id="book">
-		<div class="container">
-			<div class="booking">
-				<div class="booking-copy">
-					<p class="eyebrow">Book directly</p>
-					<h2>Pick a time that works</h2>
-					<p class="text-secondary">
-						Site visits run about an hour and are free. Pick a slot and it lands in our
-						calendar and yours — no back-and-forth over email to find a time.
-					</p>
-					<ul class="booking-list">
-						<li><Icon name="clock" size={18} /> About an hour on site</li>
-						<li><Icon name="leaf" size={18} /> Free, with no obligation</li>
-						<li><Icon name="mail" size={18} /> Written proposal within a week</li>
-					</ul>
-				</div>
-
-				<div class="card booking-card">
-					{/*
-						TODO: replace this placeholder with the real Calendly inline
-						embed once the client's account exists, and update
-						BOOKING_URL in consts.ts.
-
-						Deliberately NOT embedded yet: Calendly's widget script is
-						~90KB of third-party JS that sets cookies, and pointing it
-						at a slug that does not exist would render an error box on
-						the most important section of the site. The link below does
-						the same job with none of that until the account is real.
-
-						When embedding: load the widget script with `defer`, give
-						the container an explicit min-height so the page does not
-						jump when it paints, and keep this link as the no-JS
-						fallback rather than deleting it.
-					*/}
-					<span class="booking-icon"><Icon name="calendar" size={28} /></span>
-					<h3>Schedule a site visit</h3>
-					<p class="text-secondary booking-card-note">
-						Opens our scheduling calendar. Choose a day and time, and you will get a
-						confirmation by email straight away.
-					</p>
-					<a href={BOOKING_URL} class="btn btn-brand btn-lg btn-arrow">Book a site visit</a>
-					<p class="booking-alt text-tertiary">
-						Would rather just talk? Call <a href={`tel:${SITE_PHONE.replace(/[^\d+]/g, '')}`}>{SITE_PHONE}</a>.
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
 </BaseLayout>
 
 <script>
@@ -225,84 +166,8 @@ const schema = [
 
 	/* Anchored from the header CTA on every page, so the sticky header must
 	   not land on top of the heading when the anchor is followed. */
-	#book {
+	#project {
 		scroll-margin-top: var(--space-8);
-	}
-
-	.booking {
-		display: grid;
-		gap: var(--space-7);
-		align-items: center;
-	}
-
-	@media (min-width: 900px) {
-		.booking {
-			grid-template-columns: 1fr 1fr;
-		}
-	}
-
-	.booking-copy {
-		max-width: var(--measure);
-	}
-
-	.booking-list {
-		list-style: none;
-		margin: var(--space-5) 0 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-3);
-	}
-
-	.booking-list li {
-		display: flex;
-		align-items: center;
-		gap: var(--space-3);
-		font-size: var(--text-small);
-		color: var(--color-text-secondary);
-	}
-
-	/* The card is where the real scheduler embed will go. It is sized and
-	   padded now so dropping the widget in later doesn't reflow the section. */
-	.booking-card {
-		padding: var(--space-7);
-		text-align: center;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		min-height: 22rem;
-		justify-content: center;
-	}
-
-	.booking-icon {
-		display: grid;
-		place-items: center;
-		width: 3.5rem;
-		height: 3.5rem;
-		margin-bottom: var(--space-4);
-		border-radius: var(--radius-lg);
-		background: var(--surface-fill);
-		color: var(--color-text);
-	}
-
-	.booking-card h3 {
-		font-size: var(--text-h4);
-	}
-
-	.booking-card-note {
-		max-width: 28ch;
-		margin-bottom: var(--space-6);
-	}
-
-	.booking-alt {
-		font-size: var(--text-small);
-		margin: var(--space-5) 0 0;
-	}
-
-	@media (max-width: 560px) {
-		.booking-card {
-			padding: var(--space-5);
-		}
 	}
 
 	/* Details sit in a tinted card so the page isn't two plain columns of text.

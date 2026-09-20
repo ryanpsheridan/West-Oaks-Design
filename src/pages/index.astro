@@ -1,7 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ContactForm from '../components/ContactForm.astro';
-import Testimonial from '../components/Testimonial.astro';
 import Icon from '../components/Icon.astro';
 import { SERVICES } from '../data/services';
 import { breadcrumbSchema, serviceSchema } from '../lib/schema';
@@ -11,32 +9,33 @@ import {
 	SITE_ADDRESS,
 	SERVICE_AREA,
 	SERVICE_AREA_LABEL,
-	BOOKING_URL,
 } from '../consts';
 
 // ---------------------------------------------------------------------------
 // PAGE CONTENT — everything a client edit touches lives in this block. The
 // markup below reads from it, so copy changes never mean hunting through JSX.
 //
-// Section order: hero → trust → services → why us → work → testimonials →
-// contact. The services themselves come from src/data/services.ts, shared
-// with /services/ and the structured data, so they can't drift apart.
+// Section order: hero → trust → services → approach → work → contact. The
+// services themselves come from src/data/services.ts, shared with /services/
+// and the structured data, so they can't drift apart.
 //
-// ⚠️ FIRST DRAFT. The voice here is drawn from the three reference sites the
+// ⚠️ FIRST DRAFT. The voice is drawn from the three reference sites the
 // client gave (Lake|Flato, Escobedo Group, LandWest): plain, specific,
-// regionally grounded, and allergic to "transform your outdoor oasis". Claims
-// of fact — crew credentials, project counts, the testimonials — are marked
-// TODO and must not ship unverified.
+// regionally grounded, and allergic to "transform your outdoor oasis".
+//
+// IMPORTANT: this is a brand new business with no completed projects and no
+// clients yet. Nothing on this page may imply otherwise — no testimonials, no
+// project counts, no "trusted by", no past-work gallery presented as
+// past work. The page has to earn trust on expertise and clarity instead,
+// which is why the approach section carries so much of the weight. Do not
+// reintroduce social proof until there is some.
 // ---------------------------------------------------------------------------
 
 const hero = {
-	// The h1 carries the service and the region because it is the strongest
-	// single on-page signal for a local query. The personality goes in the
-	// paragraph under it, where it costs nothing.
-	headline: 'Landscape design and build, rooted in the Hill Country',
-	sub: 'We plan, build and look after residential landscapes across Austin and the Hill Country — native planting, limestone hardscape, efficient irrigation, and the tree care that keeps it all standing. Designed around the site you actually have.',
-	primaryCta: { label: 'Book a site visit', href: '/contact/#book' },
-	secondaryCta: { label: 'See our work', href: '/gallery/' },
+	headline: 'West Oaks Design landscaping services',
+	sub: 'We plan, build and look after residential landscapes across Austin and the Hill Country: native planting, limestone hardscape, efficient irrigation, outdoor lighting, and the tree care that keeps it all standing. Designed around the site you actually have.',
+	primaryCta: { label: 'Start your project', href: '/contact/#project' },
+	secondaryCta: { label: 'What we do', href: '/services/' },
 	image: {
 		src: '/images/gallery/oak-motte-meadow.svg',
 		alt: 'Photo placeholder — a motte of live oaks standing over an open meadow, with low hills behind',
@@ -45,24 +44,30 @@ const hero = {
 
 // Three proof points, not four — a fourth starts reading as a list rather
 // than a set of claims someone stands behind.
-// TODO: every one of these is a factual claim about the business. Confirm
-// each with the client, or delete it. A credential that turns out to be
-// wrong is worse than no credential at all.
+//
+// With no completed projects to point at, these carry more weight than they
+// normally would, so they have to be things that are true on day one:
+// credentials, how the business is structured, what it commits to. Not
+// experience it does not have yet.
+//
+// TODO: the first two are factual claims. Confirm each with the client and
+// add the real licence numbers, or delete the signal. A credential that turns
+// out to be wrong does more damage than having none listed.
 const trustSignals = [
 	{
 		icon: 'award',
-		label: 'ISA Certified Arborists on staff',
+		label: 'ISA Certified Arborist',
 		detail: 'TODO: confirm, and add the certification number.',
 	},
 	{
 		icon: 'droplet',
 		label: 'Licensed Texas irrigator',
-		detail: 'TODO: confirm, and add the LI number — required on irrigation work in Texas.',
+		detail: 'TODO: confirm, and add the LI number — Texas requires it on irrigation work.',
 	},
 	{
 		icon: 'ruler',
 		label: 'Design and build under one roof',
-		detail: 'The people who drew it are the people who build it, so nothing is lost in the handoff.',
+		detail: 'The people who draw it are the people who build it, so nothing is lost in the handoff.',
 	},
 ];
 
@@ -102,57 +107,39 @@ const benefits = [
 	},
 ];
 
+// Deliberately framed as what the work *is*, not as projects already
+// delivered. There are none yet, and three photos under a "recent work"
+// heading is a claim whether or not the words say so.
 const workSection = {
-	eyebrow: 'Recent work',
-	heading: 'Projects around the Hill Country',
-	lead: 'A few recent properties. Each one started with the same question: what is already good here, and what is in its way?',
-	action: { label: 'Full gallery', href: '/gallery/' },
+	eyebrow: 'The work',
+	heading: 'What we build',
+	lead: 'Three of the things we are asked for most, and what we care about in each.',
+	action: { label: 'See the full range', href: '/gallery/' },
 };
 
-// TODO: replace all three with real project photography and real locations
-// once the client sends it — see CLAUDE.md, "Gallery / Photo Uploads".
 const galleryPreview = [
 	{
 		src: '/images/gallery/limestone-terrace.svg',
 		alt: 'Photo placeholder — a limestone terrace stepping down toward a lawn beneath two oaks',
-		caption: 'Limestone terrace, Dripping Springs',
+		caption: 'Limestone terraces, cut and set to sit level on a slope',
 	},
 	{
 		src: '/images/gallery/pergola-shade-structure.svg',
 		alt: 'Photo placeholder — a cedar pergola with evenly spaced rafters over a paved seating area',
-		caption: 'Cedar pergola, Wimberley',
+		caption: 'Cedar shade structures, oriented for the four o\'clock sun',
 	},
 	{
 		src: '/images/gallery/native-planting-beds.svg',
 		alt: 'Photo placeholder — massed native planting flanking a stone path running away from the viewer',
-		caption: 'Native planting, West Austin',
-	},
-];
-
-// TODO: real quotes from real clients, with permission to use their names.
-// Invented testimonials are the fastest way to lose the trust this page is
-// built to earn — delete this section entirely rather than shipping filler.
-const testimonials = [
-	{
-		quote:
-			'PLACEHOLDER — replace with a real client quote. The most persuasive ones name something specific: a problem that got solved, a number, a season the work held up through.',
-		name: 'Client name',
-		role: 'Project type, town',
-		rating: 5,
-	},
-	{
-		quote:
-			'PLACEHOLDER — a second real quote, ideally from a different kind of project, so the two together show range rather than repeating one story.',
-		name: 'Client name',
-		role: 'Project type, town',
-		rating: 5,
+		caption: 'Native planting chosen to hold up through a dry August',
 	},
 ];
 
 const contactSection = {
 	eyebrow: 'Get started',
-	heading: 'Come walk the property with us',
-	lead: 'Every project starts the same way: an hour on site, looking at what you have and what you want from it. No charge, no drawings yet, no obligation to go further.',
+	heading: 'Tell us what you are planning',
+	lead: 'Everything starts with one form: what the property is, what you want from it, roughly when, and roughly what budget it sits in. It takes a few minutes and commits you to nothing.',
+	cta: { label: 'Start your project', href: '/contact/#project' },
 };
 
 const trail = [];
@@ -288,28 +275,28 @@ const schema = [
 
 	<section class="section section-sunken">
 		<div class="container">
-			<h2 class="visually-hidden">What clients say</h2>
-			<ul class="grid-auto testimonial-grid">
-				{testimonials.map((t) => (
-					<li>
-						<Testimonial quote={t.quote} name={t.name} role={t.role} rating={t.rating} />
-					</li>
-				))}
-			</ul>
-		</div>
-	</section>
-
-	<section class="section">
-		<div class="container">
-			<div class="split split-top" style="--split-cols: 1fr 1.1fr;">
-				<div>
+			<div class="split split-top" style="--split-cols: 1fr 1fr;">
+				<div class="closing-copy">
 					<p class="eyebrow">{contactSection.eyebrow}</p>
 					<h2>{contactSection.heading}</h2>
-					<p class="text-secondary measure">{contactSection.lead}</p>
-					<p class="text-secondary measure">
-						Not ready to talk yet? Read <a href="/process/">how a project runs</a> from
-						first visit to final walkthrough, or browse <a href="/services/">what we do</a>.
+					<p class="lead">{contactSection.lead}</p>
+					<a href={contactSection.cta.href} class="btn btn-brand btn-lg btn-arrow closing-cta">
+						{contactSection.cta.label}
+					</a>
+					<p class="text-secondary closing-alt">
+						Would rather read first? Here is <a href="/process/">how a project runs</a>,
+						and <a href="/services/">what each service covers</a>.
 					</p>
+				</div>
+
+				{/*
+					The form itself lives on /contact/ and nowhere else. A second,
+					shorter form here would split enquiries across two shapes of
+					data in the same inbox, and the whole point of the long form is
+					that one pass collects enough to actually price the job.
+				*/}
+				<div class="card closing-card">
+					<h3 class="closing-card-heading">Or reach us directly</h3>
 					<p class="contact-details">
 						<a href={`tel:${SITE_PHONE.replace(/[^\d+]/g, '')}`}>{SITE_PHONE}</a>
 						<br />
@@ -322,14 +309,6 @@ const schema = [
 						)}
 					</p>
 					<p class="text-tertiary contact-area">{SERVICE_AREA_LABEL}</p>
-					<a href={BOOKING_URL} class="btn btn-secondary contact-book">
-						<Icon name="calendar" size={18} />
-						Book a site visit
-					</a>
-				</div>
-				<div class="card contact-card">
-					<h3 class="contact-form-heading">Send a message</h3>
-					<ContactForm />
 				</div>
 			</div>
 		</div>
@@ -547,45 +526,43 @@ const schema = [
 		}
 	}
 
-	/* Testimonials carry the section on their own — no visible header above
-	   them, so the quotes are the first thing read rather than a label about
-	   quotes. The heading still exists for anyone navigating by headings. */
-	.testimonial-grid {
-		--grid-min: 340px;
-		gap: var(--space-5);
+	/* Closing block */
+	.closing-copy {
+		max-width: var(--measure);
 	}
 
-	.testimonial-grid > li {
-		display: flex;
+	.closing-cta {
+		margin-top: var(--space-6);
 	}
 
-	/* Contact */
-	.contact-details {
+	.closing-alt {
 		margin-top: var(--space-5);
+		margin-bottom: 0;
+		font-size: var(--text-small);
+	}
+
+	.closing-card {
+		padding: var(--space-7);
+		align-self: start;
+	}
+
+	.closing-card-heading {
+		font-size: var(--text-h4);
+		margin-bottom: var(--space-4);
+	}
+
+	.contact-details {
 		margin-bottom: var(--space-2);
 		font-size: var(--text-large);
 	}
 
 	.contact-area {
 		font-size: var(--text-small);
-		margin-bottom: var(--space-5);
-	}
-
-	.contact-book {
-		gap: var(--space-2);
-	}
-
-	.contact-card {
-		padding: var(--space-7);
-	}
-
-	.contact-form-heading {
-		font-size: var(--text-h4);
-		margin-bottom: var(--space-5);
+		margin-bottom: 0;
 	}
 
 	@media (max-width: 560px) {
-		.contact-card {
+		.closing-card {
 			padding: var(--space-5);
 		}
 	}

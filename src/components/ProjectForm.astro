@@ -1,0 +1,242 @@
+---
+// The project enquiry form — the site's single conversion point.
+//
+// There is no scheduler and no "book a visit" anywhere on this site. The
+// client takes enquiries through this form instead, so it has to collect
+// enough in one pass to price and prioritise the job without a phone call
+// first: what the work is, where, when, and roughly what budget it sits in.
+//
+// Design rules this follows, from CLAUDE.md's questionnaire playbook:
+//   - Multiple choice wherever the answer space is guessable. People often
+//     don't know exactly what they want; concrete options to react to beat a
+//     blank textarea.
+//   - Every option group is a <fieldset> with a <legend>.
+//   - Every field has a real <label for>. Helper copy goes in a visible
+//     .field-note, never a placeholder, which vanishes the moment you type.
+//   - Every question except the first two is optional and says so. A long
+//     form that demands everything gets abandoned; a long form you can skip
+//     through gets finished.
+//
+// Backend: Formspree, per CLAUDE.md's forms decision tree. Submissions land
+// in the client's own inbox with no backend code.
+// TODO: replace FORMSPREE_ID once the client's account exists, then send a
+// real test submission before launch.
+const FORMSPREE_ACTION = 'https://formspree.io/f/FORMSPREE_ID';
+
+const workTypes = [
+	{ id: 'design', label: 'Landscape design or a master plan' },
+	{ id: 'trees', label: 'Tree care, pruning or planting' },
+	{ id: 'hardscape', label: 'Patio, pergola, walls or paths' },
+	{ id: 'irrigation', label: 'Irrigation, drainage or water management' },
+	{ id: 'lighting', label: 'Outdoor lighting' },
+	{ id: 'stewardship', label: 'Ongoing maintenance or land consulting' },
+	{ id: 'unsure', label: 'Not sure yet — I want advice on where to start' },
+];
+
+const timelines = [
+	{ id: 'asap', label: 'As soon as possible' },
+	{ id: 'three-months', label: 'Within three months' },
+	{ id: 'this-year', label: 'Sometime this year' },
+	{ id: 'planning', label: 'Just planning ahead for now' },
+];
+
+// Ranges rather than a free-text box. A number someone types into an empty
+// field is a guess they feel committed to; a range is one they can pick
+// honestly, and it is the single most useful thing on the form for working
+// out whether a project is a fit before anyone spends time on it.
+const budgets = [
+	{ id: 'under-10k', label: 'Under $10,000' },
+	{ id: '10-25k', label: '$10,000 to $25,000' },
+	{ id: '25-50k', label: '$25,000 to $50,000' },
+	{ id: '50k-plus', label: '$50,000 and up' },
+	{ id: 'unknown', label: 'I genuinely have no idea' },
+];
+---
+
+<form action={FORMSPREE_ACTION} method="POST" class="project-form">
+	<div class="field">
+		<label for="name">Your name</label>
+		<input type="text" id="name" name="name" required autocomplete="name" />
+	</div>
+
+	<div class="field">
+		<label for="email">Email</label>
+		<input type="email" id="email" name="email" required autocomplete="email" />
+		<p class="field-hint">We'll only use this to reply to your enquiry.</p>
+	</div>
+
+	<div class="field">
+		<label for="phone">Phone <span class="field-optional">optional</span></label>
+		<input type="tel" id="phone" name="phone" autocomplete="tel" />
+		<p class="field-hint">Useful if the project is easier to talk through than type out.</p>
+	</div>
+
+	<div class="field">
+		<label for="location">Where is the property? <span class="field-optional">optional</span></label>
+		<input type="text" id="location" name="location" autocomplete="address-level2" />
+		<p class="field-hint">A town or neighbourhood is plenty. It tells us whether we can get to you.</p>
+	</div>
+
+	<fieldset class="field-group">
+		<legend>What kind of work are you thinking about?</legend>
+		<p class="field-hint">Tick as many as apply. Not sure yet? The last option is a real answer.</p>
+		<div class="option-list">
+			{workTypes.map((type) => (
+				<div class="option">
+					<input type="checkbox" id={`work-${type.id}`} name="work" value={type.label} />
+					<label for={`work-${type.id}`}>{type.label}</label>
+				</div>
+			))}
+		</div>
+	</fieldset>
+
+	<fieldset class="field-group">
+		<legend>When would you like the work done?</legend>
+		<p class="field-hint">A rough answer is fine. Nothing here commits you to anything.</p>
+		<div class="option-list">
+			{timelines.map((option) => (
+				<div class="option">
+					<input type="radio" id={`when-${option.id}`} name="timeline" value={option.label} />
+					<label for={`when-${option.id}`}>{option.label}</label>
+				</div>
+			))}
+		</div>
+	</fieldset>
+
+	<fieldset class="field-group">
+		<legend>Do you have a budget in mind?</legend>
+		<p class="field-hint">
+			Pick whatever is closest. This is the fastest way for us to tell you honestly whether
+			what you want and what you'd like to spend line up, before either of us spends time
+			on it.
+		</p>
+		<div class="option-list">
+			{budgets.map((option) => (
+				<div class="option">
+					<input type="radio" id={`budget-${option.id}`} name="budget" value={option.label} />
+					<label for={`budget-${option.id}`}>{option.label}</label>
+				</div>
+			))}
+		</div>
+	</fieldset>
+
+	<div class="field">
+		<label for="details">Tell us about the project</label>
+		<textarea id="details" name="details" rows="6" required></textarea>
+		<p class="field-hint">
+			What's there now, what isn't working, and what you picture instead. Photos help, and
+			you can email those over after you send this.
+		</p>
+	</div>
+
+	{/*
+		Honeypot. Hidden from sighted users and from assistive tech alike, so a
+		screen reader never announces a field nobody should fill in. Bots fill
+		it; Formspree drops anything that arrives with it set.
+	*/}
+	<div class="honeypot" aria-hidden="true">
+		<label for="_gotcha">Leave this field empty</label>
+		<input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off" />
+	</div>
+
+	<button type="submit" class="btn btn-brand btn-lg project-submit">Send enquiry</button>
+
+	<p class="field-hint form-footnote">
+		We read every enquiry ourselves and reply by the end of the next business day.
+	</p>
+</form>
+
+<style>
+	.project-form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-6);
+	}
+
+	/* Option groups get no border or padding of their own. A fieldset drawn
+	   as a box inside a card is two frames around one thing; the legend and
+	   the spacing carry the grouping. */
+	.field-group {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		min-width: 0;
+	}
+
+	.field-group legend {
+		padding: 0;
+		margin-bottom: var(--space-1);
+		font-size: var(--text-body);
+		font-weight: var(--weight-medium);
+		color: var(--color-text);
+	}
+
+	/* Stacked, never side by side. A two-column checkbox grid makes people
+	   read in a Z and mis-tick. */
+	.option-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin-top: var(--space-4);
+	}
+
+	/* The whole row is the target, not just the 16px box. Padding on the
+	   label rather than the wrapper is what makes the text tappable too. */
+	.option {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-3);
+		border-radius: var(--radius-sm);
+	}
+
+	.option input {
+		flex-shrink: 0;
+		width: 1.125rem;
+		height: 1.125rem;
+		margin: 0;
+		accent-color: var(--color-brand);
+		cursor: pointer;
+	}
+
+	.option label {
+		margin: 0;
+		font-size: var(--text-small);
+		font-weight: var(--weight-normal);
+		line-height: var(--leading-snug);
+		color: var(--color-text-secondary);
+		cursor: pointer;
+	}
+
+	.option input:checked + label {
+		color: var(--color-text);
+	}
+
+	/* Marks a field optional in the label itself rather than marking the
+	   required ones with an asterisk nobody reads. */
+	.field-optional {
+		font-size: var(--text-eyebrow);
+		font-weight: var(--weight-normal);
+		letter-spacing: var(--tracking-caps);
+		text-transform: uppercase;
+		color: var(--color-text-tertiary);
+		margin-left: var(--space-2);
+	}
+
+	/* Off-screen rather than display:none — a hidden input that is never
+	   rendered is also never filled by the bots this is meant to catch. */
+	.honeypot {
+		position: absolute;
+		left: -9999px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+
+	.project-submit {
+		align-self: flex-start;
+	}
+
+	.form-footnote {
+		margin: calc(var(--space-4) * -1) 0 0;
+	}
+</style>

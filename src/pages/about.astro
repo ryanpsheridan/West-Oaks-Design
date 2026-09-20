@@ -1,54 +1,49 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import StatBand from '../components/StatBand.astro';
 import { breadcrumbSchema, abs } from '../lib/schema';
-import { SITE_TITLE, FOUNDED_YEAR, SERVICE_AREA_LABEL, BOOKING_URL } from '../consts';
+import { SITE_TITLE, SERVICE_AREA_LABEL } from '../consts';
 
 // ---------------------------------------------------------------------------
 // PAGE CONTENT — everything a client edit touches lives in this block.
 //
-// Structure: intro → credibility stats → story → values → quote → CTA.
+// Structure: intro → story → values → founder quote → CTA.
 //
 // ⚠️ FIRST DRAFT, AND THE MOST INVENTED PAGE ON THE SITE. The intake form
-// said nothing about who runs this business, when it started, or how it got
-// here — so the story below is a plausible shape for a Hill Country
-// design-build firm, written to show the layout working, not to be true.
+// said nothing about who runs this business or what they did before it, so
+// the story below is a shape to fill in, not an account to keep.
 //
-// Every factual claim on this page must be replaced by the client's own
-// account before launch, and the numbers in the stat band must come from
-// their records. An invented founding story is the one thing on a small
-// business site that, if noticed, undoes every other trust signal at once.
+// IMPORTANT: the business is new and has no completed projects. The stat
+// band that used to sit here (years in business, projects completed, trees
+// planted) has been removed rather than filled with plausible numbers. Do not
+// put it back until there are real figures to put in it — and when there are,
+// three honest numbers beat five impressive ones.
+//
+// Being new is not a weakness to write around. The page says so plainly and
+// spends its space on the thing a new firm can actually offer: the experience
+// its people bring, and a clear account of how they work.
 // ---------------------------------------------------------------------------
-
-const yearsInBusiness = new Date().getFullYear() - FOUNDED_YEAR;
 
 const intro = {
 	eyebrow: 'About us',
 	heading: 'We build landscapes that outlast us',
-	lead: `${SITE_TITLE} is a design-build studio working across ${SERVICE_AREA_LABEL}. We draw the plan, build it with our own crews, and come back to look after it — which is a slower way to run a landscape company and the only way we have found to be answerable for how a property looks in year ten rather than on handover day.`,
+	lead: `${SITE_TITLE} is a new design-build studio working across ${SERVICE_AREA_LABEL}. We draw the plan, build it with our own crews, and come back to look after it — a slower way to run a landscape company, and the only way we have found to be answerable for how a property looks in year ten rather than on handover day.`,
 	image: {
 		src: '/images/gallery/crew-on-site.svg',
-		alt: 'Photo placeholder — three crew members walking a property beneath mature oaks during a site visit',
+		alt: 'Photo placeholder — three crew members walking a property beneath mature oaks',
 	},
 };
 
-// TODO: every number here is invented. Pull the real ones from the client's
-// records, or delete the stat — a stat band with three honest numbers is
-// worth more than one with five impressive ones.
-const stats = [
-	{ value: `${yearsInBusiness}`, label: 'TODO: confirm — years working in the Hill Country' },
-	{ value: '400+', label: 'TODO: confirm — properties designed and built' },
-	{ value: '1,200', label: 'TODO: confirm — native trees planted' },
-];
-
 const story = {
 	eyebrow: 'Our story',
-	heading: 'It started with a dying oak',
-	// TODO: replace wholesale with the client's real account.
+	heading: 'Why we started this',
+	// TODO: replace wholesale with the client's real account — what they did
+	// before this, and what made them start. Keep it honest about being new;
+	// a new firm that says so reads as more trustworthy than one that is
+	// vague about how long it has been around.
 	paragraphs: [
-		`PLACEHOLDER STORY — invented to show the page working. ${SITE_TITLE} started in ${FOUNDED_YEAR} doing tree work, which is a good way to learn what actually kills a landscape. Almost every failing tree we were called out to had been failing for years, and almost none of it was disease: it was a grade change over the roots, a trench cut for an irrigation line, a bed built up against a trunk. The damage was always done by someone improving the property.`,
-		'PLACEHOLDER STORY — the second half. We started drawing plans so the improving and the protecting would be the same job rather than two companies working against each other on the same site. The crews grew from there, and the work grew with them: hardscape, irrigation, lighting, and the ongoing care that keeps it all going.',
-		`PLACEHOLDER STORY — where it stands now. Today we work on properties from small in-town lots to acreage out past Dripping Springs, and the question at the start of every one is the same: what is already good here, and what is in its way?`,
+		`PLACEHOLDER STORY — replace with the founder's real background. What they did before ${SITE_TITLE}, and for how long. This is the page's load-bearing paragraph: with no completed projects to point at, the experience behind the business is the credential.`,
+		'PLACEHOLDER STORY — replace with why they started it. The most convincing version of this is usually a specific frustration with how the work is normally done, not a mission statement. Concrete beginnings read as credible; "our passion for outdoor living" reads as filler.',
+		`PLACEHOLDER STORY — replace with what they are building toward. ${SITE_TITLE} is new, and saying so directly is fine: what matters to someone deciding is who is doing the work and how, not how long the sign has been up.`,
 	],
 	image: {
 		src: '/images/gallery/live-oak-canopy.svg',
@@ -76,28 +71,31 @@ const values = {
 			title: 'Sustainable has to mean measurable',
 			description:
 				'Native planting, drip conversion, rainwater capture, dark-sky lighting. We can tell you what each one saves in gallons or watts, because a claim you cannot measure is a marketing line.',
-			tint: '--tint-mist',
+			tint: '--tint-fern',
 		},
 		{
 			title: 'Answerable in year ten',
 			description:
 				'We would rather do fewer projects and keep looking after them. The crew that built your patio is the crew that comes back when a joint lifts, and they know why it was built that way.',
-			tint: '--tint-clay',
+			tint: '--tint-sand',
 		},
 	],
 };
 
+// The owner's own words, not a client's. A client quote would be social
+// proof this business has not earned yet; a founder stating what they are
+// for is a position, which it can state on day one.
 const quote = {
 	// TODO: replace with a real line from the owner, in their own words.
-	text: 'PLACEHOLDER — a line from the owner about what the business is for. One sentence in their own voice beats a paragraph in a copywriter’s.',
+	text: 'PLACEHOLDER — one sentence from the owner about what this business is for. Their own voice beats a paragraph in a copywriter’s.',
 	name: 'Owner name',
 	role: 'Founder',
 };
 
 const cta = {
-	heading: 'Come walk the property with us',
-	lead: 'An hour on site, no charge. It is how every project here has started.',
-	primary: { label: 'Book a site visit', href: BOOKING_URL },
+	heading: 'Tell us what you are planning',
+	lead: 'One form, a few minutes, and no obligation. It is how everything here starts.',
+	primary: { label: 'Start your project', href: '/contact/#project' },
 	secondary: { label: 'See how a project runs', href: '/process/' },
 };
 
@@ -133,12 +131,6 @@ const schema = [
 		</div>
 	</section>
 
-	<section class="section-tight" aria-label="By the numbers">
-		<div class="container">
-			<StatBand stats={stats} />
-		</div>
-	</section>
-
 	<section class="section">
 		<div class="container">
 			<div class="split split-reverse split-top">
@@ -153,8 +145,8 @@ const schema = [
 					))}
 					<p class="text-secondary">
 						What that looks like in practice is set out on the
-						<a href="/process/">process page</a>, and the work itself is in the
-						<a href="/gallery/">gallery</a>.
+						<a href="/process/">process page</a>, and the range of work we take on is
+						on the <a href="/services/">services page</a>.
 					</p>
 				</div>
 			</div>

@@ -20,17 +20,48 @@ claims or feed structured data:
 
 - `src/consts.ts` — phone, email, service-area towns, founding year, and the
   Calendly and Stripe URLs. All of these flow into the JSON-LD.
-- `src/pages/index.astro` — the three credential claims in the trust bar
-  (arborist certification, irrigator licence) and both testimonials.
-- `src/pages/about.astro` — the entire founding story and every stat-band
-  number. This is the most invented page on the site.
+- `src/pages/index.astro` — the two credential claims in the trust bar
+  (arborist certification, irrigator licence). These carry more weight than
+  usual precisely because there is no social proof to lean on, so confirm
+  them and add the real licence numbers, or delete them.
+- `src/pages/about.astro` — the whole founding story. This is the most
+  invented page on the site, and with no completed projects it is also the
+  load-bearing one: the founder's background *is* the credential.
 - `src/pages/services.astro` — the three price points and several FAQ answers.
 - `src/pages/process.astro` — stage durations and the warranty terms.
+- `src/components/ProjectForm.astro` — the Formspree endpoint. Send a real
+  test submission before launch.
 - `public/images/gallery/` — every image is a plain grey placeholder box, and
   every project location in the gallery is invented. Each file is named for
   the photo it is holding space for, so replacing one is a drop-in at the same
   path; then delete the "Photo placeholder —" prefix from that image's alt
   text, which is otherwise already written for the real photo.
+
+**Hard constraints from the client. Do not undo these:**
+
+- **The business is new and has no clients or completed projects.** Nothing on
+  the site may imply otherwise. No testimonials, no project counts, no years
+  in business, no "trusted by", and no gallery presented as delivered work.
+  The `Testimonial` and `StatBand` components still exist and are demoed on
+  `/style-guide/`, waiting for real quotes and real figures; they are not used
+  on any live page. `/gallery/` is framed as the range of work the studio
+  takes on, not as a portfolio, and carries no project locations.
+- **There is no site visit to book and no scheduler.** Enquiries come through
+  one detailed form (`src/components/ProjectForm.astro`) covering type of
+  work, location, timeline and budget range. Calendly is gone, `BOOKING_URL`
+  is gone, and the site has exactly one form: a second, shorter one would
+  split enquiries into two shapes of data in the same inbox.
+- **No black.** `--color-ink` is a deep green, not a near-black, and every
+  field that used to be black (menu button, primary buttons, closing band)
+  now reads green. Near-black stays correct for *text* only — the rule is
+  about fields, not glyphs. See the note on `--color-ink` in `tokens.css`.
+- **No borders on cards, pills or tabs.** The page surface is a real step
+  darker than `--surface-raised` so fill alone distinguishes a card. Form
+  inputs keep their borders: there, the border is the affordance. Restoring
+  card borders means lightening the page back, so do both or neither.
+- **Tints stay in the green family.** Three greens plus `--tint-sand`, the one
+  warm tone, used at most once per page. An earlier pass spread these across
+  five hues and read as a borrowed pastel set.
 
 **Deliberate decisions worth not undoing:**
 
@@ -51,10 +82,10 @@ claims or feed structured data:
   the script and its output together once real photography lands. The same
   script also writes the OG social card, which is a real brand asset rather
   than a placeholder — keep that.
-- The scheduler is a link, not an embed. Calendly's widget is ~90KB of
-  third-party JS that sets cookies, and pointing it at a slug that does not
-  exist yet would render an error box on the site's primary conversion. The
-  embed instructions are in a comment in `contact.astro`.
+- The nav CTA is hidden below the desktop breakpoint. On a phone the bar has
+  to carry the business name and the menu button, and the name was being
+  ellipsed to make room for a button that duplicates what is inside the menu.
+  The mobile panel carries the same action instead.
 
 **Before this goes anywhere near production:** clear the TODOs, delete
 `src/pages/setup.astro`, remove the yellow draft note at the top of
@@ -184,7 +215,17 @@ This playbook documents that questionnaire's design so it can be maintained/rebu
 
 ## Scheduling — Decision Tree
 
-Default: **Calendly** embed/link, under the client's own account (it's his calendar). Use **Cal.com** instead only if the client specifically prefers an open-source alternative to Calendly's branding/free-tier limits.
+**Not used on this project.** The client takes enquiries through the project
+form instead of offering bookable slots, so there is no scheduler anywhere on
+the site. If that changes, the template default is **Calendly** (embed or
+link) under the client's own account, since it's their calendar and it syncs
+to Google Calendar natively. Use **Cal.com** instead only if the client
+specifically prefers an open-source alternative to Calendly's branding and
+free-tier limits.
+
+If a scheduler is ever added, embed it with `defer`, give the container an
+explicit min-height so the page doesn't jump when it paints, and keep a plain
+link as the no-JS fallback.
 
 ## Payments — Decision Tree
 
@@ -241,9 +282,9 @@ Use CSS variables from `src/styles/tokens.css` for all styling — never hardcod
 - Text: `--color-text`, `--color-text-secondary`, `--color-text-tertiary`
 - Brand (the per-client re-theme surface): `--color-accent` (+ `-hover`/`-contrast`) for inline links only, `--color-ink` (+ `-hover`/`-contrast`) for primary buttons, `--color-brand` (+ `-hover`/`-contrast`) for saturated fields. `--color-bg` / `--color-bg-subtle` feed the surface tokens.
 - `--color-ink` is set to its own value rather than aliased to `--ink-900`. It was aliased in the starter, but `--ink-900` is also `--color-text`, and a value tuned to read crisply at 16px body size becomes flat black once it is a full-bleed `.cta-band`. Keep them separate: text wants the darkest value, the band wants one two steps lighter that still belongs to the palette.
-- Tints: `--tint-sage`, `--tint-moss`, `--tint-mist`, `--tint-clay`, `--tint-bone` — whole-field colors for tinted cards, eyebrow pills, and brand bands. **These are backgrounds only.** `--color-text` clears AA on all of them comfortably (13.8:1 at worst, measured). `--color-text-secondary` clears it by as little as 0.2, which is too thin to build on — so anything on a tint takes primary text, or a muted tone mixed down from it via `color-mix`, never the secondary/tertiary roles.
+- Tints: `--tint-moss`, `--tint-fern`, `--tint-sage` (greens), `--tint-sand` (the one warm tone, used sparingly), `--tint-bone` — whole-field colors for tinted cards, eyebrow pills, and brand bands. **These are backgrounds only.** `--color-text` clears AA on all of them comfortably (11.1:1 at worst, measured). `--color-text-secondary` clears it by as little as 0.2, which is too thin to build on — so anything on a tint takes primary text, or a muted tone mixed down from it via `color-mix`, never the secondary/tertiary roles.
 
-  The starter shipped these as `--tint-lime`/`-mint`/`-sky`/`-lavender`/`-cream` holding neutral greys. They were renamed during the West Oaks re-theme rather than left holding unrelated hues: a token called `--tint-lime` containing a clay colour is a trap for the next person editing a page. If you re-theme again, rename them again to match — the names are part of the value.
+  These have been renamed twice, both times because the names stopped matching the values. A token called `--tint-lime` holding a clay colour is a trap for whoever edits a page next. If you re-theme again, rename again — the names are part of the value.
 - Semantic accents (use sparingly, only for actual state — positive/caution/critical/info): `--color-accent-positive`, `--color-accent-caution`, `--color-accent-critical`, `--color-accent-info` (each with a matching `-bg` variant)
 - Spacing: `--space-1` through `--space-10`, on a 4px grid. Roughly: 1–4 inside components, 5–7 between components, 8–10 between sections.
 - Typography: `--text-eyebrow`/`-small`/`-body`/`-large`, `--text-h5` through `--text-h1`, `--text-display`

@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import { breadcrumbSchema, abs } from '../lib/schema';
-import { SITE_TITLE, SERVICE_AREA_LABEL, BOOKING_URL } from '../consts';
+import { SITE_TITLE, SERVICE_AREA_LABEL } from '../consts';
 
 // ---------------------------------------------------------------------------
 // PAGE CONTENT — everything a client edit touches lives in this block.
@@ -18,10 +18,15 @@ import { SITE_TITLE, SERVICE_AREA_LABEL, BOOKING_URL } from '../consts';
 // on screen. They do different jobs, so both are written rather than one
 // being duplicated into the other.
 //
-// ⚠️ FIRST DRAFT — every image below is a grey placeholder box and every
-// location is invented. Replace both with real project photography as it
-// arrives: drop the photo in at the same path, delete the "Photo placeholder
-// —" prefix from its alt text, and the rest needs no edit. File naming
+// ⚠️ IMPORTANT — the business is new and has no completed projects, so this
+// page is NOT a portfolio and must not read as one. There are no project
+// locations, no client names and no "recent work" framing anywhere on it.
+// What it shows is the range of work the studio takes on, which is a claim
+// it can make honestly on day one.
+//
+// The moment there are real finished projects, this page becomes a portfolio:
+// drop the photo in at the same path, delete the "Photo placeholder —" prefix
+// from its alt text, and add the location back to the caption. File naming
 // convention: descriptive slug, never IMG_4821.jpg.
 // ---------------------------------------------------------------------------
 
@@ -29,7 +34,7 @@ import { SITE_TITLE, SERVICE_AREA_LABEL, BOOKING_URL } from '../consts';
 // scans by. Keep them aligned with the service lines in src/data/services.ts
 // so a visitor moving between the two pages sees the same vocabulary.
 const categories = [
-	{ id: 'all', label: 'All work' },
+	{ id: 'all', label: 'Everything' },
 	{ id: 'hardscape', label: 'Patios & structures' },
 	{ id: 'planting', label: 'Planting & trees' },
 	{ id: 'water', label: 'Water & irrigation' },
@@ -41,85 +46,85 @@ const images = [
 		src: '/images/gallery/limestone-terrace.svg',
 		category: 'hardscape',
 		alt: 'Photo placeholder — a limestone terrace stepping down toward a lawn beneath two mature oaks',
-		caption: 'Limestone terrace stepping down to the lawn',
-		location: 'Dripping Springs',
+		caption: 'Limestone terraces',
+		note: 'Cut and set to sit level across a slope',
 	},
 	{
 		src: '/images/gallery/pergola-shade-structure.svg',
 		category: 'hardscape',
 		alt: 'Photo placeholder — a cedar pergola with evenly spaced rafters over a paved seating area',
-		caption: 'Cedar pergola over a west-facing patio',
-		location: 'Wimberley',
+		caption: 'Cedar pergolas',
+		note: 'Oriented and spaced for the four o’clock sun',
 	},
 	{
 		src: '/images/gallery/dry-stack-retaining-wall.svg',
 		category: 'hardscape',
 		alt: 'Photo placeholder — a dry-stacked limestone retaining wall holding a planted slope',
-		caption: 'Dry-stacked limestone wall holding a slope',
-		location: 'West Austin',
+		caption: 'Dry-stacked walls',
+		note: 'Local limestone, laid to drain rather than dam',
 	},
 	{
 		src: '/images/gallery/live-oak-canopy.svg',
 		category: 'planting',
 		alt: 'Photo placeholder — a single mature live oak with a broad canopy spreading over open ground',
-		caption: 'Heritage live oak, pruned for structure',
-		location: 'Driftwood',
+		caption: 'Heritage oak care',
+		note: 'Pruned for structure, on the oak wilt calendar',
 	},
 	{
 		src: '/images/gallery/oak-motte-meadow.svg',
 		category: 'planting',
 		alt: 'Photo placeholder — a motte of live oaks standing over an open meadow, with low hills behind',
-		caption: 'Oak motte and restored meadow',
-		location: 'Kyle',
+		caption: 'Meadow restoration',
+		note: 'Natives re-established under an existing motte',
 	},
 	{
 		src: '/images/gallery/native-planting-beds.svg',
 		category: 'planting',
 		alt: 'Photo placeholder — massed native planting flanking a stone path running away from the viewer',
-		caption: 'Native beds flanking the approach path',
-		location: 'Buda',
+		caption: 'Native planting',
+		note: 'Chosen to hold up through a dry August',
 	},
 	{
 		src: '/images/gallery/maintenance-visit.svg',
 		category: 'planting',
 		alt: 'Photo placeholder — established planting under a mature canopy during a seasonal maintenance visit',
-		caption: 'Seasonal visit on a stewardship plan',
-		location: 'San Marcos',
+		caption: 'Seasonal stewardship',
+		note: 'Scheduled visits against a written plan',
 	},
 	{
 		src: '/images/gallery/irrigation-zone.svg',
 		category: 'water',
 		alt: 'Photo placeholder — an irrigation zone spraying in arcs across a planted field',
-		caption: 'Rezoned irrigation on a smart controller',
-		location: 'Buda',
+		caption: 'Irrigation and drip',
+		note: 'Zoned to what each area needs, on a weather-aware controller',
 	},
 	{
 		src: '/images/gallery/evening-path-lighting.svg',
 		category: 'lighting',
 		alt: 'Photo placeholder — shielded path lights casting pools of light along a paved route at dusk',
-		caption: 'Low-voltage path lighting at dusk',
-		location: 'West Austin',
+		caption: 'Path and step lighting',
+		note: 'Shielded, aimed down, dark-sky friendly',
 	},
 	{
 		src: '/images/gallery/site-plan-drawing.svg',
 		category: 'planting',
 		alt: 'Photo placeholder — a hand-drafted site plan over a measured grid, showing a building footprint, a path and three tree canopies',
-		caption: 'Master plan, built in three phases',
-		location: 'Dripping Springs',
+		caption: 'Master planning',
+		note: 'Drawn whole, built in phases that do not fight each other',
 	},
 	{
 		src: '/images/gallery/crew-on-site.svg',
 		category: 'hardscape',
-		alt: 'Photo placeholder — three crew members walking a property beneath mature oaks during a site visit',
-		caption: 'Walking a property before design begins',
-		location: 'Wimberley',
+		alt: 'Photo placeholder — three crew members walking a property beneath mature oaks',
+		caption: 'Reading the site',
+		note: 'Slope, soil, water and shade, before anything is drawn',
 	},
 ];
 
 const cta = {
-	heading: 'Your property is the next one',
-	lead: 'An hour on site is how every project here starts. No charge, no drawings yet.',
-	primary: { label: 'Book a site visit', href: BOOKING_URL },
+	heading: 'Tell us what you are planning',
+	lead: 'One form: the property, the timeline, the budget. A few minutes, and it commits you to nothing.',
+	primary: { label: 'Start your project', href: '/contact/#project' },
 	secondary: { label: 'See how a project runs', href: '/process/' },
 };
 
@@ -131,13 +136,13 @@ const schema = [
 	// carry the project description instead of just the filename.
 	{
 		'@type': 'ImageGallery',
-		name: `${SITE_TITLE} project gallery`,
-		description: `Landscape design and build projects across ${SERVICE_AREA_LABEL}.`,
+		name: `The work ${SITE_TITLE} takes on`,
+		description: `The range of landscape design and build work ${SITE_TITLE} takes on across ${SERVICE_AREA_LABEL}.`,
 		url: abs(Astro.site, '/gallery/'),
 		image: images.map((image) => ({
 			'@type': 'ImageObject',
 			contentUrl: abs(Astro.site, image.src),
-			caption: `${image.caption} — ${image.location}`,
+			caption: `${image.caption} — ${image.note}`,
 			description: image.alt,
 			creditText: SITE_TITLE,
 		})),
@@ -146,22 +151,18 @@ const schema = [
 ---
 
 <BaseLayout
-	title="Project Gallery"
-	description={`Landscape design-build projects across ${SERVICE_AREA_LABEL}: limestone terraces, cedar pergolas, native planting and outdoor lighting.`}
+	title="The Work We Do"
+	description={`The landscape work we take on across ${SERVICE_AREA_LABEL}: limestone terraces, cedar pergolas, native planting, irrigation and lighting.`}
 	schema={schema}
 >
 	<section class="section-hero">
 		<div class="container">
 			<div class="page-hero">
-				<h1>Project gallery</h1>
+				<h1>The work we do</h1>
 				<p class="lead">
-					Recent work across {SERVICE_AREA_LABEL}. Each of these started with the same
-					question: what is already good here, and what is in its way?
-				</p>
-				<p class="draft-note">
-					<strong>Draft note for the client:</strong> every grey box below is holding space
-					for one of your photos. The caption under each says which photo goes there.
-					Send them over and we will swap them in.
+					The range we take on across {SERVICE_AREA_LABEL}, and what we care about in
+					each. Every one starts with the same question: what is already good here, and
+					what is in its way?
 				</p>
 			</div>
 		</div>
@@ -201,14 +202,14 @@ const schema = [
 								type="button"
 								class="gallery-trigger media-frame"
 								data-index={i}
-								aria-label={`Open full size: ${image.caption}, ${image.location}`}
+								aria-label={`Open full size: ${image.caption}`}
 							>
 								<img src={image.src} alt={image.alt} loading="lazy" width="1600" height="1200" />
 								<span class="photo-expand" aria-hidden="true"><Icon name="expand" size={16} /></span>
 							</button>
 							<figcaption class="photo-caption">
 								<span class="photo-title">{image.caption}</span>
-								<span class="photo-location text-tertiary">{image.location}</span>
+								<span class="photo-note text-tertiary">{image.note}</span>
 							</figcaption>
 						</figure>
 					</li>
@@ -267,7 +268,7 @@ const schema = [
 		category: string;
 		alt: string;
 		caption: string;
-		location: string;
+		note: string;
 	};
 
 	const data: GalleryImage[] = JSON.parse(
@@ -332,7 +333,7 @@ const schema = [
 		const image = data[visible[cursor]];
 		lightboxImg.src = image.src;
 		lightboxImg.alt = image.alt;
-		lightboxCaption.textContent = `${cursor + 1} / ${visible.length} — ${image.caption}, ${image.location}`;
+		lightboxCaption.textContent = `${cursor + 1} / ${visible.length} — ${image.caption}. ${image.note}`;
 	}
 
 	function openLightbox(index: number, trigger: HTMLElement) {
@@ -376,19 +377,6 @@ const schema = [
 		max-width: var(--measure-wide);
 	}
 
-	/* Temporary. Delete this block, and the <p> that uses it, once real
-	   photography replaces the placeholder illustrations. */
-	.draft-note {
-		margin-top: var(--space-5);
-		padding: var(--space-4);
-		border-radius: var(--radius-md);
-		background: var(--color-accent-caution-bg);
-		border: 1px solid var(--color-accent-caution);
-		font-size: var(--text-small);
-		color: var(--color-text);
-		max-width: var(--measure);
-	}
-
 	/* Filter bar — pills that read as a set of options rather than as
 	   buttons. Scrolls horizontally on narrow screens instead of wrapping
 	   into a two-row block that pushes the grid down the page. */
@@ -401,10 +389,13 @@ const schema = [
 		scrollbar-width: thin;
 	}
 
+	/* No outline. Like the cards, these read as distinct objects because
+	   their fill differs from the page, so a border around them is a second
+	   edge doing the first one's job. */
 	.filter-btn {
 		flex-shrink: 0;
 		padding: var(--space-2) var(--space-4);
-		border: 1px solid var(--border-default);
+		border: 0;
 		border-radius: var(--radius-pill);
 		background: var(--surface-raised);
 		color: var(--color-text-secondary);
@@ -420,16 +411,20 @@ const schema = [
 	}
 
 	.filter-btn:hover {
-		border-color: var(--border-strong);
+		background: var(--surface-fill);
 		color: var(--color-text);
 	}
 
 	/* Selected state carries weight and fill, not colour alone — and
 	   aria-pressed carries it for anyone not seeing either. */
 	.filter-btn.active {
-		background: var(--color-ink);
-		border-color: var(--color-ink);
-		color: var(--color-ink-contrast);
+		background: var(--color-brand);
+		color: var(--color-brand-contrast);
+	}
+
+	.filter-btn.active:hover {
+		background: var(--color-brand-hover);
+		color: var(--color-brand-contrast);
 	}
 
 	/* Grid */
@@ -513,7 +508,7 @@ const schema = [
 		line-height: var(--leading-snug);
 	}
 
-	.photo-location {
+	.photo-note {
 		font-size: var(--text-small);
 	}
 

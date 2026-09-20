@@ -1,10 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Testimonial from '../components/Testimonial.astro';
 import Icon from '../components/Icon.astro';
 import { SERVICES } from '../data/services';
 import { breadcrumbSchema, serviceSchema, faqSchema } from '../lib/schema';
-import { SERVICE_AREA_LABEL, BOOKING_URL } from '../consts';
+import { SERVICE_AREA_LABEL } from '../consts';
 
 // ---------------------------------------------------------------------------
 // PAGE CONTENT — the six service lines come from src/data/services.ts, shared
@@ -19,11 +18,15 @@ import { SERVICE_AREA_LABEL, BOOKING_URL } from '../consts';
 // ⚠️ FIRST DRAFT. Pricing and FAQ answers below are informed guesses about a
 // Hill Country design-build firm and every one is marked TODO. Real numbers
 // only, before this goes live — a wrong price is worse than no price.
+//
+// IMPORTANT: the business is new and has no clients yet. The testimonial
+// section that used to sit between pricing and the FAQ has been removed, not
+// filled with placeholders. Nothing here may imply completed work.
 // ---------------------------------------------------------------------------
 
 const intro = {
 	heading: 'Landscape services',
-	lead: `Design, construction and ongoing care for residential properties across ${SERVICE_AREA_LABEL}. Most clients come to us for one of these and end up with two or three, because on a real site they are not separable — the patio, the drainage and the tree it sits under are one problem.`,
+	lead: `Design, construction and ongoing care for residential properties across ${SERVICE_AREA_LABEL}. Most projects use two or three of these at once, because on a real site they are not separable — the patio, the drainage and the tree it sits under are one problem.`,
 };
 
 const problems = [
@@ -31,13 +34,13 @@ const problems = [
 		title: 'The lawn needs more water every year',
 		description:
 			'A landscape planted for somewhere with more rain needs an irrigation system to keep it alive, and the bill grows as the system ages and the plants get more stressed. The fix is the planting, not a bigger controller.',
-		tint: '--tint-mist',
+		tint: '--tint-sage',
 	},
 	{
 		title: 'There is nowhere to sit outside from June to September',
 		description:
 			'Plenty of Texas properties are unusable for a third of the year because nothing casts shade where people would actually want to be. Shade is a design problem with a design answer: canopy, structure, orientation.',
-		tint: '--tint-clay',
+		tint: '--tint-fern',
 	},
 	{
 		title: 'The oaks are being slowly killed by good intentions',
@@ -93,24 +96,6 @@ const pricingTiers = [
 	},
 ];
 
-// TODO: real quotes, with permission. See the note on the homepage.
-const testimonials = [
-	{
-		quote:
-			'PLACEHOLDER — replace with a real client quote about a service on this page. Specific beats glowing: what was wrong, what was done, what it is like now.',
-		name: 'Client name',
-		role: 'Project type, town',
-		rating: 5,
-	},
-	{
-		quote:
-			'PLACEHOLDER — a second real quote, ideally about a different service line than the first.',
-		name: 'Client name',
-		role: 'Project type, town',
-		rating: 5,
-	},
-];
-
 // These are written as answer-engine bait in the honest sense: the question is
 // phrased the way someone would actually type or ask it, and the answer is
 // complete in its first sentence so it can be quoted standalone. The same
@@ -126,7 +111,7 @@ const faqs = [
 	{
 		question: 'How long does a landscape project take from start to finish?',
 		answer:
-			'Design takes four to eight weeks, depending on how much of the property is in scope and how quickly revisions come back. Construction runs anywhere from two weeks for a patio and planting to several months for a whole property built in phases. We give you a schedule with the proposal, before any money changes hands.',
+			'Design takes four to eight weeks, depending on how much of the property is in scope and how quickly revisions come back. Construction runs anywhere from two weeks for a patio and planting to several months for a whole property built in phases. You get a schedule with the proposal, before any money changes hands.',
 	},
 	{
 		question: 'When can oak trees be pruned in Central Texas?',
@@ -156,7 +141,7 @@ const faqs = [
 	{
 		question: 'How do I get started?',
 		answer:
-			'Book a site visit. We spend about an hour walking the property with you, looking at what is there and what you want from it. There is no charge for that visit and no drawings are made yet — it is how both of us work out whether the project is a fit.',
+			'Fill in the project form on our contact page. It asks what kind of work you are after, roughly when, and roughly what budget you have in mind, so our first reply can be useful rather than a request for more information. We read every enquiry ourselves and answer by the end of the next business day.',
 	},
 ];
 
@@ -185,7 +170,7 @@ const schema = [
 				<h1>{intro.heading}</h1>
 				<p class="lead">{intro.lead}</p>
 				<div class="hero-actions">
-					<a href="/contact/#book" class="btn btn-brand btn-lg btn-arrow">Book a site visit</a>
+					<a href="/contact/#project" class="btn btn-brand btn-lg btn-arrow">Start your project</a>
 					<a href="/process/" class="btn btn-secondary btn-lg">How a project runs</a>
 				</div>
 			</div>
@@ -219,7 +204,7 @@ const schema = [
 					<h2>What we do, in detail</h2>
 					<p class="lead">Six lines of work. Most projects use three or four of them at once.</p>
 				</div>
-				<a href="/contact/#book" class="btn btn-primary btn-arrow">Book a site visit</a>
+				<a href="/contact/#project" class="btn btn-primary btn-arrow">Start your project</a>
 			</div>
 			<ul class="service-list">
 				{SERVICES.map((service) => (
@@ -249,14 +234,17 @@ const schema = [
 					<h2>What it costs</h2>
 					<p class="lead">
 						Starting points, not quotes. Every property is different enough that a real
-						number needs a real visit, but nobody should have to book a call to find out
-						whether they are in the right shop.
+						number needs a real look at it, but nobody should have to send an enquiry
+						just to find out whether they are in the right shop.
 					</p>
 				</div>
 			</div>
 			<ul class="grid-auto pricing-grid">
 				{pricingTiers.map((tier) => (
-					<li class:list={['card', 'pricing-card', { featured: tier.featured }]}>
+					<li
+						class:list={['card', 'pricing-card', { 'card-tint': tier.featured, featured: tier.featured }]}
+						style={tier.featured ? '--card-tint: var(--tint-moss);' : undefined}
+					>
 						{tier.featured && <p class="pricing-badge">Most projects</p>}
 						<h3>{tier.name}</h3>
 						<p class="pricing-price">{tier.price}<span class="pricing-unit">{tier.unit}</span></p>
@@ -266,22 +254,9 @@ const schema = [
 								<li>{feature}</li>
 							))}
 						</ul>
-						<a href="/contact/#book" class={`btn ${tier.featured ? 'btn-primary' : 'btn-secondary'} pricing-cta`}>
+						<a href="/contact/#project" class={`btn ${tier.featured ? 'btn-primary' : 'btn-secondary'} pricing-cta`}>
 							Get a quote
 						</a>
-					</li>
-				))}
-			</ul>
-		</div>
-	</section>
-
-	<section class="section section-sunken">
-		<div class="container">
-			<h2 class="visually-hidden">What clients say</h2>
-			<ul class="grid-auto testimonial-grid">
-				{testimonials.map((t) => (
-					<li>
-						<Testimonial quote={t.quote} name={t.name} role={t.role} rating={t.rating} />
 					</li>
 				))}
 			</ul>
@@ -315,14 +290,14 @@ const schema = [
 	<section class="section cta-band">
 		<div class="container">
 			<div class="cta-inner">
-				<h2>Come walk the property with us</h2>
+				<h2>Tell us what you are planning</h2>
 				<p class="cta-lead">
-					An hour on site, no charge, no drawings yet. It is how we both work out whether
-					the project is a fit.
+					One form covering the property, the timeline and the budget. A few minutes,
+					and it commits you to nothing.
 				</p>
 				<div class="cta-actions">
-					<a href={BOOKING_URL} class="btn btn-inverse btn-lg btn-arrow">Book a site visit</a>
-					<a href="/gallery/" class="link-arrow cta-link">See our work</a>
+					<a href="/contact/#project" class="btn btn-inverse btn-lg btn-arrow">Start your project</a>
+					<a href="/process/" class="link-arrow cta-link">How a project runs</a>
 				</div>
 			</div>
 		</div>
@@ -450,12 +425,18 @@ const schema = [
 		flex-direction: column;
 	}
 
-	/* Ring rather than a 2px border, so the featured tier doesn't sit 1px
-	   taller than its neighbours and break the row's baseline. */
-	.pricing-card.featured {
-		border-color: var(--color-ink);
-		box-shadow: inset 0 0 0 1px var(--color-ink), var(--shadow-md);
-	}
+	/* The featured tier is marked by fill, not by a ring drawn around it. A
+	   ring would be the only outlined object left on the site, and a tint
+	   says "this one" just as clearly while staying in the palette. The
+	   "Most projects" badge above it carries the same signal in words, so the
+	   distinction is never colour alone.
+
+	   It takes the tint through .card-tint rather than by setting a
+	   background here, so it also inherits that class's re-pointing of the
+	   muted text roles. Setting the fill directly would leave the feature
+	   list reading --color-text-secondary against a tint, which happens to
+	   clear AA today and is exactly the pairing tokens.css warns is too thin
+	   to build on. */
 
 	.pricing-badge {
 		font-size: var(--text-eyebrow);
@@ -515,15 +496,6 @@ const schema = [
 	.pricing-cta {
 		align-self: stretch;
 		justify-content: center;
-	}
-
-	.testimonial-grid {
-		--grid-min: 340px;
-		gap: var(--space-5);
-	}
-
-	.testimonial-grid > li {
-		display: flex;
 	}
 
 	/* CTA band */

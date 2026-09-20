@@ -76,7 +76,7 @@ export const SERVICES: Service[] = [
 			'Steps, seat walls and outdoor fireplaces',
 		],
 		icon: 'pergola',
-		tint: '--tint-clay',
+		tint: '--tint-sand',
 	},
 	{
 		slug: 'irrigation',
@@ -91,7 +91,7 @@ export const SERVICES: Service[] = [
 			'Grading, swales, dry creeks and detention',
 		],
 		icon: 'droplet',
-		tint: '--tint-mist',
+		tint: '--tint-fern',
 	},
 	{
 		slug: 'lighting',
@@ -106,7 +106,7 @@ export const SERVICES: Service[] = [
 			'Timers, zones and phone control',
 		],
 		icon: 'lamp',
-		tint: '--tint-bone',
+		tint: '--tint-moss',
 	},
 	{
 		slug: 'stewardship',
@@ -121,6 +121,6 @@ export const SERVICES: Service[] = [
 			'Native restoration and invasive species management',
 		],
 		icon: 'sprout',
-		tint: '--tint-sage',
+		tint: '--tint-fern',
 	},
 ];

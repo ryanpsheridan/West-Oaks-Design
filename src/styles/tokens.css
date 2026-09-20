@@ -24,17 +24,25 @@
 	   role has to clear WCAG AA (4.5:1) against both --surface-page and
 	   --surface-sunken, which puts a hard floor around #707070. Anything
 	   lighter reads as "muted" but fails, so the ramp has no #999-class step.
+
+	   The light end is compressed too, for a different reason: cards on this
+	   site carry no border and are distinguished from the page by fill alone.
+	   That only works if there is a real step between --gray-0 and --gray-25.
+	   The starter's near-white page left about 6% between them, which is not
+	   enough for an edge to read; this ramp leaves roughly 15%. Darkening the
+	   page is what buys the borderless card, so don't lighten it back without
+	   putting the borders back too.
 	   ------------------------------------------------------------------------ */
 	--gray-0: #FFFFFF;    /* cards and raised surfaces */
-	--gray-25: #FAF8F4;   /* page — limestone off-white, not pure white */
-	--gray-50: #F1EEE7;   /* recessed section bands */
-	--gray-100: #EAE6DD;  /* inline code, subtle fills */
-	--gray-200: #E2DED4;  /* hairline dividers */
-	--gray-300: #D5D0C4;  /* default borders */
-	--gray-400: #BEB9AA;  /* emphasised / hover borders */
-	--gray-500: #56625B;  /* tertiary text — 6.01:1 page, 5.50:1 sunken, 5.12:1 fill */
-	--gray-600: #4E5A54;  /* secondary text — 6.79:1 page, 6.22:1 sunken, 5.79:1 fill */
-	--gray-900: #0A1A16;  /* primary text — 16.9:1 on page */
+	--gray-25: #F2EFE7;   /* page — limestone, deliberately not near-white */
+	--gray-50: #E6E2D8;   /* recessed section bands */
+	--gray-100: #DCD7CA;  /* inline code, subtle fills */
+	--gray-200: #D6D0C1;  /* hairline dividers */
+	--gray-300: #C8C2B0;  /* default borders */
+	--gray-400: #B0A996;  /* emphasised / hover borders */
+	--gray-500: #525E57;  /* tertiary text — 5.90:1 page, 5.24:1 sunken, 4.72:1 fill */
+	--gray-600: #48544E;  /* secondary text — 6.89:1 page, 6.12:1 sunken, 5.51:1 fill */
+	--gray-900: #0A1A16;  /* primary text — 15.6:1 on page */
 
 	/* Near-black with the green pulled through it rather than a blue-black,
 	   so the darkest surfaces read as the same family as the brand colour
@@ -46,11 +54,16 @@
 	   Tints. Light card and section-band fields, used as whole backgrounds
 	   rather than as small accents.
 
-	   The set is drawn from the materials West Oaks actually builds with —
-	   sage and moss off the planting palette, mist off the blue-green brand,
-	   clay and bone off limestone and decomposed granite. Every one is
-	   desaturated hard: these are whole fields behind body copy, and a tint
-	   that competes with the photography above it stops reading as ground.
+	   Three greens, one warm, one neutral. An earlier pass had these spread
+	   across five hues — a mint, a sky, a lavender — which read as a pastel
+	   set borrowed from somewhere else rather than as this brand's own range.
+	   They are now three steps off the same green (moss, fern, sage) plus
+	   --tint-sand, the warm tone the eyebrow pill uses, held as the single
+	   note of contrast against all that green.
+
+	   Use the greens as the default and reach for sand sparingly: it is doing
+	   a job precisely because it is the only thing on the page that isn't
+	   green, and a second warm field costs the first that distinction.
 
 	   --color-text clears AA on every tint by a wide margin (13.8:1 at
 	   worst, measured). --color-text-secondary does not clear it by enough
@@ -58,11 +71,11 @@
 	   mixed down from it via color-mix — which is what .card-tint and
 	   .section-brand already do for you.
 	   ------------------------------------------------------------------------ */
-	--tint-sage: #DDE4DC;     /* --color-text at 13.8:1 */
-	--tint-moss: #E9EDE5;     /* --color-text at 14.7:1 */
-	--tint-mist: #E3E9E8;     /* --color-text at 14.3:1 */
-	--tint-clay: #EBE2D8;     /* --color-text at 14.0:1 */
-	--tint-bone: #F3EFE8;     /* --color-text at 15.2:1 */
+	--tint-moss: #E2E9DF;     /* --color-text at 14.5:1 */
+	--tint-fern: #D2DFD0;     /* --color-text at 13.0:1 */
+	--tint-sage: #BFD0BE;     /* --color-text at 11.1:1 — the deepest of the three */
+	--tint-sand: #EAE1D2;     /* --color-text at 13.8:1 — the eyebrow pill's tone */
+	--tint-bone: #EFECE3;     /* --color-text at 15.2:1 */
 
 	/* Shadow base, kept neutral so no elevation ever inherits a brand hue. */
 	--shadow-rgb: 10, 26, 22;
@@ -82,13 +95,13 @@
 	--color-bg: var(--gray-25);
 	--color-bg-subtle: var(--gray-50);
 
-	/* Links, and nothing else. Deep enough to clear AA as text at 7.07:1 on
+	/* Links, and nothing else. Deep enough to clear AA as text at 7.61:1 on
 	   the page surface, and far enough off --color-text that an inline link
 	   in a paragraph is unmistakable without an underline doing all the work.
 	   It's a lighter, wetter green than the brand field — same family, read
 	   as a different role. */
-	--color-accent: #1A5F52;        /* 7.07:1 on --surface-page */
-	--color-accent-hover: #133F37;
+	--color-accent: #175449;        /* 7.61:1 on --surface-page */
+	--color-accent-hover: #0F3A32;
 	--color-accent-contrast: #FFFFFF;
 
 	/* The brand field. This is West Oaks' dark blue-green, and unlike
@@ -101,23 +114,30 @@
 	   Deliberately a step lighter than --color-ink. If the two were the same
 	   value, .section-brand and .cta-band would read as one device used
 	   twice, and the green would stop registering as a colour at all. */
-	--color-brand: #17403A;         /* white on it: 11.5:1 */
-	--color-brand-hover: #12332E;
+	--color-brand: #1C5145;         /* white on it: 9.1:1 */
+	--color-brand-hover: #164037;
 	--color-brand-contrast: #FFFFFF;
 
 	/* Primary buttons and the closing CTA band — the near-black end of the
 	   same green, so high-emphasis controls sit under the brand colour
 	   rather than beside it.
 
-	   Deliberately NOT aliased to --ink-900 the way the starter had it.
-	   --ink-900 is also --color-text, and a value tuned to be crisp at 16px
-	   body size reads as flat black when it becomes a full-bleed band —
-	   which on a warm limestone palette looked like a hole in the page. This
-	   is two steps lighter: still unmistakably darker than --color-brand
-	   (white clears 15.7:1 here against the brand's 11.5:1), but green
-	   enough to belong to the same palette as everything above it. */
-	--color-ink: #102722;           /* white on it: 15.7:1 */
-	--color-ink-hover: #0A1A16;
+	   Deliberately NOT aliased to --ink-900 the way the starter had it, and
+	   deliberately not a near-black either. --ink-900 is --color-text: a
+	   value tuned to be crisp at 16px reads as flat black the moment it
+	   becomes a field — a menu button, a primary button, a full-bleed closing
+	   band — and a black field on a warm limestone palette looks like a hole
+	   punched in the page rather than part of it.
+
+	   So this is a green dark enough to anchor (white clears 11.5:1) and
+	   light enough to be visibly green at any size. It stays a clear step
+	   below --color-brand, which is the more saturated of the two, so the
+	   brand band and the closing band still read as two different devices.
+
+	   Near-black is still correct for *text*, which is why --color-text keeps
+	   --gray-900. The rule is about fields, not glyphs. */
+	--color-ink: #164037;           /* white on it: 11.5:1 */
+	--color-ink-hover: #0F2E28;
 	--color-ink-contrast: #FFFFFF;
 	/* Secondary text on an ink surface — ~9:1, so it still clears AA while
 	   reading as a step down from full white. */
@@ -161,13 +181,13 @@
 	   starter's originals cleared the page but not their own chip, which
 	   .field-error and the style-guide swatches both rely on. */
 	--color-accent-positive: #14724A;
-	--color-accent-positive-bg: #E5F2EA;
+	--color-accent-positive-bg: #E2EFE6;
 	--color-accent-caution: #7E4E05;
-	--color-accent-caution-bg: #F8EFDC;
+	--color-accent-caution-bg: #F4EBD6;
 	--color-accent-critical: #A82A2A;
-	--color-accent-critical-bg: #F8E8E6;
+	--color-accent-critical-bg: #F5E5E2;
 	--color-accent-info: #1F5E86;
-	--color-accent-info-bg: #E6EFF4;
+	--color-accent-info-bg: #E2ECF2;
 
 	/* ------------------------------------------------------------------------
 	   4a. TYPOGRAPHY
