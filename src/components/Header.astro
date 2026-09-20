@@ -395,12 +395,21 @@ const currentPath = Astro.url.pathname;
 	}
 
 	.menu-toggle .bar {
+		/* Glyph geometry, not layout spacing, so these sit outside the 4px
+		   scale on purpose: --bar-h is a hairline and --bar-gap is half the
+		   distance between the two bars. Deriving top from them centres the
+		   glyph in the 40px hit area exactly. Hand-placed at 17px and 23px it
+		   sat 0.75px low, because the offsets were measured to each bar's top
+		   edge rather than to its centre. */
+		--bar-h: 1.5px;
+		--bar-w: 16px;
+		--bar-gap: 3px;
 		position: absolute;
 		left: 50%;
-		width: 16px;
-		margin-left: -8px;
-		height: 1.5px;
-		border-radius: 2px;
+		width: var(--bar-w);
+		margin-left: calc(var(--bar-w) / -2);
+		height: var(--bar-h);
+		border-radius: var(--radius-sm);
 		/* Was the ink contrast colour, which only worked against the filled
 		   container that used to sit behind it. */
 		background: var(--color-text);
@@ -410,20 +419,20 @@ const currentPath = Astro.url.pathname;
 	}
 
 	.menu-toggle .bar-top {
-		top: 17px;
+		top: calc(50% - var(--bar-h) / 2 - var(--bar-gap));
 	}
 
 	.menu-toggle .bar-bottom {
-		top: 23px;
+		top: calc(50% - var(--bar-h) / 2 + var(--bar-gap));
 	}
 
 	.menu-toggle.open .bar-top {
-		top: 20px;
+		top: calc(50% - var(--bar-h) / 2);
 		transform: rotate(45deg);
 	}
 
 	.menu-toggle.open .bar-bottom {
-		top: 20px;
+		top: calc(50% - var(--bar-h) / 2);
 		transform: rotate(-45deg);
 	}
 

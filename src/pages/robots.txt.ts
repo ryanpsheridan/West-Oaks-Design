@@ -10,14 +10,18 @@ import { SITE_INDEXABLE } from '../site-flags.mjs';
 // URL can still surface as a bare link. Letting it in to read the directive is
 // what keeps the site out of the index.
 const body = (site: URL | undefined) => {
-	const lines = [
-		'User-agent: *',
-		'Allow: /',
-		'',
-		'# Internal design-system reference, not customer-facing. It is also',
-		"# noindex'd at the page level; this is the belt-and-braces half.",
-		'Disallow: /style-guide/',
-	];
+	// Nothing is disallowed, including the internal pages. /style-guide/,
+	// /setup/ and /pay/ each send their own `noindex` regardless of
+	// SITE_INDEXABLE, and that directive is what keeps them out of the index.
+	//
+	// /style-guide/ used to carry a Disallow here as a "belt and braces" half
+	// to its noindex. It was neither: a crawler blocked by robots.txt never
+	// fetches the page, so it never reads the noindex, and the URL can still
+	// be listed from inbound links alone as a bare result with no description.
+	// Disallow plus noindex is strictly worse than noindex on its own, which
+	// is the same reasoning as the site-wide note above. Crawl budget is not
+	// a consideration at nine pages.
+	const lines = ['User-agent: *', 'Allow: /'];
 
 	if (SITE_INDEXABLE && site) {
 		lines.push('', `Sitemap: ${new URL('sitemap-index.xml', site).toString()}`);

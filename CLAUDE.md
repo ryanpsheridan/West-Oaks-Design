@@ -143,6 +143,14 @@ so it never sees the `noindex`, and the URL can still surface in results as a
 bare link. Letting crawlers in to read the directive is what keeps the site
 out of the index. Don't "tighten" this to `Disallow: /`.
 
+Nothing is disallowed at all, including `/style-guide/`, `/setup/` and
+`/pay/`. Each of those sends its own `noindex` regardless of the flag, and
+that directive is what keeps them out. `/style-guide/` used to carry a
+`Disallow` as a "belt and braces" half to its noindex and it was neither:
+blocking the fetch is what stops the crawler reading the noindex, so the pair
+is strictly worse than the noindex alone. Same reasoning as the paragraph
+above, so don't re-add it there either.
+
 **Before this goes anywhere near production:** clear the TODOs, delete
 `src/pages/setup.astro`, remove the yellow draft note at the top of
 `gallery.astro`, flip `SITE_INDEXABLE` in `src/site-flags.mjs`, and set the
@@ -238,6 +246,10 @@ its `schema` prop into a single `@graph`.
   consumer reads one connected business rather than several unrelated snippets
   that happen to share a name.
 - Every page passes at least its `BreadcrumbList`.
+- The phone number is emitted as E.164 (`+15125550142`) via the `e164` helper,
+  while the footer and contact page render the readable form. Both derive from
+  the one `SITE_PHONE` in `consts.ts`, so they cannot drift and hand a
+  local-search consumer two numbers for one business.
 - Never mark up text that isn't rendered. The FAQ and HowTo blocks build from
   the same arrays that render the visible accordion and steps; marking up an
   answer a visitor can't reach is cloaking.

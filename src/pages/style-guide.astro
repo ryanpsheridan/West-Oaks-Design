@@ -1000,6 +1000,12 @@ const measures = [
 		display: flex;
 		align-items: center;
 		gap: var(--space-4);
+		/* The bar keeps flex-shrink: 0 because a squashed bar would misstate
+		   the value it is demonstrating. So the row wraps instead: at 320px
+		   the label and the px value leave 96px, and --space-10 is 128px,
+		   which pushed the page 24px wider than the viewport. Wrapped, the
+		   bar gets the full 272px content width and still draws true. */
+		flex-wrap: wrap;
 	}
 
 	.spacing-list code {

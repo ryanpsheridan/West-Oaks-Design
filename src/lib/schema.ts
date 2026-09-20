@@ -30,6 +30,19 @@ import {
 	FOUNDED_YEAR,
 } from '../consts';
 
+/**
+ * Structured data wants a phone number in E.164 (+15125550142), while the
+ * footer and the contact page want the readable form. Deriving one from the
+ * other keeps a single source in consts.ts, so the two can't drift apart and
+ * hand a local-search consumer two different numbers for one business.
+ *
+ * Assumes a US number, which is safe here: the service area is Central Texas.
+ */
+const e164 = (phone: string) => {
+	const digits = phone.replace(/\D/g, '');
+	return digits.length === 10 ? `+1${digits}` : `+${digits}`;
+};
+
 /** Absolute URL for a site-relative path. Schema requires absolute URLs. */
 export const abs = (site: URL | undefined, path: string): string =>
 	site ? new URL(path, site).toString() : path;
@@ -65,7 +78,7 @@ export const businessSchema = (site: URL | undefined) => ({
 	description: SITE_DESCRIPTION,
 	slogan: SITE_TAGLINE,
 	url: abs(site, '/'),
-	telephone: SITE_PHONE,
+	telephone: e164(SITE_PHONE),
 	email: SITE_EMAIL,
 	image: abs(site, '/images/og-default.png'),
 	logo: abs(site, '/favicon.svg'),
