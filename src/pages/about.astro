@@ -4,7 +4,7 @@ import { breadcrumbSchema, abs } from '../lib/schema';
 import { SITE_TITLE, SERVICE_AREA_LABEL } from '../consts';
 
 // ---------------------------------------------------------------------------
-// PAGE CONTENT — everything a client edit touches lives in this block.
+// PAGE CONTENT, everything a client edit touches lives in this block.
 //
 // Structure: intro → story → values → founder quote → CTA.
 //
@@ -15,7 +15,7 @@ import { SITE_TITLE, SERVICE_AREA_LABEL } from '../consts';
 // IMPORTANT: the business is new and has no completed projects. The stat
 // band that used to sit here (years in business, projects completed, trees
 // planted) has been removed rather than filled with plausible numbers. Do not
-// put it back until there are real figures to put in it — and when there are,
+// put it back until there are real figures to put in it, and when there are,
 // three honest numbers beat five impressive ones.
 //
 // Being new is not a weakness to write around. The page says so plainly and
@@ -26,28 +26,28 @@ import { SITE_TITLE, SERVICE_AREA_LABEL } from '../consts';
 const intro = {
 	eyebrow: 'About us',
 	heading: 'We build landscapes that outlast us',
-	lead: `${SITE_TITLE} is a new design-build studio working across ${SERVICE_AREA_LABEL}. We draw the plan, build it with our own crews, and come back to look after it — a slower way to run a landscape company, and the only way we have found to be answerable for how a property looks in year ten rather than on handover day.`,
+	lead: `${SITE_TITLE} is a new design-build studio working across ${SERVICE_AREA_LABEL}. We draw the plan, build it with our own crews, and come back to look after it, which is a slower way to run a landscape company and the only way we have found to be answerable for how a property looks in year ten rather than on handover day.`,
 	image: {
 		src: '/images/gallery/crew-on-site.svg',
-		alt: 'Photo placeholder — three crew members walking a property beneath mature oaks',
+		alt: 'Photo placeholder: three crew members walking a property beneath mature oaks',
 	},
 };
 
 const story = {
 	eyebrow: 'Our story',
 	heading: 'Why we started this',
-	// TODO: replace wholesale with the client's real account — what they did
+	// TODO: replace wholesale with the client's real account, what they did
 	// before this, and what made them start. Keep it honest about being new;
 	// a new firm that says so reads as more trustworthy than one that is
 	// vague about how long it has been around.
 	paragraphs: [
-		`PLACEHOLDER STORY — replace with the founder's real background. What they did before ${SITE_TITLE}, and for how long. This is the page's load-bearing paragraph: with no completed projects to point at, the experience behind the business is the credential.`,
-		'PLACEHOLDER STORY — replace with why they started it. The most convincing version of this is usually a specific frustration with how the work is normally done, not a mission statement. Concrete beginnings read as credible; "our passion for outdoor living" reads as filler.',
-		`PLACEHOLDER STORY — replace with what they are building toward. ${SITE_TITLE} is new, and saying so directly is fine: what matters to someone deciding is who is doing the work and how, not how long the sign has been up.`,
+		`PLACEHOLDER STORY: replace with the founder's real background. What they did before ${SITE_TITLE}, and for how long. This is the page's load-bearing paragraph: with no completed projects to point at, the experience behind the business is the credential.`,
+		'PLACEHOLDER STORY: replace with why they started it. The most convincing version of this is usually a specific frustration with how the work is normally done, not a mission statement. Concrete beginnings read as credible; "our passion for outdoor living" reads as filler.',
+		`PLACEHOLDER STORY: replace with what they are building toward. ${SITE_TITLE} is new, and saying so directly is fine: what matters to someone deciding is who is doing the work and how, not how long the sign has been up.`,
 	],
 	image: {
 		src: '/images/gallery/live-oak-canopy.svg',
-		alt: 'Photo placeholder — a single mature live oak with a broad canopy spreading over open ground',
+		alt: 'Photo placeholder: a single mature live oak with a broad canopy spreading over open ground',
 	},
 };
 
@@ -83,7 +83,7 @@ const values = {
 // for is a position, which it can state on day one.
 const quote = {
 	// TODO: replace with a real line from the owner, in their own words.
-	text: 'PLACEHOLDER — one sentence from the owner about what this business is for. Their own voice beats a paragraph in a copywriter’s.',
+	text: 'PLACEHOLDER: one sentence from the owner about what this business is for. Their own voice beats a paragraph in a copywriter’s.',
 	name: 'Owner name',
 	role: 'Founder',
 };
@@ -109,7 +109,7 @@ const schema = [
 
 <BaseLayout
 	title="About Us"
-	description={`${SITE_TITLE} is a landscape design-build studio serving ${SERVICE_AREA_LABEL} — who we are, how long we have done this, and how we work.`}
+	description={`${SITE_TITLE} is a landscape design-build studio serving ${SERVICE_AREA_LABEL}: who we are, how long we have done this, and how we work.`}
 	schema={schema}
 >
 	<section class="section-loose">
@@ -159,7 +159,7 @@ const schema = [
 			</div>
 			<ul class="grid-auto value-grid">
 				{values.items.map((item) => (
-					<li class="card card-tint">
+					<li class="card">
 						<h3>{item.title}</h3>
 						<p class="text-secondary">{item.description}</p>
 					</li>
@@ -212,7 +212,7 @@ const schema = [
 	}
 
 	/* On the brand band the quote carries the whole section, so it loses the
-	   left rule and centres — a 2px marker pinned to one side of a full-bleed
+	   left rule and centres, a 2px marker pinned to one side of a full-bleed
 	   colour field reads as a stray mark rather than a quote. */
 	.quote-feature {
 		max-width: var(--measure-wide);

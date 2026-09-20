@@ -12,7 +12,7 @@ import {
 } from '../consts';
 
 // ---------------------------------------------------------------------------
-// PAGE CONTENT — everything a client edit touches lives in this block. The
+// PAGE CONTENT, everything a client edit touches lives in this block. The
 // markup below reads from it, so copy changes never mean hunting through JSX.
 //
 // Section order: hero → trust → services → approach → work → contact. The
@@ -24,7 +24,7 @@ import {
 // regionally grounded, and allergic to "transform your outdoor oasis".
 //
 // IMPORTANT: this is a brand new business with no completed projects and no
-// clients yet. Nothing on this page may imply otherwise — no testimonials, no
+// clients yet. Nothing on this page may imply otherwise, no testimonials, no
 // project counts, no "trusted by", no past-work gallery presented as
 // past work. The page has to earn trust on expertise and clarity instead,
 // which is why the approach section carries so much of the weight. Do not
@@ -38,11 +38,11 @@ const hero = {
 	secondaryCta: { label: 'What we do', href: '/services/' },
 	image: {
 		src: '/images/gallery/oak-motte-meadow.svg',
-		alt: 'Photo placeholder — a motte of live oaks standing over an open meadow, with low hills behind',
+		alt: 'Photo placeholder: a motte of live oaks standing over an open meadow, with low hills behind',
 	},
 };
 
-// Three proof points, not four — a fourth starts reading as a list rather
+// Three proof points, not four, a fourth starts reading as a list rather
 // than a set of claims someone stands behind.
 //
 // With no completed projects to point at, these carry more weight than they
@@ -62,7 +62,7 @@ const trustSignals = [
 	{
 		icon: 'droplet',
 		label: 'Licensed Texas irrigator',
-		detail: 'TODO: confirm, and add the LI number — Texas requires it on irrigation work.',
+		detail: 'TODO: confirm, and add the LI number. Texas requires it on irrigation work.',
 	},
 	{
 		icon: 'ruler',
@@ -120,17 +120,17 @@ const workSection = {
 const galleryPreview = [
 	{
 		src: '/images/gallery/limestone-terrace.svg',
-		alt: 'Photo placeholder — a limestone terrace stepping down toward a lawn beneath two oaks',
+		alt: 'Photo placeholder: a limestone terrace stepping down toward a lawn beneath two oaks',
 		caption: 'Limestone terraces, cut and set to sit level on a slope',
 	},
 	{
 		src: '/images/gallery/pergola-shade-structure.svg',
-		alt: 'Photo placeholder — a cedar pergola with evenly spaced rafters over a paved seating area',
+		alt: 'Photo placeholder: a cedar pergola with evenly spaced rafters over a paved seating area',
 		caption: 'Cedar shade structures, oriented for the four o\'clock sun',
 	},
 	{
 		src: '/images/gallery/native-planting-beds.svg',
-		alt: 'Photo placeholder — massed native planting flanking a stone path running away from the viewer',
+		alt: 'Photo placeholder: massed native planting flanking a stone path running away from the viewer',
 		caption: 'Native planting chosen to hold up through a dry August',
 	},
 ];
@@ -212,11 +212,11 @@ const schema = [
 			</div>
 			<ul class="grid-auto service-grid">
 				{SERVICES.map((service) => (
-					<li class="card card-tint card-interactive">
+					<li class="card card-interactive">
 						<span class="service-icon"><Icon name={service.icon} size={22} /></span>
 						{/*
 							The whole card is the target, via a stretched link on the
-							heading — one link per card rather than a card-wide <a>
+							heading, one link per card rather than a card-wide <a>
 							wrapping a heading, so the accessible name of the link is the
 							service name and nothing else.
 						*/}
@@ -316,7 +316,7 @@ const schema = [
 </BaseLayout>
 
 <style>
-	/* Hero — asymmetric split so the headline column stays inside a readable
+	/* Hero, asymmetric split so the headline column stays inside a readable
 	   measure while the media carries the remaining width. Stacks to a single
 	   column below the split breakpoint, text first. */
 	.hero-copy {
@@ -345,7 +345,7 @@ const schema = [
 		box-shadow: var(--shadow-lg);
 	}
 
-	/* Trust bar — proof points between the hero and the first real section,
+	/* Trust bar, proof points between the hero and the first real section,
 	   full-bleed so the hairlines run the whole width. */
 	.trust-bar {
 		padding-block: var(--space-6);
@@ -417,7 +417,7 @@ const schema = [
 		font-size: var(--text-h4);
 	}
 
-	/* Services — six cards, so a slightly tighter minimum than the default
+	/* Services, six cards, so a slightly tighter minimum than the default
 	   lets three sit per row at desktop and two at tablet, rather than
 	   stranding a fifth and sixth on a sparse third row. */
 	.service-grid {
@@ -425,8 +425,8 @@ const schema = [
 	}
 
 	/* The stretched link below is positioned against the card, so the card has
-	   to establish the containing block. .card doesn't set position itself —
-	   it's a plain surface — so it's set here rather than pushed into the
+	   to establish the containing block. .card doesn't set position itself,
+	   it's a plain surface, so it's set here rather than pushed into the
 	   shared class, where it would affect every card on the site. */
 	.service-grid .card {
 		position: relative;
@@ -446,7 +446,7 @@ const schema = [
 		color: var(--color-text);
 	}
 
-	/* Stretched link — the heading's anchor covers the whole card, so the
+	/* Stretched link, the heading's anchor covers the whole card, so the
 	   entire tile is clickable while the link's accessible name stays just
 	   the service title. */
 	.service-link {
@@ -466,7 +466,7 @@ const schema = [
 		text-underline-offset: 0.2em;
 	}
 
-	/* The card, not the text, is what visibly receives focus — otherwise the
+	/* The card, not the text, is what visibly receives focus, otherwise the
 	   ring draws around a heading inside a tile that is itself the target. */
 	.service-grid .card:has(.service-link:focus-visible) {
 		box-shadow: var(--focus-ring);

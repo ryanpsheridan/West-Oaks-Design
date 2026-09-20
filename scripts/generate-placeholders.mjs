@@ -8,12 +8,12 @@
  * feedback on artwork nobody is going to ship.
  *
  * One file per intended photo rather than one shared file, so replacing a
- * photo later is a drop-in at the same path with no page edits — and so each
+ * photo later is a drop-in at the same path with no page edits, and so each
  * one keeps its own descriptive filename, caption and alt text in the
  * meantime.
  *
  * Run: node scripts/generate-placeholders.mjs
- * Delete this script, and everything it writes, once real photos land — see
+ * Delete this script, and everything it writes, once real photos land, see
  * CLAUDE.md, "Gallery / Photo Uploads" for the naming convention they follow.
  */
 import { mkdir, writeFile, readdir, unlink, readFile } from 'node:fs/promises';
@@ -21,7 +21,7 @@ import sharp from 'sharp';
 
 // Read the brand colours out of tokens.css rather than pasting them here.
 // This script's output is a static PNG, so a stale hex would ship a social
-// card in a colour the site no longer uses — which is exactly what happened
+// card in a colour the site no longer uses, which is exactly what happened
 // across the last two re-themes.
 const tokens = await readFile('src/styles/tokens.css', 'utf8');
 const token = (name) => {
@@ -34,7 +34,7 @@ const BRAND_HOVER = token('color-brand-hover');
 const TINT_SAND = token('tint-sand');
 
 // Neutral on purpose, and not drawn from tokens.css. These are scaffolding,
-// not part of the design — a placeholder tinted to the brand palette starts
+// not part of the design, a placeholder tinted to the brand palette starts
 // looking like a considered choice rather than a gap.
 const FILL = '#E8E8E6';
 const LINE = '#D6D6D3';
@@ -92,7 +92,7 @@ console.log(`wrote ${slugs.length} placeholder boxes to ${outDir}/`);
 
 // The Open Graph image has to be a raster: X, Slack, iMessage and LinkedIn
 // all refuse SVG, so a link preview would silently fall back to nothing.
-// This one is not a photo placeholder — it is the actual social card, a
+// This one is not a photo placeholder, it is the actual social card, a
 // typographic brand asset that works as-is until the client has a logo, so
 // it stays on the brand colour rather than becoming a grey box.
 const OGW = 1200;

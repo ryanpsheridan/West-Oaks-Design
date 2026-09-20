@@ -1,12 +1,12 @@
 # New Client Intake Checklist
 
-Fill this out with the client before starting a build. Answers here drive the first Claude Code prompt and which third-party services (if any) get added — see `CLAUDE.md`'s decision trees for forms, scheduling, payments, and gallery.
+Fill this out with the client before starting a build. Answers here drive the first Claude Code prompt and which third-party services (if any) get added, see `CLAUDE.md`'s decision trees for forms, scheduling, payments, and gallery.
 
 ## Business basics
 - Business name:
 - One-line description of what they do:
 - Target customer / audience:
-- Existing branding? (logo, colors, fonts) Y/N — attach if yes:
+- Existing branding? (logo, colors, fonts) Y/N, attach if yes:
 - Reference sites they like (design direction), if any:
 
 ## Pages needed
@@ -34,7 +34,7 @@ Fill this out with the client before starting a build. Answers here drive the fi
 ## Gallery / photos
 - Needed? Y/N
 - How often will photos be added/updated? rarely / occasionally / frequently
-- Who will be adding them — the client directly, or always routed through the developer?
+- Who will be adding them, the client directly, or always routed through the developer?
 - → Rare/occasional + routed through developer: manual GitHub upload (default, no new account).
 - → Frequent + client self-serves: consider a dedicated image host (adds one account).
 
@@ -44,7 +44,7 @@ Fill this out with the client before starting a build. Answers here drive the fi
 
 ## Domain
 - Does the client already own a domain? Y/N
-- If not, who's registering it — the client or the developer (should always end up owned by the client)?
+- If not, who's registering it, the client or the developer (should always end up owned by the client)?
 
 ## Notes
 -

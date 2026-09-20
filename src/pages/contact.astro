@@ -13,12 +13,12 @@ import {
 import { breadcrumbSchema, abs } from '../lib/schema';
 
 // ---------------------------------------------------------------------------
-// PAGE CONTENT — everything a client edit touches lives in this block.
+// PAGE CONTENT, everything a client edit touches lives in this block.
 //
 // Three ways to start, in the order people actually use them: book a visit
 // (the ask the whole site funnels toward), send a message, or just call.
 //
-// ⚠️ FIRST DRAFT — hours, the response-time commitment and the service-area
+// ⚠️ FIRST DRAFT, hours, the response-time commitment and the service-area
 // list are invented. The response commitment in particular is a promise the
 // client has to be willing to keep, so confirm it before launch.
 // ---------------------------------------------------------------------------
@@ -36,7 +36,7 @@ const hours = [
 	{ days: 'Sunday', time: 'Closed' },
 ];
 
-// TODO: confirm. This is a promise, not copy — only ship it if the client
+// TODO: confirm. This is a promise, not copy, only ship it if the client
 // will actually keep it.
 const responseNote =
 	'Every enquiry is read by the people who would do the work, not a call centre. We reply by the end of the next business day.';
@@ -66,7 +66,7 @@ const schema = [
 					<h1>{intro.heading}</h1>
 					<p class="lead">{intro.lead}</p>
 
-					<div class="card card-tint details-card">
+					<div  class="card details-card">
 						<dl class="contact-list">
 							<dt>Phone</dt>
 							<dd>
@@ -95,7 +95,7 @@ const schema = [
 						</dl>
 
 						{/* Confirmation is announced rather than left as a purely visual
-						    icon swap — the check alone says nothing to a screen reader. */}
+						    icon swap, the check alone says nothing to a screen reader. */}
 						<p class="visually-hidden" role="status" aria-live="polite" id="copy-status"></p>
 
 						<div class="hours">
@@ -114,7 +114,7 @@ const schema = [
 							<h2 class="hours-heading">Where we work</h2>
 							<p class="area-list">
 								{SERVICE_AREA.slice(0, -1).join(', ')} and {SERVICE_AREA.at(-1)}.
-								Somewhere else in the Hill Country? Ask — we travel for the right project.
+								Somewhere else in the Hill Country? Ask. We travel for the right project.
 							</p>
 						</div>
 					</div>
@@ -146,7 +146,7 @@ const schema = [
 			} catch {
 				// Clipboard access can be refused (insecure context, denied
 				// permission). Saying nothing would look like a dead button.
-				if (status) status.textContent = 'Copy failed — select the text to copy it manually.';
+				if (status) status.textContent = 'Copy failed. Select the text to copy it manually.';
 				return;
 			}
 
@@ -178,7 +178,7 @@ const schema = [
 		padding: var(--space-6);
 	}
 
-	/* Definition list rather than paragraphs — phone/email/address are labelled
+	/* Definition list rather than paragraphs, phone/email/address are labelled
 	   pairs, and the markup should say so for anyone using a screen reader. */
 	.contact-list {
 		margin: 0;
@@ -203,7 +203,7 @@ const schema = [
 		/* Grid and flex children default to min-width:auto, which means they
 		   refuse to shrink below their content's min-content width. An email
 		   address has no break opportunities, so its min-content width is the
-		   whole string — which on a 390px screen pushed this card, the column
+		   whole string, which on a 390px screen pushed this card, the column
 		   it sits in and the page itself 42px wider than the viewport.
 		   min-width:0 lets the track shrink; overflow-wrap lets the address
 		   break rather than simply clipping once it does. */
@@ -295,7 +295,7 @@ const schema = [
 		transform: scale(1);
 	}
 
-	/* Rule derived from the card's own text colour — --border-hairline is a
+	/* Rule derived from the card's own text colour, --border-hairline is a
 	   neutral tuned for the page surface and disappears on a tint. */
 	.hours {
 		margin-top: var(--space-6);

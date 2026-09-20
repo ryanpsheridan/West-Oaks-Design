@@ -1,6 +1,6 @@
 @import './tokens.css';
 
-/* Aspekta Variable — OFL 1.1, Ivo Dolenc. https://github.com/ivodolenc/aspekta
+/* Aspekta Variable. OFL 1.1, Ivo Dolenc. https://github.com/ivodolenc/aspekta
    Self-hosted from /public/fonts; preloaded in BaseHead.astro. font-display
    swap so copy is readable during the font load rather than invisible. */
 @font-face {
@@ -15,7 +15,7 @@
    GLOBAL STYLESHEET
 
    Element defaults, then a shared component layer. Anything that appears on
-   more than one page belongs here, not in a page's scoped <style> block —
+   more than one page belongs here, not in a page's scoped <style> block,
    a design system that has to be retuned in six files at once isn't one.
 
    Page-scoped blocks should hold genuinely page-specific layout only.
@@ -50,7 +50,7 @@ html {
 /* ----------------------------------------------------------------------------
    Cross-page transitions
 
-   Native CSS view transitions — no router, no JS, no library. Pages cross-fade
+   Native CSS view transitions, no router, no JS, no library. Pages cross-fade
    with a slight rise instead of hard-cutting, which is most of what makes a
    multi-page site feel like one continuous thing rather than a stack of
    documents. Browsers without support simply navigate as before.
@@ -85,7 +85,7 @@ html {
 }
 
 /* The global reduced-motion block below targets `*`, which does NOT match the
-   ::view-transition pseudo-element tree — so these need switching off
+   ::view-transition pseudo-element tree, so these need switching off
    explicitly or they'd be the one animation that ignores the preference. */
 @media (prefers-reduced-motion: reduce) {
 	::view-transition-group(*),
@@ -163,7 +163,7 @@ h5 {
 	line-height: var(--leading-snug);
 }
 
-/* Hero headline treatment, layered on top of an h1 rather than replacing it —
+/* Hero headline treatment, layered on top of an h1 rather than replacing it,
    the page still gets exactly one h1 for structure. */
 .display {
 	font-size: var(--text-display);
@@ -172,7 +172,7 @@ h5 {
 }
 
 /* Body copy defaults to primary text. Secondary tone is opt-in via
-   .text-secondary — making every paragraph grey by default flattens the exact
+   .text-secondary, making every paragraph grey by default flattens the exact
    hierarchy the rest of this file is building. */
 p {
 	margin: 0 0 var(--space-4);
@@ -196,10 +196,10 @@ a:hover {
 }
 
 /* Uppercase overline label. Does more work than anything else in this
-   aesthetic — it gives a section a second level of hierarchy above its
+   aesthetic, it gives a section a second level of hierarchy above its
    heading without spending another type size. */
 /* Now a tinted pill rather than loose grey text. The pill is what lets a
-   section label register at a glance next to a 42px heading — as plain grey
+   section label register at a glance next to a 42px heading, as plain grey
    caps it just disappears against type that large.
 
    --eyebrow-tint is the knob: any of the --tint-* values, defaulting to
@@ -220,7 +220,7 @@ a:hover {
 	margin: 0 0 var(--space-4);
 }
 
-/* Escape hatch for places a pill is too loud — inside a card, or stacked
+/* Escape hatch for places a pill is too loud, inside a card, or stacked
    directly above another label. */
 .eyebrow-plain {
 	display: block;
@@ -229,7 +229,7 @@ a:hover {
 	color: var(--color-text-tertiary);
 }
 
-/* Lead paragraph — the sentence directly under a page or section heading. */
+/* Lead paragraph, the sentence directly under a page or section heading. */
 .lead {
 	font-size: var(--text-large);
 	line-height: var(--leading-body);
@@ -238,7 +238,7 @@ a:hover {
 	max-width: var(--measure);
 }
 
-/* Bold defaults to 700, which the scale doesn't have — semibold is the
+/* Bold defaults to 700, which the scale doesn't have, semibold is the
    ceiling, so inline emphasis lands there instead. */
 strong,
 b {
@@ -271,7 +271,7 @@ b {
    Accessibility
 
    A visible focus ring on every interactive element, never suppressed with
-   outline:none. The transparent outline is the high-contrast-mode fallback —
+   outline:none. The transparent outline is the high-contrast-mode fallback,
    forced-colors mode drops box-shadow but keeps outline.
    ---------------------------------------------------------------------------- */
 
@@ -359,7 +359,7 @@ svg {
 	padding-block: var(--space-10);
 }
 
-/* Page hero — generous above, tighter below, because the section that follows
+/* Page hero, generous above, tighter below, because the section that follows
    brings its own top padding. A text-only hero set to .section-loose leaves a
    220px void under the CTA; this closes it without cramping the top. */
 .section-hero {
@@ -371,14 +371,15 @@ svg {
 }
 
 /* Full-bleed band in the brand colour. Like .cta-band, this is a once-per-page
-   device — it works by being the only saturated thing on the page, so a second
+   device, it works by being the only saturated thing on the page, so a second
    one costs the first its impact. Text stays primary, with muted copy mixed
-   down from it, for the same re-theme-safety reason as .card-tint. */
+   down from it, for the same re-theme-safety reason the tint block in
+   tokens.css describes. */
 .section-brand {
 	background: var(--color-brand);
 	color: var(--color-brand-contrast);
-	/* Same token re-pointing as .card-tint, but derived from the band's own
-	   contrast colour rather than --color-text — so a client whose brand colour
+	/* Token re-pointing derived from the band's own
+	   contrast colour rather than --color-text, so a client whose brand colour
 	   is dark (contrast flipped to white) gets a correctly inverted band with
 	   no further edits. */
 	--color-text: var(--color-brand-contrast);
@@ -393,7 +394,7 @@ svg {
 	color: var(--color-brand);
 }
 
-/* Neutral rules vanish against a saturated field — redraw them from the band's
+/* Neutral rules vanish against a saturated field, redraw them from the band's
    own contrast colour so they stay visible without going solid. */
 .section-brand .topline,
 .section-brand .divider {
@@ -418,7 +419,7 @@ svg {
 	gap: var(--space-5);
 }
 
-/* Vertical flow utility — spacing between siblings without margin collapse
+/* Vertical flow utility, spacing between siblings without margin collapse
    surprises. Override the gap per instance with --stack-gap. */
 .stack > * + * {
 	margin-top: var(--stack-gap, var(--space-4));
@@ -514,7 +515,7 @@ svg {
 	color: var(--color-brand-contrast);
 }
 
-/* Arrow badge. An inverted disc pinned inside the pill's right edge — the
+/* Arrow badge. An inverted disc pinned inside the pill's right edge, the
    detail that makes a button read as a destination rather than a form control.
 
    The glyph is a mask rather than a text character: the arrow in a webfont is
@@ -526,7 +527,7 @@ svg {
    light surface. */
 /* The two arrow glyphs the badge picks between. Stroke colour has to be baked
    into a data URI, so these are the whole set: one for a dark badge, one for a
-   light one. Kept next to their only consumer rather than in tokens.css —
+   light one. Kept next to their only consumer rather than in tokens.css,
    they're assets, not design decisions. */
 :root {
 	--glyph-arrow-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FBFAF9' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
@@ -542,7 +543,7 @@ svg {
    background image.
 
    The arrow is an image rather than a text glyph because an arrow character in
-   a webfont is a fallback lottery — a substituted glyph lands visibly
+   a webfont is a fallback lottery, a substituted glyph lands visibly
    off-centre and off-weight at this size. Its stroke colour has to be baked
    into the data URI, so there are exactly two: one for a dark badge, one for a
    light one. Every variant's badge resolves to one or the other, so two is the
@@ -584,47 +585,30 @@ svg {
 /* ----------------------------------------------------------------------------
    Cards
 
-   One class for both contexts: a card is white, the page is limestone and a
-   sunken band is darker still, so the same class reads as raised on either
-   without changing anything about itself. Contrast does the whole job.
+   One class, every context. A card has no fill, so it sits on whatever
+   surface it is placed on without needing a variant per background.
    ---------------------------------------------------------------------------- */
 
-/* No border. The page surface is deliberately a real step darker than
-   --surface-raised (see the palette note in tokens.css), so a card is legible
-   as a distinct plane by fill alone — and a hairline drawn around a plane
-   that already reads as raised is just a line. Restoring the border means
-   lightening the page back, so do both or neither. */
+/* One treatment for every card on the site: no fill, a light outline, and a
+   tight corner. Filled cards were tried in both directions, white on a
+   limestone page, then a warm tint, and both made a grid of cards read as a
+   set of coloured objects to look at rather than a list of things to read.
+   An outline draws the same boundary and then gets out of the way.
+
+   Because there is no fill, a card inherits whatever surface it sits on, so
+   the same class works unchanged on the page, on a sunken band, and inside
+   another section. Nothing needs re-pointing: the text roles are the page's
+   own, and they clear AA on every surface a card can land on. That is the
+   whole reason the tinted variant is gone rather than restyled. */
 .card {
-	background: var(--surface-raised);
+	background: transparent;
+	border: 1px solid var(--border-default);
 	border-radius: var(--radius-xl);
 	padding: var(--space-6);
 }
 
 .card > :last-child {
 	margin-bottom: 0;
-}
-
-/* Tinted card. The border goes away entirely — a saturated field doesn't need
-   an edge drawn around it, and a hairline on top of one reads as a mistake.
-
-   The fill defaults to --tint-clay and every tinted card on the site uses
-   that default — cards deliberately do not alternate. --card-tint remains as
-   an escape hatch for a genuine one-off, but passing it per card is how the
-   grid ended up looking like a colour swatch instead of a list of services.
-   Muted copy is derived from --color-text rather than
-   using --color-text-secondary: that role does clear AA on the current tints,
-   but by as little as 0.2, so it breaks as soon as a tint is re-themed a shade
-   darker. See the tint block in tokens.css. */
-.card-tint {
-	background: var(--card-tint, var(--tint-clay));
-	border-color: transparent;
-	color: var(--color-text);
-	/* Re-point the muted text tokens rather than overriding a list of classes.
-	   Anything inside — including a page's own scoped CSS reaching for
-	   --color-text-secondary — then lands on a tint-safe tone automatically,
-	   instead of every page having to remember to override it. */
-	--color-text-secondary: color-mix(in srgb, var(--color-text) 76%, transparent);
-	--color-text-tertiary: color-mix(in srgb, var(--color-text) 66%, transparent);
 }
 
 .card-interactive {
@@ -634,24 +618,12 @@ svg {
 		transform var(--duration-base) var(--ease-out);
 }
 
-/* With no border to darken, the hover signal is the lift alone. */
+/* The outline is the thing that changes on hover. A shadow under a card with
+   no fill lands on the page rather than on the card, which reads as a smudge;
+   darkening the edge reads as the card itself responding. */
 .card-interactive:hover {
-	box-shadow: var(--shadow-md);
+	border-color: var(--color-brand);
 	transform: translateY(-2px);
-}
-
-/* A tinted card is a flat field with no border and nothing to cast a shadow
-   from, so the default lift barely registers on it. It deepens its own fill
-   instead — the tint itself becomes the hover signal. */
-.card-tint.card-interactive {
-	transition:
-		background-color var(--duration-base) var(--ease-out),
-		transform var(--duration-base) var(--ease-out);
-}
-
-.card-tint.card-interactive:hover {
-	box-shadow: none;
-	background: color-mix(in srgb, var(--card-tint, var(--tint-clay)) 88%, var(--color-text));
 }
 
 /* ----------------------------------------------------------------------------
@@ -695,7 +667,7 @@ svg {
 	border-color: var(--border-strong);
 }
 
-/* Focus changes the border as well as raising the global ring — the ring
+/* Focus changes the border as well as raising the global ring, the ring
    alone leaves the field itself looking inert while it's active. */
 .field input:focus,
 .field textarea:focus,
@@ -738,7 +710,7 @@ svg {
 
    Groups the eyebrow, heading, and lead into one unit, with an optional action
    link pinned to the opposite end. Pairing a section's "see everything" link
-   with its heading — rather than stranding a button under the grid — is what
+   with its heading, rather than stranding a button under the grid, is what
    keeps a long page from reading as a stack of loose blocks.
    ---------------------------------------------------------------------------- */
 
@@ -756,7 +728,7 @@ svg {
 }
 
 /* Centred variant. Used where a section has no action link to pin opposite
-   the heading — a lone left-aligned header above a symmetrical grid leaves the
+   the heading, a lone left-aligned header above a symmetrical grid leaves the
    whole right half of the row empty. */
 .section-header-center {
 	flex-direction: column;
@@ -776,7 +748,7 @@ svg {
 	margin-bottom: 0;
 }
 
-/* Directional link. Monochrome on purpose — accent stays reserved for inline
+/* Directional link. Monochrome on purpose, accent stays reserved for inline
    links in running text, so a standalone control never competes with them. */
 .link-arrow {
 	display: inline-flex;
@@ -821,7 +793,7 @@ svg {
 		gap: var(--space-9);
 	}
 
-	/* Flips the visual order at desktop only — stacked layouts always keep
+	/* Flips the visual order at desktop only, stacked layouts always keep
 	   the text first, so the reading order stays correct on mobile. */
 	.split-reverse > :first-child {
 		order: 2;
@@ -849,7 +821,7 @@ svg {
 }
 
 /* Borderless grid item with a rule above it. Gives a list of features
-   structure without the weight of a card — useful inside a sunken band, where
+   structure without the weight of a card, useful inside a sunken band, where
    a card would be layering twice for one level of hierarchy. */
 .topline {
 	padding-top: var(--space-5);
@@ -926,7 +898,7 @@ svg {
 }
 
 /* Pull quote. Larger and tighter than body copy, with a rule instead of
-   quotation marks — the attribution already signals that it's a quote. */
+   quotation marks, the attribution already signals that it's a quote. */
 .quote {
 	margin: 0;
 	padding-left: var(--space-5);
@@ -956,7 +928,7 @@ svg {
    Inverted CTA band
 
    A full-bleed ink section for the closing call to action. One per page at
-   most — its whole job is to be the only thing on the page that inverts, so
+   most, its whole job is to be the only thing on the page that inverts, so
    a second one costs the first its impact.
    ---------------------------------------------------------------------------- */
 
@@ -1005,7 +977,7 @@ svg {
    or not it is expanded, which is also what lets the FAQPage schema mark up
    text a visitor can genuinely reach.
    --------------------------------------------------------------------------- */
-/* Centred to sit under the centred section header — a left-aligned list
+/* Centred to sit under the centred section header, a left-aligned list
    under a centred heading reads as a layout mistake. The rows inside stay
    left-aligned; it's the block that centres, not the text. */
 .faq-list {
@@ -1051,7 +1023,7 @@ svg {
 }
 
 /* Smooth open/close. <details> snaps by default because it animates from a
-   height of 0 to `auto`, which isn't interpolatable — interpolate-size
+   height of 0 to `auto`, which isn't interpolatable, interpolate-size
    makes that keyword animatable, and allow-discrete carries the
    content-visibility flip along with it.
 

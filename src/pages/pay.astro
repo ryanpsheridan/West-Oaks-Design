@@ -5,11 +5,11 @@ import { breadcrumbSchema } from '../lib/schema';
 import { SITE_TITLE, SITE_PHONE, SITE_EMAIL, PAYMENT_URL } from '../consts';
 
 // ---------------------------------------------------------------------------
-// PAGE CONTENT — everything a client edit touches lives in this block.
+// PAGE CONTENT, everything a client edit touches lives in this block.
 //
 // The intake form asked for payments: "Yes, probably a stripe integration.
 // Will be super simple, can link out to payment." That is precisely the
-// Stripe Payment Links case in CLAUDE.md's payments decision tree — a hosted
+// Stripe Payment Links case in CLAUDE.md's payments decision tree, a hosted
 // checkout page the client sends people to, with no code and no card details
 // ever touching this site or this developer's hands.
 //
@@ -17,15 +17,15 @@ import { SITE_TITLE, SITE_PHONE, SITE_EMAIL, PAYMENT_URL } from '../consts';
 // they arrive because an invoice told them to. So it is noindex, kept out of
 // the top nav, and linked only from the footer.
 //
-// ⚠️ FIRST DRAFT — PAYMENT_URL in consts.ts is a placeholder. The link below
+// ⚠️ FIRST DRAFT. PAYMENT_URL in consts.ts is a placeholder. The link below
 // will 404 until the client creates the real Payment Link in their own Stripe
-// account (their account, their money — see CLAUDE.md).
+// account (their account, their money, see CLAUDE.md).
 // ---------------------------------------------------------------------------
 
 const intro = {
 	eyebrow: 'Payments',
 	heading: 'Make a payment',
-	lead: `Pay an invoice or a deposit online. Payments are handled by Stripe on their own secure checkout page — ${SITE_TITLE} never sees or stores your card details.`,
+	lead: `Pay an invoice or a deposit online. Payments are handled by Stripe on their own secure checkout page. ${SITE_TITLE} never sees or stores your card details.`,
 };
 
 const steps = [
@@ -80,7 +80,7 @@ const schema = [breadcrumbSchema(Astro.site, trail)];
 					Pay with Stripe
 				</a>
 				{/* Opening in a new tab is announced rather than left as a
-				    surprise — a link that silently moves you to another site is
+				    surprise, a link that silently moves you to another site is
 				    a WCAG 3.2.5 problem and, on a payment link, a trust one. */}
 				<p class="visually-hidden">Opens in a new tab on stripe.com</p>
 				<p class="pay-newtab text-tertiary">Opens in a new tab</p>
@@ -99,11 +99,11 @@ const schema = [breadcrumbSchema(Astro.site, trail)];
 				))}
 			</ol>
 
-			<div class="card card-tint pay-help">
+			<div  class="card pay-help">
 				<h2 class="help-heading">Something not right?</h2>
 				<p>
 					If the amount looks wrong, the invoice number will not go through, or you would
-					rather pay by check or bank transfer, get in touch before paying — do not guess.
+					rather pay by check or bank transfer, get in touch before paying. Do not guess.
 				</p>
 				<p class="help-contact">
 					<a href={`tel:${SITE_PHONE.replace(/[^\d+]/g, '')}`}>{SITE_PHONE}</a>

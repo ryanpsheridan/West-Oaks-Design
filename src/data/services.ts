@@ -3,7 +3,7 @@
  *
  * Home, Services, Process and the JSON-LD all read from this array, so a
  * service can't end up described one way on the homepage and another on the
- * services page — which is the single most common way a small-business site
+ * services page, which is the single most common way a small-business site
  * drifts out of sync with itself.
  *
  * This is also the extraction point if the client later wants to edit
@@ -11,7 +11,7 @@
  * per item, so moving it to a content collection is a rename, not a refactor
  * (see CLAUDE.md, "Content Editing / Light CMS").
  *
- * ⚠️ FIRST DRAFT — the six lines below come straight from the intake form's
+ * ⚠️ FIRST DRAFT, the six lines below come straight from the intake form's
  * description of the business, but the specifics inside each one (timelines,
  * methods, what's included) are informed guesses about how a Hill Country
  * design-build firm works. Walk through them with the client before launch.
@@ -35,7 +35,7 @@ export const SERVICES: Service[] = [
 		slug: 'landscape-design',
 		title: 'Landscape design',
 		short: 'A plan for the whole property, drawn from how the site already works.',
-		long: 'We start with the land you have — its slope, its soil, where the water goes in a storm, where the shade falls in August — and design around it rather than against it. You get a drawn master plan you can build in one season or in stages over several years, without the later phases fighting the earlier ones.',
+		long: 'We start with the land you have (its slope, its soil, where the water goes in a storm, where the shade falls in August) and design around it rather than against it. You get a drawn master plan you can build in one season or in stages over several years, without the later phases fighting the earlier ones.',
 		includes: [
 			'Site analysis: drainage, soil, sun and existing trees',
 			'Concept plan and revisions with you in the room',
@@ -91,7 +91,7 @@ export const SERVICES: Service[] = [
 		slug: 'lighting',
 		title: 'Outdoor lighting',
 		short: 'Low-voltage lighting that extends the evening without flooding it.',
-		long: 'Lighting is the cheapest way to double the hours a landscape gets used, and the easiest to overdo. We light the things worth looking at — a canopy, a wall, the edge of a step — and leave the rest dark. Every fixture is low-voltage, shielded and aimed down, which keeps the night sky intact and your neighbours friendly.',
+		long: 'Lighting is the cheapest way to double the hours a landscape gets used, and the easiest to overdo. We light the things worth looking at (a canopy, a wall, the edge of a step) and leave the rest dark. Every fixture is low-voltage, shielded and aimed down, which keeps the night sky intact and your neighbours friendly.',
 		includes: [
 			'Low-voltage design and installation',
 			'Uplighting for specimen trees and limestone walls',
@@ -105,7 +105,7 @@ export const SERVICES: Service[] = [
 		slug: 'stewardship',
 		title: 'Stewardship and land consulting',
 		short: 'Ongoing care, and advice on land you own or are about to buy.',
-		long: 'A landscape is an asset, and like any asset it does better with a management plan than with occasional emergency attention. We hold a written plan for each property we look after — what gets pruned when, what the water budget is, what is due for replacement — and work to it. For acreage, we consult on the questions that come before any of that: what this land can carry, what is worth clearing, what is worth protecting.',
+		long: 'A landscape is an asset, and like any asset it does better with a management plan than with occasional emergency attention. We hold a written plan for each property we look after (what gets pruned when, what the water budget is, what is due for replacement) and work to it. For acreage, we consult on the questions that come before any of that: what this land can carry, what is worth clearing, what is worth protecting.',
 		includes: [
 			'Written annual landscape management plan',
 			'Scheduled seasonal visits, not call-outs',

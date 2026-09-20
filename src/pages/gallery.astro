@@ -5,27 +5,27 @@ import { breadcrumbSchema, abs } from '../lib/schema';
 import { SITE_TITLE, SERVICE_AREA_LABEL } from '../consts';
 
 // ---------------------------------------------------------------------------
-// PAGE CONTENT — everything a client edit touches lives in this block.
+// PAGE CONTENT, everything a client edit touches lives in this block.
 //
 // The starter shipped this page as a menu of three layouts (grid, carousel,
 // masonry) to pick from per client. Picked: the captioned grid, which is what
 // all three reference sites use for a project index, and which is the only
 // one of the three that works when the client has 40 photos instead of 6.
-// The carousel and masonry are deleted rather than left in place — see
+// The carousel and masonry are deleted rather than left in place, see
 // CLAUDE.md, "Gallery / Photo Uploads".
 //
 // `alt` describes the image for anyone who can't see it; `caption` is shown
 // on screen. They do different jobs, so both are written rather than one
 // being duplicated into the other.
 //
-// ⚠️ IMPORTANT — the business is new and has no completed projects, so this
+// ⚠️ IMPORTANT, the business is new and has no completed projects, so this
 // page is NOT a portfolio and must not read as one. There are no project
 // locations, no client names and no "recent work" framing anywhere on it.
 // What it shows is the range of work the studio takes on, which is a claim
 // it can make honestly on day one.
 //
 // The moment there are real finished projects, this page becomes a portfolio:
-// drop the photo in at the same path, delete the "Photo placeholder —" prefix
+// drop the photo in at the same path, delete the "Photo placeholder:" prefix
 // from its alt text, and add the location back to the caption. File naming
 // convention: descriptive slug, never IMG_4821.jpg.
 // ---------------------------------------------------------------------------
@@ -45,77 +45,77 @@ const images = [
 	{
 		src: '/images/gallery/limestone-terrace.svg',
 		category: 'hardscape',
-		alt: 'Photo placeholder — a limestone terrace stepping down toward a lawn beneath two mature oaks',
+		alt: 'Photo placeholder: a limestone terrace stepping down toward a lawn beneath two mature oaks',
 		caption: 'Limestone terraces',
 		note: 'Cut and set to sit level across a slope',
 	},
 	{
 		src: '/images/gallery/pergola-shade-structure.svg',
 		category: 'hardscape',
-		alt: 'Photo placeholder — a cedar pergola with evenly spaced rafters over a paved seating area',
+		alt: 'Photo placeholder: a cedar pergola with evenly spaced rafters over a paved seating area',
 		caption: 'Cedar pergolas',
 		note: 'Oriented and spaced for the four o’clock sun',
 	},
 	{
 		src: '/images/gallery/dry-stack-retaining-wall.svg',
 		category: 'hardscape',
-		alt: 'Photo placeholder — a dry-stacked limestone retaining wall holding a planted slope',
+		alt: 'Photo placeholder: a dry-stacked limestone retaining wall holding a planted slope',
 		caption: 'Dry-stacked walls',
 		note: 'Local limestone, laid to drain rather than dam',
 	},
 	{
 		src: '/images/gallery/live-oak-canopy.svg',
 		category: 'planting',
-		alt: 'Photo placeholder — a single mature live oak with a broad canopy spreading over open ground',
+		alt: 'Photo placeholder: a single mature live oak with a broad canopy spreading over open ground',
 		caption: 'Heritage oak care',
 		note: 'Pruned for structure, on the oak wilt calendar',
 	},
 	{
 		src: '/images/gallery/oak-motte-meadow.svg',
 		category: 'planting',
-		alt: 'Photo placeholder — a motte of live oaks standing over an open meadow, with low hills behind',
+		alt: 'Photo placeholder: a motte of live oaks standing over an open meadow, with low hills behind',
 		caption: 'Meadow restoration',
 		note: 'Natives re-established under an existing motte',
 	},
 	{
 		src: '/images/gallery/native-planting-beds.svg',
 		category: 'planting',
-		alt: 'Photo placeholder — massed native planting flanking a stone path running away from the viewer',
+		alt: 'Photo placeholder: massed native planting flanking a stone path running away from the viewer',
 		caption: 'Native planting',
 		note: 'Chosen to hold up through a dry August',
 	},
 	{
 		src: '/images/gallery/maintenance-visit.svg',
 		category: 'planting',
-		alt: 'Photo placeholder — established planting under a mature canopy during a seasonal maintenance visit',
+		alt: 'Photo placeholder: established planting under a mature canopy during a seasonal maintenance visit',
 		caption: 'Seasonal stewardship',
 		note: 'Scheduled visits against a written plan',
 	},
 	{
 		src: '/images/gallery/irrigation-zone.svg',
 		category: 'water',
-		alt: 'Photo placeholder — an irrigation zone spraying in arcs across a planted field',
+		alt: 'Photo placeholder: an irrigation zone spraying in arcs across a planted field',
 		caption: 'Irrigation and drip',
 		note: 'Zoned to what each area needs, on a weather-aware controller',
 	},
 	{
 		src: '/images/gallery/evening-path-lighting.svg',
 		category: 'lighting',
-		alt: 'Photo placeholder — shielded path lights casting pools of light along a paved route at dusk',
+		alt: 'Photo placeholder: shielded path lights casting pools of light along a paved route at dusk',
 		caption: 'Path and step lighting',
 		note: 'Shielded, aimed down, dark-sky friendly',
 	},
 	{
 		src: '/images/gallery/site-plan-drawing.svg',
 		category: 'planting',
-		alt: 'Photo placeholder — a hand-drafted site plan over a measured grid, showing a building footprint, a path and three tree canopies',
+		alt: 'Photo placeholder: a hand-drafted site plan over a measured grid, showing a building footprint, a path and three tree canopies',
 		caption: 'Master planning',
 		note: 'Drawn whole, built in phases that do not fight each other',
 	},
 	{
 		src: '/images/gallery/crew-on-site.svg',
 		category: 'hardscape',
-		alt: 'Photo placeholder — three crew members walking a property beneath mature oaks',
+		alt: 'Photo placeholder: three crew members walking a property beneath mature oaks',
 		caption: 'Reading the site',
 		note: 'Slope, soil, water and shade, before anything is drawn',
 	},
@@ -142,7 +142,7 @@ const schema = [
 		image: images.map((image) => ({
 			'@type': 'ImageObject',
 			contentUrl: abs(Astro.site, image.src),
-			caption: `${image.caption} — ${image.note}`,
+			caption: `${image.caption}, ${image.note}`,
 			description: image.alt,
 			creditText: SITE_TITLE,
 		})),
@@ -173,7 +173,7 @@ const schema = [
 			{/*
 				Filter controls. Progressive enhancement: without JS the buttons
 				do nothing and every project stays visible, which is the correct
-				fallback for a filter — never the empty state.
+				fallback for a filter, never the empty state.
 
 				Buttons rather than links, because this changes what is shown on
 				this page rather than navigating anywhere. aria-pressed carries
@@ -217,7 +217,7 @@ const schema = [
 			</ul>
 
 			{/* Shown only when a filter matches nothing, which the current set
-			    can't produce — but a client adding categories later can. */}
+			    can't produce, but a client adding categories later can. */}
 			<p class="empty-state" id="empty-state" hidden>
 				No projects in that category yet. <button type="button" class="link-button" data-filter="all">Show all work</button>.
 			</p>
@@ -242,7 +242,7 @@ const schema = [
 			{/*
 				No `src` attribute at all, rather than src="". An empty src
 				resolves against the current document, so the browser fires a
-				second request for the page itself on every load of this page —
+				second request for the page itself on every load of this page,
 				for an image that is inside a closed <dialog> and never shown.
 				Omitting the attribute makes no request; the script sets both
 				src and alt before the dialog is ever opened.
@@ -333,7 +333,7 @@ const schema = [
 		const image = data[visible[cursor]];
 		lightboxImg.src = image.src;
 		lightboxImg.alt = image.alt;
-		lightboxCaption.textContent = `${cursor + 1} / ${visible.length} — ${image.caption}. ${image.note}`;
+		lightboxCaption.textContent = `${cursor + 1} / ${visible.length}, ${image.caption}. ${image.note}`;
 	}
 
 	function openLightbox(index: number, trigger: HTMLElement) {
@@ -344,7 +344,7 @@ const schema = [
 		dialog.showModal();
 	}
 
-	// Returning focus to whatever opened the dialog — without this, closing it
+	// Returning focus to whatever opened the dialog, without this, closing it
 	// drops focus back to <body> and a keyboard user restarts at the top.
 	dialog.addEventListener('close', () => lastTrigger?.focus());
 
@@ -377,7 +377,7 @@ const schema = [
 		max-width: var(--measure-wide);
 	}
 
-	/* Filter bar — pills that read as a set of options rather than as
+	/* Filter bar, pills that read as a set of options rather than as
 	   buttons. Scrolls horizontally on narrow screens instead of wrapping
 	   into a two-row block that pushes the grid down the page. */
 	.filter-bar {
@@ -415,7 +415,7 @@ const schema = [
 		color: var(--color-text);
 	}
 
-	/* Selected state carries weight and fill, not colour alone — and
+	/* Selected state carries weight and fill, not colour alone, and
 	   aria-pressed carries it for anyone not seeing either. */
 	.filter-btn.active {
 		background: var(--color-brand);
@@ -467,7 +467,7 @@ const schema = [
 	}
 
 	/* Expand affordance, revealed on hover and whenever the trigger is
-	   focused — otherwise a keyboard user gets no hint the photo opens. */
+	   focused, otherwise a keyboard user gets no hint the photo opens. */
 	.photo-expand {
 		position: absolute;
 		top: var(--space-3);

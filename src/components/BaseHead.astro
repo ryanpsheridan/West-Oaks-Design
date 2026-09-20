@@ -47,7 +47,7 @@ const ogImage = new URL(image, Astro.site).toString();
 <!--
 	Aspekta, self-hosted. One 30KB variable file covers weights 100-900, which
 	is smaller than the three static DM Sans cuts it replaced and costs no
-	third-party connection — so there's no preconnect/DNS round trip before
+	third-party connection, so there's no preconnect/DNS round trip before
 	text can paint, and no Google Fonts request in the privacy story.
 
 	Preloaded because the @font-face lives in global.css: without this the
@@ -59,7 +59,7 @@ const ogImage = new URL(image, Astro.site).toString();
 <link rel="canonical" href={canonicalURL} />
 
 <!--
-	SEO / AEO baseline — every page must pass a unique title + description
+	SEO / AEO baseline, every page must pass a unique title + description
 	as props. Titles should read naturally for both search engines and
 	answer engines (how people actually ask, not keyword-stuffed).
 -->
@@ -75,7 +75,7 @@ const ogImage = new URL(image, Astro.site).toString();
 
 <!-- Tints the browser chrome on mobile to the brand colour. A meta tag
      can't read a custom property, so the value is parsed out of tokens.css
-     at build time rather than pasted here — see src/lib/brand.ts. -->
+     at build time rather than pasted here, see src/lib/brand.ts. -->
 <meta name="theme-color" content={BRAND_COLOR} />
 
 <meta property="og:type" content="website" />
@@ -87,11 +87,11 @@ const ogImage = new URL(image, Astro.site).toString();
 <meta property="og:image" content={ogImage} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content={`${SITE_TITLE} — ${SITE_DESCRIPTION}`} />
+<meta property="og:image:alt" content={`${SITE_TITLE}: ${SITE_DESCRIPTION}`} />
 
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={pageTitle} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={ogImage} />
-<meta property="twitter:image:alt" content={`${SITE_TITLE} — ${SITE_DESCRIPTION}`} />
+<meta property="twitter:image:alt" content={`${SITE_TITLE}: ${SITE_DESCRIPTION}`} />

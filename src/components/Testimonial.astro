@@ -2,7 +2,7 @@
 import Icon from './Icon.astro';
 
 // Testimonial card. Deliberately not a giant decorative quote mark on a slab
-// of italic text — that reads as stock. The credibility here comes from the
+// of italic text, that reads as stock. The credibility here comes from the
 // concrete parts: a rating, a real name, a role, and a face. Everything
 // optional degrades cleanly, so a client with only a quote still gets a card
 // that looks finished.
@@ -97,7 +97,7 @@ const stars = rating ? Math.max(0, Math.min(5, Math.round(rating))) : 0;
 		margin: 0;
 	}
 
-	/* Hairline above the attribution separates the claim from who made it —
+	/* Hairline above the attribution separates the claim from who made it,
 	   the part a skeptical visitor actually checks. */
 	.testimonial-author {
 		display: flex;

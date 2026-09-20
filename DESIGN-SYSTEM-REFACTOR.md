@@ -1,4 +1,4 @@
-# Design System Refactor — Update Prompt
+# Design System Refactor. Update Prompt
 
 Paste the section below into a fresh Claude Code session on this repo. It is
 self-contained: the grounding context, the locked decisions, and the audit
@@ -21,7 +21,7 @@ this file.
 
 Refactor this Astro template's design system to read like a top-tier, design-first
 product site (Stripe, Uber, Linear): intentional whitespace, strict typographic
-hierarchy, subtle layering, functional minimalism. Work in three ordered phases —
+hierarchy, subtle layering, functional minimalism. Work in three ordered phases,
 do not start a phase until the previous one builds clean.
 
 ### Grounding & architecture
@@ -32,7 +32,7 @@ lives in Astro-scoped `<style>` blocks across 7 pages and 4 components (~2,700
 lines total). This is a reusable starter template for small-business client sites,
 re-themed per client by swapping accent and background tokens.
 
-**Locked decisions — do not relitigate:** full-scope refactor (tokens + component
+**Locked decisions, do not relitigate:** full-scope refactor (tokens + component
 layer + page refactors); DM Sans stays for all text; dark mode structured but not
 shipped; add a horizontal desktop nav alongside the existing full-screen mobile
 overlay; micro-interactions only, no scroll-reveal; monochrome with blue links only.
@@ -50,12 +50,12 @@ overlay; micro-interactions only, no scroll-reveal; monochrome with blue links o
 ### Hard constraints, none negotiable
 
 - DM Sans stays the only typeface, headings and body alike. Refinement comes from
-  tracking, weight, size, and line-height — not a new face.
+  tracking, weight, size, and line-height, not a new face.
 - Stay monochromatic: `--color-ink` for primary buttons and high-emphasis
   controls, `--color-accent` for inline links only. Semantic accents stay reserved
   for real state.
 - The system must survive a client swapping `--color-accent` and `--color-bg` for
-  their own brand colors — that is this template's whole purpose. Nothing may
+  their own brand colors, that is this template's whole purpose. Nothing may
   hardcode a hue that assumes blue.
 - Ship light-only, but name and layer the tokens so a `prefers-color-scheme: dark`
   block is a later drop-in with no renaming.
@@ -64,7 +64,7 @@ overlay; micro-interactions only, no scroll-reveal; monochrome with blue links o
   the sole state signal, WCAG AA contrast (4.5:1 body), `prefers-reduced-motion`
   respected by every new transition.
 
-### Phase 1 — rewrite `src/styles/tokens.css`
+### Phase 1, rewrite `src/styles/tokens.css`
 
 **Spacing.** The current ramp (`0.5 / 0.75 / 1 / 1.75 / 3 / 5 / 7.5rem`) has
 inconsistent ratios and no step between 1rem and 1.75rem, which forces
@@ -84,7 +84,7 @@ grid under numeric names, and delete the old tokens:
 --space-10: 8rem;     /* 128px */
 ```
 
-Migration reference — apply as a starting point, but re-pick each call site
+Migration reference, apply as a starting point, but re-pick each call site
 deliberately rather than running a find-and-replace:
 
 | Old | Literal | New | Notes |
@@ -92,7 +92,7 @@ deliberately rather than running a find-and-replace:
 | `--space-xs` | 0.5rem | `--space-2` | direct |
 | `--space-sm` | 0.75rem | `--space-3` | direct |
 | `--space-md` | 1rem | `--space-4` | direct |
-| `--space-lg` | 1.75rem | `--space-5` *or* `--space-6` | 5 for gaps and stacks, 6 for card padding — this split is the point of the new scale |
+| `--space-lg` | 1.75rem | `--space-5` *or* `--space-6` | 5 for gaps and stacks, 6 for card padding, this split is the point of the new scale |
 | `--space-xl` | 3rem | `--space-7` | direct |
 | `--space-2xl` | 5rem | `--space-9` | section padding grows 80px → 96px |
 | `--space-3xl` | 7.5rem | `--space-10` | hero padding grows 120px → 128px |
@@ -100,11 +100,11 @@ deliberately rather than running a find-and-replace:
 Net intent: whitespace grows at the section level, tightens inside components.
 
 **Typography.** Keep the fluid `clamp()` scale and the three-weight ceiling (no
-700 — semibold is the heaviest weight in the system). Add what's missing:
+700, semibold is the heaviest weight in the system). Add what's missing:
 
 - Tracking tokens: `--tracking-tight` (-0.02em), `--tracking-snug` (-0.01em),
   `--tracking-normal` (0), `--tracking-caps` (0.06em). Apply negative tracking to
-  display/h1/h2 — the system currently has exactly one orphan `-0.01em` on the
+  display/h1/h2, the system currently has exactly one orphan `-0.01em` on the
   site logo and nothing else.
 - Line-height tokens: `--leading-display` (1.05), `--leading-tight` (1.15),
   `--leading-snug` (1.3), `--leading-body` (1.6). Stop applying a flat 1.2 across
@@ -127,12 +127,12 @@ rewrite. The semantic layer needs:
   `--color-text-tertiary` for captions and metadata.
 - Semantic accents (positive/caution/critical/info) carry over unchanged.
 
-**Shadows.** Replace the two single-blur shadows with multi-layer stacks — layering
+**Shadows.** Replace the two single-blur shadows with multi-layer stacks, layering
 in this aesthetic comes from stacked low-opacity shadows plus hairline rings, not
 one soft blur. Provide `--shadow-xs` through `--shadow-lg` plus a `--ring` inset
 hairline, all derived from a neutral, hue-agnostic base.
 
-**Motion.** The system has none today — durations are hardcoded per component
+**Motion.** The system has none today, durations are hardcoded per component
 (`0.1s`, `0.15s`, `0.2s`, `0.25s`) with the browser-default `ease`. Add:
 
 ```
@@ -143,7 +143,7 @@ hairline, all derived from a neutral, hue-agnostic base.
 --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 ```
 
-Every transition in the codebase must then reference these — no raw durations and
+Every transition in the codebase must then reference these, no raw durations and
 no bare `ease` left anywhere.
 
 **Layout widths.** `--content-width: 1120px` is currently the only width token,
@@ -151,48 +151,48 @@ while `640px` / `720px` / `560px` / `420px` measures are hardcoded across six
 files. Add `--measure-narrow` (~560px), `--measure` (~640px), `--measure-wide`
 (~720px) and use them at every one of those literals.
 
-### Phase 2 — build a component layer in `src/styles/global.css`
+### Phase 2, build a component layer in `src/styles/global.css`
 
 `global.css` currently exposes only `.btn`, `.container`, `.skip-link`, and
 `.visually-hidden`. Everything else is duplicated into page-scoped `<style>`
 blocks. Add real shared classes:
 
-- `.card` — the border + radius + padding pattern currently redeclared **6 times**.
+- `.card`, the border + radius + padding pattern currently redeclared **6 times**.
   Plus `.card-interactive` with a hover state (border, shadow, small translate);
   cards are entirely static today.
-- `.section` — currently redeclared in **5 pages**. Plus `.section-tight` and
+- `.section`, currently redeclared in **5 pages**. Plus `.section-tight` and
   `.section-loose`. Uniform section padding is a large part of why the page rhythm
   reads flat.
-- `.grid-auto` — replaces **8** hardcoded `repeat(auto-fit, minmax(240px, 1fr))`
+- `.grid-auto`, replaces **8** hardcoded `repeat(auto-fit, minmax(240px, 1fr))`
   declarations, with the min track exposed as a `--grid-min` custom property.
-- `.field` — the input/label/textarea styling duplicated verbatim in
+- `.field`, the input/label/textarea styling duplicated verbatim in
   `ContactForm.astro:33-53` and `style-guide.astro:392-412`. Add a real `:focus`
   border-color change (today only the global focus ring fires), plus hint and
   error slots that pair text with the semantic color rather than relying on color
   alone.
-- `.btn` — add a `transition` (it declares none today, so hover snaps), an
+- `.btn`, add a `transition` (it declares none today, so hover snaps), an
   `:active` state, and `.btn-sm` / `.btn-lg` size variants.
 - `.eyebrow`, `.lead`, `.measure`, `.divider` utilities.
 
 Also remove `global.css:53-56`'s blanket `p { color: var(--color-text-secondary) }`.
 Making every paragraph gray by default flattens the exact hierarchy this refactor
 is building. Body copy defaults to `--color-text`; secondary tone becomes opt-in
-via `.text-secondary`. This changes the look of every page — re-check each one.
+via `.text-secondary`. This changes the look of every page, re-check each one.
 
-### Phase 3 — refactor pages and components onto the system
+### Phase 3, refactor pages and components onto the system
 
 Delete the now-duplicated scoped CSS from each file and consume the shared classes:
 
-- `index.astro` — `.service-card`, `.benefit-card`, `.testimonial-card`,
+- `index.astro`, `.service-card`, `.benefit-card`, `.testimonial-card`,
   `.service-grid`, `.benefit-grid`, `.testimonial-grid`, `.section`, `.bg-subtle`
-- `services.astro` — the three card patterns and five grid declarations
-- `gallery.astro` — `.section`, plus the `rgba(20,20,20,0.9)` and
+- `services.astro`, the three card patterns and five grid declarations
+- `gallery.astro`, `.section`, plus the `rgba(20,20,20,0.9)` and
   `rgba(255,255,255,0.92)` lightbox literals at lines 394 and 412
-- `about.astro`, `contact.astro` — `.section` and the hardcoded max-widths
-- `style-guide.astro` — `.demo-card`, `.field`, `.card-grid`, and the
+- `about.astro`, `contact.astro`, `.section` and the hardcoded max-widths
+- `style-guide.astro`, `.demo-card`, `.field`, `.card-grid`, and the
   `border-radius: 4px` literal at line 237
-- `ContactForm.astro` — drop its local `.field` block entirely
-- `setup.astro` — the `border-radius: 4px` literal at line 195
+- `ContactForm.astro`, drop its local `.field` block entirely
+- `setup.astro`, the `border-radius: 4px` literal at line 195
 
 Scoped `<style>` blocks should end up holding only genuinely page-specific layout,
 never re-implementations of shared patterns.
@@ -206,7 +206,7 @@ never re-implementations of shared patterns.
 3. Replace the off-scale hardcoded `font-size: 1.6875rem` at line 201 with a scale
    token, and add a focus trap to the overlay while it's open.
 
-**`style-guide.astro`** is the enforcement surface for all of this — treat it as
+**`style-guide.astro`** is the enforcement surface for all of this, treat it as
 the deliverable, not an afterthought. It must document every new token group
 (surfaces, borders, tracking, leading, motion, measures, shadow stack) and
 demonstrate every new component class including hover, focus, and error states.
@@ -233,7 +233,7 @@ Current state: Astro 7, vanilla CSS, no Tailwind. `tokens.css` (94 lines) →
 `global.css` (155 lines) → imported by `BaseHead.astro`. All other styling lives in
 Astro-scoped `<style>` blocks across 7 pages and 4 components.
 
-**Strengths.** Token discipline is strong — nearly every color, space, and radius
+**Strengths.** Token discipline is strong, nearly every color, space, and radius
 reads from a variable. Accessibility defaults are real and working: global
 `:focus-visible`, skip link, reduced-motion block, labeled fields throughout. The
 three-weight ceiling is a good deliberate constraint.
@@ -243,7 +243,7 @@ three-weight ceiling is a good deliberate constraint.
 1. **No component layer.** The card pattern is copy-pasted 6×, `.field` 2×,
    `.section` 5×, and `repeat(auto-fit, minmax(240px, 1fr))` 8×. A system that
    can't be retuned from one place isn't a system yet. This is the primary blocker.
-2. **Uneven spacing ramp.** `0.5 / 0.75 / 1 / 1.75 / 3 / 5 / 7.5rem` — inconsistent
+2. **Uneven spacing ramp.** `0.5 / 0.75 / 1 / 1.75 / 3 / 5 / 7.5rem`, inconsistent
    ratios and no step between 1rem and 1.75rem, forcing `--space-lg` to serve as
    both card padding and grid gap.
 3. **Soft typographic hierarchy.** No tracking tokens (one orphan `-0.01em` on the
@@ -271,7 +271,7 @@ adding an explicit resolutions block so settled decisions can't be relitigated
 mid-refactor.
 
 The review also proposed compressing the prompt substantially, which was not
-adopted — the compression removed every concrete value (spacing numbers, tracking,
+adopted, the compression removed every concrete value (spacing numbers, tracking,
 leading, durations, easing curves) and the per-file deletion list, which would
 force the implementing agent to re-derive decisions that were already made
 deliberately. Specificity is the point of this document.

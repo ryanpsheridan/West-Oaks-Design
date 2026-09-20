@@ -6,7 +6,7 @@ import { breadcrumbSchema, serviceSchema, faqSchema } from '../lib/schema';
 import { SERVICE_AREA_LABEL } from '../consts';
 
 // ---------------------------------------------------------------------------
-// PAGE CONTENT — the six service lines come from src/data/services.ts, shared
+// PAGE CONTENT, the six service lines come from src/data/services.ts, shared
 // with the homepage and the structured data. Everything below is the framing
 // around them.
 //
@@ -17,7 +17,7 @@ import { SERVICE_AREA_LABEL } from '../consts';
 //
 // ⚠️ FIRST DRAFT. Pricing and FAQ answers below are informed guesses about a
 // Hill Country design-build firm and every one is marked TODO. Real numbers
-// only, before this goes live — a wrong price is worse than no price.
+// only, before this goes live, a wrong price is worse than no price.
 //
 // IMPORTANT: the business is new and has no clients yet. The testimonial
 // section that used to sit between pricing and the FAQ has been removed, not
@@ -26,7 +26,7 @@ import { SERVICE_AREA_LABEL } from '../consts';
 
 const intro = {
 	heading: 'Landscape services',
-	lead: `Design, construction and ongoing care for residential properties across ${SERVICE_AREA_LABEL}. Most projects use two or three of these at once, because on a real site they are not separable — the patio, the drainage and the tree it sits under are one problem.`,
+	lead: `Design, construction and ongoing care for residential properties across ${SERVICE_AREA_LABEL}. Most projects use two or three of these at once, because on a real site they are not separable: the patio, the drainage and the tree it sits under are one problem.`,
 };
 
 const problems = [
@@ -48,7 +48,7 @@ const problems = [
 ];
 
 // TODO: confirm every number with the client before launch. These are
-// plausible Central Texas ranges, not quotes, and the page says so — but a
+// plausible Central Texas ranges, not quotes, and the page says so, but a
 // range that is wrong by half will cost them qualified leads either way.
 const pricingTiers = [
 	{
@@ -98,7 +98,7 @@ const pricingTiers = [
 // complete in its first sentence so it can be quoted standalone. The same
 // array builds the visible accordion and the FAQPage schema, so the marked-up
 // answer is always the rendered answer.
-// TODO: confirm every factual answer — costs, timelines, licensing, warranty.
+// TODO: confirm every factual answer, costs, timelines, licensing, warranty.
 const faqs = [
 	{
 		question: 'How much does a landscape design cost in the Austin area?',
@@ -113,12 +113,12 @@ const faqs = [
 	{
 		question: 'When can oak trees be pruned in Central Texas?',
 		answer:
-			'Avoid pruning oaks from February through June, which is when the beetles that spread oak wilt are most active and fresh cuts are most likely to be infected. The safest windows are the heat of summer and the cold of winter. Any cut made on an oak at any time of year should be sealed immediately — including damage from storms or equipment, which is not optional to seal just because it was not planned.',
+			'Avoid pruning oaks from February through June, which is when the beetles that spread oak wilt are most active and fresh cuts are most likely to be infected. The safest windows are the heat of summer and the cold of winter. Any cut made on an oak at any time of year should be sealed immediately, including damage from storms or equipment, which is not optional to seal just because it was not planned.',
 	},
 	{
 		question: 'Do I need a licensed irrigator to install a sprinkler system in Texas?',
 		answer:
-			'Yes. Texas requires anyone installing, altering or repairing an irrigation system to hold a licence issued by the TCEQ, and the licence number has to appear on the contract. Ask any company you are considering for theirs before you sign anything — it is public and verifiable in seconds.',
+			'Yes. Texas requires anyone installing, altering or repairing an irrigation system to hold a licence issued by the TCEQ, and the licence number has to appear on the contract. Ask any company you are considering for theirs before you sign anything. It is public and verifiable in seconds.',
 	},
 	{
 		question: 'What does biophilic landscape design actually mean?',
@@ -158,7 +158,7 @@ const schema = [
 
 <BaseLayout
 	title="Landscape Services"
-	description="Landscape design, tree care, patios, irrigation, lighting and stewardship across Austin and the Hill Country — what each includes, and what it costs."
+	description="Landscape design, tree care, patios, irrigation, lighting and stewardship across Austin and the Hill Country: what each includes, and what it costs."
 	schema={schema}
 >
 	<section class="section-hero">
@@ -184,7 +184,7 @@ const schema = [
 			</div>
 			<ul class="grid-auto">
 				{problems.map((problem) => (
-					<li class="card card-tint">
+					<li class="card">
 						<h3>{problem.title}</h3>
 						<p class="text-secondary">{problem.description}</p>
 					</li>
@@ -238,7 +238,7 @@ const schema = [
 			</div>
 			<ul class="grid-auto pricing-grid">
 				{pricingTiers.map((tier) => (
-					<li class:list={['card', 'pricing-card', { 'card-tint': tier.featured, featured: tier.featured }]}>
+					<li class:list={['card', 'pricing-card', { featured: tier.featured }]}>
 						{tier.featured && <p class="pricing-badge">Most projects</p>}
 						<h3>{tier.name}</h3>
 						<p class="pricing-price">{tier.price}<span class="pricing-unit">{tier.unit}</span></p>
@@ -265,7 +265,7 @@ const schema = [
 					<h2>Frequently asked questions</h2>
 					<p class="lead">
 						The things people ask on the first call. If yours is not here,
-						<a href="/contact/">ask us directly</a> — we would rather answer it than have
+						<a href="/contact/">ask us directly</a>. We would rather answer it than have
 						you guess.
 					</p>
 				</div>
@@ -317,7 +317,7 @@ const schema = [
 		font-size: var(--text-h4);
 	}
 
-	/* Services — a single column of wide cards rather than a grid. Each one
+	/* Services, a single column of wide cards rather than a grid. Each one
 	   carries a paragraph and a list, which a three-up grid would squeeze into
 	   a column too narrow to read either in. Two-up at desktop keeps the page
 	   from running unreasonably long. */
@@ -407,7 +407,7 @@ const schema = [
 	/* Pricing sits on the page surface, not on the brand band. A band there
 	   would have forced each card to re-point --color-text and friends back
 	   to their light-surface values, and the only way to write that is by
-	   reaching into the raw --gray-* palette from a component — which is the
+	   reaching into the raw --gray-* palette from a component, which is the
 	   one thing the token layering in tokens.css exists to prevent. The
 	   closing .cta-band is this page's single saturated device instead. */
 	.pricing-grid {
@@ -419,18 +419,19 @@ const schema = [
 		flex-direction: column;
 	}
 
-	/* The featured tier is marked by fill, not by a ring drawn around it. A
-	   ring would be the only outlined object left on the site, and a tint
-	   says "this one" just as clearly while staying in the palette. The
-	   "Most projects" badge above it carries the same signal in words, so the
-	   distinction is never colour alone.
+	/* Every card on the site is an outline now, so the featured tier is
+	   marked by the weight and colour of its own outline rather than by a
+	   fill. The inset ring doubles the edge visually without adding a second
+	   pixel of border, which would make this card sit 1px taller than its
+	   neighbours and break the row's baseline.
 
-	   It takes the tint through .card-tint rather than by setting a
-	   background here, so it also inherits that class's re-pointing of the
-	   muted text roles. Setting the fill directly would leave the feature
-	   list reading --color-text-secondary against a tint, which happens to
-	   clear AA today and is exactly the pairing tokens.css warns is too thin
-	   to build on. */
+	   The "Most projects" badge above it carries the same signal in words,
+	   so the distinction is never colour alone. */
+	.pricing-card.featured {
+		border-color: var(--color-brand);
+		box-shadow: inset 0 0 0 1px var(--color-brand);
+	}
+
 
 	.pricing-badge {
 		font-size: var(--text-eyebrow);

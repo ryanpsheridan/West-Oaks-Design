@@ -18,7 +18,7 @@
 
 :root {
 	/* ------------------------------------------------------------------------
-	   1. PALETTE — never reference these directly outside this file.
+	   1. PALETTE, never reference these directly outside this file.
 
 	   The neutral ramp is deliberately compressed at the dark end: every text
 	   role has to clear WCAG AA (4.5:1) against both --surface-page and
@@ -34,15 +34,15 @@
 	   putting the borders back too.
 	   ------------------------------------------------------------------------ */
 	--gray-0: #FFFFFF;    /* cards and raised surfaces */
-	--gray-25: #F2EFE7;   /* page — limestone, deliberately not near-white */
+	--gray-25: #F2EFE7;   /* page, limestone, deliberately not near-white */
 	--gray-50: #E6E2D8;   /* recessed section bands */
 	--gray-100: #DCD7CA;  /* inline code, subtle fills */
 	--gray-200: #D6D0C1;  /* hairline dividers */
 	--gray-300: #C8C2B0;  /* default borders */
 	--gray-400: #B0A996;  /* emphasised / hover borders */
-	--gray-500: #525E57;  /* tertiary text — 5.90:1 page, 5.24:1 sunken, 4.72:1 fill */
-	--gray-600: #48544E;  /* secondary text — 6.89:1 page, 6.12:1 sunken, 5.51:1 fill */
-	--gray-900: #0A1A16;  /* primary text — 15.6:1 on page */
+	--gray-500: #525E57;  /* tertiary text, 5.90:1 page, 5.24:1 sunken, 4.72:1 fill */
+	--gray-600: #48544E;  /* secondary text, 6.89:1 page, 6.12:1 sunken, 5.51:1 fill */
+	--gray-900: #0A1A16;  /* primary text, 15.6:1 on page */
 
 	/* Near-black with the green pulled through it rather than a blue-black,
 	   so the darkest surfaces read as the same family as the brand colour
@@ -54,46 +54,36 @@
 	   Tints. Light card and section-band fields, used as whole backgrounds
 	   rather than as small accents.
 
-	   IN LIVE USE: --tint-clay on every tinted card, --tint-sand on the
-	   eyebrow pill. That is the whole set in practice.
+	   IN LIVE USE: --tint-sand, on the eyebrow pill. That is it.
 
-	   The cards are warm, not green, and that is load-bearing rather than
-	   arbitrary. A pale green card next to a deep green band reads as a
-	   washed-out version of the band — the earlier one sat at 19% saturation
-	   and came off elementary, like a colour chosen because it was available
-	   rather than because it meant something. Clay sits at 36%: warm enough
-	   to be its own material, and it puts the site's two colours where the
-	   business's own materials already are, limestone and decomposed granite
-	   against cedar and live oak. Green stays where it carries the most
-	   weight — the bands, the buttons, the links.
+	   Cards used to take one of these as a fill. They no longer have a fill
+	   at all: filled cards were tried white and then warm, and both turned a
+	   grid of cards into a set of coloured objects to look at rather than a
+	   list of things to read. Cards are outlines now, so the tints are down
+	   to the one job the eyebrow does.
 
-	   Cards do not alternate. An earlier pass cycled three or four tints
-	   across a card grid, which made the grid itself read as the thing worth
-	   looking at rather than the six services in it. One fill for every card
-	   puts the attention back on the words, and it means a seventh service
-	   can be added without anyone deciding what colour it should be.
-
-	   The two greens stay defined as options, not spare parts, and both are
-	   currently unused. Reach for one only for a genuine one-off, via the
-	   --card-tint knob. Do not reintroduce alternation.
+	   The rest stay defined rather than deleted because they are a working
+	   ramp for a future band, chip or callout, and because re-deriving a set
+	   that clears AA is more work than keeping five values around. They are
+	   not an invitation to start tinting cards again.
 
 	   --color-text clears AA on every tint by a wide margin (13.8:1 at
 	   worst, measured). --color-text-secondary does not clear it by enough
 	   to build on, so anything set on a tint takes primary text or a tone
-	   mixed down from it via color-mix — which is what .card-tint and
-	   .section-brand already do for you.
+	   mixed down from it via color-mix, which is what .section-brand
+	   already does for you.
 	   ------------------------------------------------------------------------ */
 	--tint-moss: #E2E9DF;     /* --color-text at 14.5:1 */
 	--tint-clay: #E2D5C1;     /* --color-text at 12.4:1 */
 	--tint-sage: #CBD7C8;     /* --color-text at 11.9:1 */
-	--tint-sand: #EAE1D2;     /* --color-text at 13.8:1 — the eyebrow pill's tone */
+	--tint-sand: #EAE1D2;     /* --color-text at 13.8:1, the eyebrow pill's tone */
 	--tint-bone: #EFECE3;     /* --color-text at 15.2:1 */
 
 	/* Shadow base, kept neutral so no elevation ever inherits a brand hue. */
 	--shadow-rgb: 10, 26, 22;
 
 	/* ------------------------------------------------------------------------
-	   2. BRAND — the re-theme surface. Swap these per client; everything
+	   2. BRAND, the re-theme surface. Swap these per client; everything
 	   else in the system derives from them.
 
 	   Two separate roles, deliberately kept apart:
@@ -110,7 +100,7 @@
 	/* Links, and nothing else. Deep enough to clear AA as text at 7.61:1 on
 	   the page surface, and far enough off --color-text that an inline link
 	   in a paragraph is unmistakable without an underline doing all the work.
-	   It's a lighter, wetter green than the brand field — same family, read
+	   It's a lighter, wetter green than the brand field, same family, read
 	   as a different role. */
 	--color-accent: #175449;        /* 7.61:1 on --surface-page */
 	--color-accent-hover: #0F3A32;
@@ -118,54 +108,57 @@
 
 	/* The brand field. This is West Oaks' dark blue-green, and unlike
 	   --color-accent it is only ever a *background*, with
-	   --color-brand-contrast (white) on top — which is exactly how the
+	   --color-brand-contrast (white) on top, which is exactly how the
 	   client described wanting it used. The inversion is what lets it be the
 	   most saturated thing on the site without failing contrast: white on it
 	   measures 11.5:1.
 
 	   This is a deep forest, and the depth is bought with saturation rather
-	   than just darkness. That distinction matters: the value this replaced
-	   two revisions ago read as black at this lightness because it was only
-	   42% saturated, and desaturated darks lose their hue long before they
-	   lose their luminance. This sits at 62%, so it stays unmistakably green
-	   as a full-bleed field.
+	   than just darkness. That distinction is the whole thing: a value that
+	   read as black a few revisions ago sat at a similar lightness but only
+	   42% saturation, because desaturated darks lose their hue long before
+	   they lose their luminance. This sits at 73%, which is what lets it go
+	   this dark and still read unmistakably green as a full-bleed field.
+
+	   Every time this has been darkened, the saturation has gone up with it.
+	   Keep doing that. Darkening alone walks straight back to black.
 
 	   It is now the DARKEST thing on the site, darker than --color-ink. That
 	   inverts the usual arrangement on purpose: the brand band should be the
 	   deepest note on a page, and the closing CTA band a step up from it, not
 	   the other way round. */
-	--color-brand: #0D382B;         /* white on it: 13.0:1 */
-	--color-brand-hover: #092A20;
+	--color-brand: #06261B;         /* white on it: 16.1:1 */
+	--color-brand-hover: #041B13;
 	--color-brand-contrast: #FFFFFF;
 
-	/* Primary buttons and the closing CTA band — the near-black end of the
+	/* Primary buttons and the closing CTA band, the near-black end of the
 	   same green, so high-emphasis controls sit under the brand colour
 	   rather than beside it.
 
 	   Deliberately NOT aliased to --ink-900 the way the starter had it, and
 	   deliberately not a near-black either. --ink-900 is --color-text: a
 	   value tuned to be crisp at 16px reads as flat black the moment it
-	   becomes a field — a menu button, a primary button, a full-bleed closing
-	   band — and a black field on a warm limestone palette looks like a hole
+	   becomes a field, a menu button, a primary button, a full-bleed closing
+	   band, and a black field on a warm limestone palette looks like a hole
 	   punched in the page rather than part of it.
 
 	   So this is a green dark enough to anchor (white clears 9.8:1) and light
 	   enough to be visibly green at any size. It sits a clear step ABOVE
-	   --color-brand — 1.85x its luminance — so on a page carrying both, the
+	   --color-brand, 1.85x its luminance, so on a page carrying both, the
 	   brand band and the closing band read as two different devices rather
 	   than one repeated.
 
 	   Near-black is still correct for *text*, which is why --color-text keeps
 	   --gray-900. The rule is about fields, not glyphs. */
-	--color-ink: #184C3E;           /* white on it: 9.8:1 */
-	--color-ink-hover: #123C31;
+	--color-ink: #10392C;           /* white on it: 13.6:1 */
+	--color-ink-hover: #0A2A20;
 	--color-ink-contrast: #FFFFFF;
-	/* Secondary text on an ink surface — ~9:1, so it still clears AA while
+	/* Secondary text on an ink surface, ~9:1, so it still clears AA while
 	   reading as a step down from full white. */
 	--color-ink-contrast-muted: rgba(255, 255, 255, 0.72);
 
 	/* ------------------------------------------------------------------------
-	   3. SEMANTIC — what a value means, not what it looks like.
+	   3. SEMANTIC, what a value means, not what it looks like.
 
 	   Surfaces are the layering vocabulary: `page` is the base, `sunken`
 	   recesses a section band out of it, `raised` lifts a card back up. A card
@@ -173,7 +166,7 @@
 	   reads as raised via contrast. One class, both contexts.
 	   ------------------------------------------------------------------------ */
 	--surface-page: var(--color-bg);
-	/* White, while the page itself is warm off-white — so a card lifts by being
+	/* White, while the page itself is warm off-white, so a card lifts by being
 	   cleaner than its background rather than by borrowing a shadow. */
 	--surface-raised: var(--gray-0);
 	--surface-sunken: var(--color-bg-subtle);
@@ -187,18 +180,18 @@
 	--color-text-secondary: var(--gray-600);
 	--color-text-tertiary: var(--gray-500);
 
-	/* Overlay surfaces — modal scrims and the controls that sit on top of
+	/* Overlay surfaces, modal scrims and the controls that sit on top of
 	   them. Derived rather than hardcoded so they follow a re-theme, and
 	   neutral so a scrim never tints the image behind it. */
 	--overlay-scrim: rgba(var(--shadow-rgb), 0.9);
 	--overlay-chip: color-mix(in srgb, var(--surface-page) 92%, transparent);
 
-	/* Semantic accents — reserved for real state (success, warning, error,
+	/* Semantic accents, reserved for real state (success, warning, error,
 	   informational). Never decoration. Always paired with text or an icon,
 	   never carrying the signal on color alone.
 
 	   Each foreground is darkened past the starter's values so it clears AA
-	   as *text* both on --surface-page and on its own -bg pairing — the
+	   as *text* both on --surface-page and on its own -bg pairing, the
 	   starter's originals cleared the page but not their own chip, which
 	   .field-error and the style-guide swatches both rely on. */
 	--color-accent-positive: #14724A;
@@ -214,7 +207,7 @@
 	   4a. TYPOGRAPHY
 
 	   Aspekta for everything. Hierarchy comes from size, tracking, and leading
-	   — never from a second typeface, and barely from weight: the whole scale
+	  , never from a second typeface, and barely from weight: the whole scale
 	   sits at medium (500), with size and tracking doing the separating. That
 	   is why the headings can be this large without the page shouting.
 
@@ -224,21 +217,21 @@
 	--font-sans: 'Aspekta Variable', system-ui, -apple-system, sans-serif;
 	--font-heading: 'Aspekta Variable', system-ui, -apple-system, sans-serif;
 
-	/* Body scale — large for lead paragraphs, body as the default, small for
+	/* Body scale, large for lead paragraphs, body as the default, small for
 	   captions and fine print. Eyebrow is the uppercase overline label. */
 	--text-eyebrow: 0.8125rem;
 	--text-small: 0.875rem;
 	--text-body: 1rem;
 	--text-large: 1.125rem;
 
-	/* Heading scale. h5 intentionally matches body size — a heading sized like
-	   a paragraph, for tight label-style headings — then steps up to h1.
+	/* Heading scale. h5 intentionally matches body size, a heading sized like
+	   a paragraph, for tight label-style headings, then steps up to h1.
 	   Display sits above h1 for hero headlines only, layered on top of it
 	   rather than replacing it.
 
 	   h1/h2/h3/display use clamp() so they scale down fluidly on narrow phones
 	   instead of eating a 375px screen. Display's lower bound is held well
-	   clear of h1's so the two don't converge at mid-size viewports — a
+	   clear of h1's so the two don't converge at mid-size viewports, a
 	   display headline that lands on the same size as an h1 is just an h1. */
 	--text-h5: 1.25rem;                                      /* 20px */
 	--text-h4: clamp(1.375rem, 1.25rem + 0.6vw, 1.5rem);     /* →24px */
@@ -260,7 +253,7 @@
 	--tracking-normal: 0;         /* body at 16px and below */
 	--tracking-caps: 0.06em;      /* eyebrows, uppercase labels */
 
-	/* Leading. Tighter as type gets larger — a 3.75rem headline at 1.2 has
+	/* Leading. Tighter as type gets larger, a 3.75rem headline at 1.2 has
 	   caverns between its lines, while a 1rem label at 1.2 is cramped. */
 	--leading-display: 1.08;
 	--leading-tight: 1.12;
@@ -268,7 +261,7 @@
 	--leading-body: 1.5;
 
 	/* ------------------------------------------------------------------------
-	   4b. SPACING — 4px grid.
+	   4b. SPACING, 4px grid.
 
 	   Numerically named on purpose. The previous t-shirt scale had uneven
 	   ratios and no step between 1rem and 1.75rem, which forced one token to
@@ -299,10 +292,20 @@
 	   reads as a grey smudge; two layers at 4% read as a surface sitting
 	   above another surface. All neutral, so elevation never picks up a hue.
 	   ------------------------------------------------------------------------ */
-	--radius-sm: 6px;
-	--radius-md: 10px;
-	--radius-lg: 16px;
-	--radius-xl: 24px;
+	/* Tight on purpose. The scale used to run 6/10/16/24, which put a 24px
+	   corner on every card and image and made the whole page read as a set
+	   of soft-edged bubbles floating on a background. At 8px a card still
+	   reads as a considered object rather than a raw rectangle, but the
+	   corner stops being the first thing you notice about it.
+
+	   --radius-pill is untouched and still fully round: it is for things
+	   that are genuinely capsule-shaped (buttons, the eyebrow, the filter
+	   pills, the header shell), where the shape is the component rather than
+	   a softening applied to one. */
+	--radius-sm: 2px;
+	--radius-md: 4px;
+	--radius-lg: 6px;
+	--radius-xl: 8px;
 	--radius-pill: 999px;
 
 	--shadow-xs: 0 1px 2px rgba(var(--shadow-rgb), 0.04);
@@ -345,9 +348,9 @@
 	   line return, so prose gets a measure even when the container is wider.
 	   ------------------------------------------------------------------------ */
 	--content-width: 1200px;
-	--measure-narrow: 34rem;  /* 544px — forms, tight single-column pages */
-	--measure: 40rem;         /* 640px — lead paragraphs, section intros */
-	--measure-wide: 45rem;    /* 720px — long-form body copy, FAQ lists */
+	--measure-narrow: 34rem;  /* 544px, forms, tight single-column pages */
+	--measure: 40rem;         /* 640px, lead paragraphs, section intros */
+	--measure-wide: 45rem;    /* 720px, long-form body copy, FAQ lists */
 
 	/* Derived from --color-accent rather than hardcoded, so re-theming a
 	   client's brand color carries the focus ring with it. */

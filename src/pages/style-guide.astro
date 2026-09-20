@@ -11,7 +11,7 @@ const demoStats = [
 ];
 
 // Living reference for the design system. Every token group and every shared
-// component class in global.css must be represented here — if something isn't
+// component class in global.css must be represented here, if something isn't
 // on this page, it isn't in the system. When you add a token or a component,
 // add it here in the same commit.
 
@@ -29,9 +29,9 @@ const borders = [
 ];
 
 const textRoles = [
-	{ name: '--color-text', label: 'Primary', note: '15.5:1 — body copy, headings' },
-	{ name: '--color-text-secondary', label: 'Secondary', note: '6.7:1 — supporting copy' },
-	{ name: '--color-text-tertiary', label: 'Tertiary', note: '5.0:1 — captions, metadata' },
+	{ name: '--color-text', label: 'Primary', note: '15.5:1, body copy, headings' },
+	{ name: '--color-text-secondary', label: 'Secondary', note: '6.7:1, supporting copy' },
+	{ name: '--color-text-tertiary', label: 'Tertiary', note: '5.0:1, captions, metadata' },
 ];
 
 const brand = [
@@ -39,7 +39,7 @@ const brand = [
 	{ name: '--color-accent-hover', label: 'Accent hover', note: '' },
 	{ name: '--color-ink', label: 'Ink', note: 'Primary buttons' },
 	{ name: '--color-ink-hover', label: 'Ink hover', note: '' },
-	{ name: '--color-brand', label: 'Brand', note: 'Field colour — background only, never text' },
+	{ name: '--color-brand', label: 'Brand', note: 'Field colour, background only, never text' },
 ];
 
 const tints = [
@@ -75,8 +75,8 @@ const textScale = [
 
 const weights = [
 	{ token: '--weight-normal', label: 'Normal (400)' },
-	{ token: '--weight-medium', label: 'Medium (500) — UI, labels, buttons' },
-	{ token: '--weight-semibold', label: 'Semibold (600) — headings, heaviest in the system' },
+	{ token: '--weight-medium', label: 'Medium (500). UI, labels, buttons' },
+	{ token: '--weight-semibold', label: 'Semibold (600), headings, heaviest in the system' },
 ];
 
 const tracking = [
@@ -143,7 +143,7 @@ const measures = [
 
 <BaseLayout
 	title="Style Guide"
-	description="Visual reference for this site's design tokens — colors, typography, spacing, motion, and components."
+	description="Visual reference for this site's design tokens, colors, typography, spacing, motion, and components."
 	noindex
 >
 	<section class="section">
@@ -193,7 +193,7 @@ const measures = [
 			<h3>Text roles</h3>
 			<p class="text-secondary measure">
 				All three clear WCAG AA (4.5:1) against both <code>--surface-page</code> and
-				<code>--surface-sunken</code>. That floor is why the ramp has no lighter step — anything
+				<code>--surface-sunken</code>. That floor is why the ramp has no lighter step, anything
 				paler reads as muted but fails.
 			</p>
 			<ul class="text-role-list">
@@ -213,7 +213,7 @@ const measures = [
 			<h3>Brand</h3>
 			<p class="text-secondary measure">
 				The tokens a client re-theme touches. Accent is for inline links and nothing else;
-				ink carries primary buttons. Brand is different in kind from both — it is a
+				ink carries primary buttons. Brand is different in kind from both, it is a
 				<em>field</em> colour, only ever a background with <code>--color-brand-contrast</code>
 				on top, which is what would let it be far more saturated than anything that has to
 				pass contrast as text, once a client's brand colour lands here. Until then it's
@@ -232,13 +232,12 @@ const measures = [
 
 			<h3>Tints</h3>
 			<p class="text-secondary measure">
-				Whole-field colours for tinted cards (<code>.card-tint</code>) and eyebrow pills.
-				Shipped neutral here — steps off the same warm-grey ramp rather than a colour — so a
-				new client project starts from a blank slate instead of inheriting a previous one's
-				palette. <code>--color-text</code> clears AA on every tint with room to spare (being
-				near-white). <code>.card-tint</code> still mixes its muted tone down from the primary
-				text colour instead of reaching for the secondary role, so that stays safe once a
-				client re-themes these darker.
+				Whole-field colours, used as backgrounds and never as text. Only
+				<code>--tint-sand</code> is in live use, on the eyebrow pill: cards used to take one
+				of these as a fill and no longer have a fill at all. The rest are kept as a working
+				ramp for a future band, chip or callout. <code>--color-text</code> clears AA on every
+				one of them with room to spare; the muted roles do not clear it by enough to build
+				on, so anything set on a tint takes primary text or a tone mixed down from it.
 			</p>
 			<ul class="grid-auto swatch-grid">
 				{tints.map((c) => (
@@ -252,7 +251,7 @@ const measures = [
 
 			<h3>Semantic accents</h3>
 			<p class="text-secondary measure">
-				Reserved for actual state — success, warning, error, informational — never decoration.
+				Reserved for actual state, success, warning, error, informational, never decoration.
 				Always paired with text or a glyph so color never carries the signal alone.
 			</p>
 			<ul class="grid-auto swatch-grid">
@@ -268,13 +267,13 @@ const measures = [
 			<h2>Typography</h2>
 			<p class="text-secondary measure">
 				<strong>DM Sans</strong> for both body and headings. Hierarchy comes from size, weight,
-				tracking, and leading — never a second typeface.
+				tracking, and leading, never a second typeface.
 			</p>
 
 			<h3>Headings</h3>
 			<p class="text-secondary measure">
-				H5 intentionally matches body size — a heading sized like a paragraph, for tight
-				label-style headings — then steps up through H1. Display sits above H1 for hero
+				H5 intentionally matches body size, a heading sized like a paragraph, for tight
+				label-style headings, then steps up through H1. Display sits above H1 for hero
 				headlines, layered on an H1 rather than replacing it, so the page keeps exactly one H1.
 			</p>
 			<ul class="type-scale">
@@ -343,7 +342,7 @@ const measures = [
 			<h3>Eyebrow</h3>
 			<p class="text-secondary measure">
 				Uppercase overline label, set in a tinted pill. Adds a level of hierarchy above a
-				heading without spending another type size — as plain grey caps it disappears next to
+				heading without spending another type size, as plain grey caps it disappears next to
 				headings at this scale. Set the fill with <code>--eyebrow-tint</code>; text stays
 				<code>--color-text</code>, since the tints are only guaranteed AA against it.
 			</p>
@@ -357,7 +356,7 @@ const measures = [
 				))}
 			</div>
 			<p class="swatch-note">
-				<code>.eyebrow-plain</code> drops the pill for places it's too loud — inside a card,
+				<code>.eyebrow-plain</code> drops the pill for places it's too loud, inside a card,
 				or stacked directly above another label.
 			</p>
 			<div class="demo-block">
@@ -367,7 +366,7 @@ const measures = [
 
 			<h2>Spacing</h2>
 			<p class="text-secondary measure">
-				A 4px grid, numerically named. Used for every padding, margin, and gap — never a raw
+				A 4px grid, numerically named. Used for every padding, margin, and gap, never a raw
 				pixel value. Rough intent: 1&ndash;4 inside components, 5&ndash;7 between components,
 				8&ndash;10 between sections.
 			</p>
@@ -412,7 +411,7 @@ const measures = [
 			<p class="text-secondary measure">
 				One easing family, three durations. <code>--ease-out</code> is the workhorse for anything
 				entering or responding to input. Everything using these sits behind the
-				<code>prefers-reduced-motion</code> block in <code>global.css</code> — new animation must
+				<code>prefers-reduced-motion</code> block in <code>global.css</code>, new animation must
 				not bypass it.
 			</p>
 			<ul class="plain-list">
@@ -436,7 +435,7 @@ const measures = [
 
 			<h3>Micro-interactions</h3>
 			<p class="text-secondary measure">
-				The site's motion budget is small on purpose, and all of it is CSS-first — no
+				The site's motion budget is small on purpose, and all of it is CSS-first, no
 				animation library, which would outweigh the entire rest of the build. Each of these
 				degrades to its static state where the feature isn't supported, and all of them stop
 				under <code>prefers-reduced-motion</code>.
@@ -445,7 +444,7 @@ const measures = [
 				<li><code>@view-transition</code><span class="swatch-note"> cross-page fade and rise; the header opts out by name</span></li>
 				<li><code>animation-timeline: scroll()</code><span class="swatch-note"> sticky header gains blur, border, and shadow once scrolled</span></li>
 				<li><code>--i</code> stagger<span class="swatch-note"> mobile menu items rise in 40ms apart</span></li>
-				<li><code>.card-tint:hover</code><span class="swatch-note"> deepens its own fill instead of casting a shadow</span></li>
+				<li><code>.card-interactive:hover</code><span class="swatch-note"> the outline takes the brand colour; no shadow, which would land on the page rather than the card</span></li>
 				<li><code>.btn-arrow:hover</code><span class="swatch-note"> the badge nudges up and to the right</span></li>
 				<li><code>::details-content</code><span class="swatch-note"> FAQ accordion opens smoothly; the + rotates rather than swapping glyph</span></li>
 				<li><code>StatBand</code><span class="swatch-note"> figures count up once, the first time they scroll into view</span></li>
@@ -453,7 +452,7 @@ const measures = [
 			</ul>
 			<p class="swatch-note measure">
 				Deliberately absent: fade-up-on-scroll. Content is in the HTML and visible
-				immediately — the count-up is the sole scroll-triggered effect, and even it only
+				immediately, the count-up is the sole scroll-triggered effect, and even it only
 				re-animates text that already rendered.
 			</p>
 
@@ -472,7 +471,7 @@ const measures = [
 				))}
 			</ul>
 			<p class="text-secondary measure">
-				Section rhythm has three densities rather than one — <code>.section-tight</code>,
+				Section rhythm has three densities rather than one, <code>.section-tight</code>,
 				<code>.section</code>, and <code>.section-loose</code>. Uniform section padding is a large
 				part of what makes a page read flat, because nothing tells the eye which breaks matter
 				more than others. <code>.section-sunken</code> adds a full-bleed recessed band.
@@ -492,7 +491,7 @@ const measures = [
 				<button type="button" class="btn btn-primary btn-lg">Large</button>
 			</div>
 			<p class="swatch-note">
-				Medium weight rather than semibold — at button size on a filled pill, semibold reads
+				Medium weight rather than semibold, at button size on a filled pill, semibold reads
 				heavy, and semibold is also the heading weight. Hover, press, and focus states are all
 				live above.
 			</p>
@@ -504,7 +503,7 @@ const measures = [
 				<button type="button" class="btn btn-secondary btn-arrow">Secondary</button>
 			</div>
 			<p class="swatch-note">
-				<code>.btn-arrow</code> adds an inverted disc inside the pill's right edge — the detail
+				<code>.btn-arrow</code> adds an inverted disc inside the pill's right edge, the detail
 				that makes a button read as a destination rather than a form control. Each variant
 				supplies its own badge colours, so the disc is always the button inverted. Reserve it
 				for navigation; a submit button shouldn't imply it takes you somewhere.
@@ -519,32 +518,22 @@ const measures = [
 			<ul class="grid-auto demo-grid">
 				<li class="card">
 					<h4>Static card</h4>
-					<p class="text-secondary">Uses <code>.card</code> — border, radius, and padding from the system. No hover state.</p>
+					<p class="text-secondary">Uses <code>.card</code>, border, radius, and padding from the system. No hover state.</p>
 				</li>
 				<li class="card card-interactive">
 					<h4>Interactive card</h4>
-					<p class="text-secondary">Adds <code>.card-interactive</code>. Hover it: border, shadow, and a 2px lift.</p>
+					<p class="text-secondary">Adds <code>.card-interactive</code>. Hover it: the outline takes the brand colour and the card lifts 2px.</p>
 				</li>
 			</ul>
 
-			<h4>Tinted cards</h4>
+			<h4>One card, every surface</h4>
 			<p class="text-secondary measure">
-				<code>.card-tint</code> drops the border entirely and fills the card with a tint set
-				per instance via <code>--card-tint</code> — a saturated field doesn't need an edge
-				drawn around it. It also re-points <code>--color-text-secondary</code> and
-				<code>--color-text-tertiary</code> to tint-safe tones, so anything inside — including
-				a page's own scoped CSS reaching for those tokens — lands on a safe value without
-				needing an override. <code>.section-brand</code> does the same from
-				<code>--color-brand-contrast</code>.
+				There is no tinted variant. A card has no fill, so it inherits whatever surface it
+				is placed on and the same class works unchanged on the page, on a sunken band, or
+				inside another section. Filled cards were tried in both directions, white and then
+				warm, and both turned a grid of cards into a set of coloured objects to look at
+				rather than a list of things to read.
 			</p>
-			<ul class="grid-auto demo-grid">
-				{tints.slice(1, 4).map((t) => (
-					<li class="card card-tint" style={`--card-tint: var(${t.name});`}>
-						<h4>{t.label}</h4>
-						<p class="text-secondary"><code>--card-tint: var({t.name})</code></p>
-					</li>
-				))}
-			</ul>
 
 			<h3>Grid</h3>
 			<p class="text-secondary measure">
@@ -562,8 +551,8 @@ const measures = [
 			<h3>Section header</h3>
 			<p class="text-secondary measure">
 				Groups the eyebrow, heading, and lead into one unit, with an optional action link
-				pinned to the opposite end. Pairing a section's "see everything" link with its heading —
-				rather than stranding a button under the grid — is what keeps a long page from reading
+				pinned to the opposite end. Pairing a section's "see everything" link with its heading,
+				rather than stranding a button under the grid, is what keeps a long page from reading
 				as a stack of loose blocks.
 			</p>
 			<div class="demo-block">
@@ -577,7 +566,7 @@ const measures = [
 				</div>
 			</div>
 			<p class="swatch-note">
-				Add <code>.section-header-center</code> for sections with no action link — a lone
+				Add <code>.section-header-center</code> for sections with no action link, a lone
 				left-aligned header above a symmetrical grid leaves the whole right half of the row
 				empty.
 			</p>
@@ -627,7 +616,7 @@ const measures = [
 			<h3>Topline</h3>
 			<p class="text-secondary measure">
 				Borderless grid item with a rule above it. Gives a list of features structure without the
-				weight of a card — useful inside a sunken band, where a card would be layering twice for
+				weight of a card, useful inside a sunken band, where a card would be layering twice for
 				one level of hierarchy.
 			</p>
 			<ul class="grid-auto demo-grid" style="--grid-min: 220px;">
@@ -660,7 +649,7 @@ const measures = [
 				The <code>StatBand</code> component groups the same figures into a sunken panel
 				split by hairlines, and collapses to a single column below 720px where the vertical
 				rules would be dividing nothing. Tune the column count with the <code>cols</code>
-				prop. The numbers count up the first time the band scrolls into view — once only,
+				prop. The numbers count up the first time the band scrolls into view, once only,
 				skipped entirely under reduced motion, and the finished values are in the HTML so
 				nothing is hidden waiting on a scroll position.
 			</p>
@@ -676,7 +665,7 @@ const measures = [
 			<p class="text-secondary measure">
 				Drawn on a 24px grid at 1.5 stroke, so an icon sits at the same optical weight as
 				<code>--weight-medium</code> text beside it. Icons inherit <code>currentColor</code> and
-				scale with the <code>size</code> prop — set the color on the parent and the icon follows.
+				scale with the <code>size</code> prop, set the color on the parent and the icon follows.
 				Decorative by default; pass a <code>title</code> only when the icon is the sole carrier of
 				meaning, which it should almost never be. Add new icons to
 				<code>src/components/Icon.astro</code> rather than inlining SVG in a page.
@@ -699,19 +688,19 @@ const measures = [
 				above: it is waiting on real figures, not decorating invented ones.
 			</p>
 			<p class="text-secondary measure">
-				Deliberately not a giant decorative quote mark over a slab of italic text — that reads as
+				Deliberately not a giant decorative quote mark over a slab of italic text, that reads as
 				stock. Credibility comes from the concrete parts: a rating, a real name, a role, and a
 				face. Every optional part degrades cleanly, so a client with only a quote still gets a
 				card that looks finished.
 			</p>
 			<ul class="grid-auto demo-grid testimonial-demo" style="--grid-min: 300px;">
-				<li><Testimonial quote="With a rating and a role — the fullest version." name="Dana Whitfield" role="Operations lead, Northgate" rating={5} /></li>
+				<li><Testimonial quote="With a rating and a role, the fullest version." name="Dana Whitfield" role="Operations lead, Northgate" rating={5} /></li>
 				<li><Testimonial quote="No rating and no role. Still reads as finished rather than broken." name="Sam Ortiz" /></li>
 			</ul>
 
 			<h3>Quote</h3>
 			<p class="text-secondary measure">
-				A rule instead of quotation marks — the attribution already signals that it's a quote, so
+				A rule instead of quotation marks, the attribution already signals that it's a quote, so
 				the marks are redundant weight.
 			</p>
 			<div class="demo-block">
@@ -723,7 +712,7 @@ const measures = [
 
 			<h3>CTA band</h3>
 			<p class="text-secondary measure">
-				Full-bleed inverted section for a closing call to action. One per page at most — its whole
+				Full-bleed inverted section for a closing call to action. One per page at most, its whole
 				job is to be the only thing that inverts, so a second one costs the first its impact. The
 				focus ring goes white inside it, since the accent-derived ring can fall too close to ink.
 			</p>
@@ -738,7 +727,7 @@ const measures = [
 
 			<h3>Brand band</h3>
 			<p class="text-secondary measure">
-				<code>.section-brand</code> is the same idea in the brand colour rather than ink —
+				<code>.section-brand</code> is the same idea in the brand colour rather than ink,
 				a full-bleed saturated band, once per page at most. Renders identically to the CTA
 				band above until a client's brand colour is dropped into <code>--color-brand</code>,
 				since this starter has none yet. Text stays primary, since the brand colour only
@@ -754,7 +743,7 @@ const measures = [
 			<h3>Form fields</h3>
 			<p class="text-secondary measure">
 				Every field gets a real <code>&lt;label for&gt;</code>, never a placeholder standing in for
-				one. Focus changes the border as well as raising the global ring — the ring alone leaves
+				one. Focus changes the border as well as raising the global ring, the ring alone leaves
 				the field itself looking inert while it's active.
 			</p>
 			<div class="demo-form">
@@ -785,12 +774,12 @@ const measures = [
 			<h3>Text utilities</h3>
 			<div class="demo-block">
 				<p class="lead">
-					<code>.lead</code> — the sentence directly under a page or section heading. Larger,
+					<code>.lead</code>, the sentence directly under a page or section heading. Larger,
 					secondary tone, capped at <code>--measure</code>.
 				</p>
 				<p><code>.text-secondary</code> and <code>.text-tertiary</code> step body copy down:</p>
-				<p class="text-secondary">Secondary — supporting copy inside a card or section.</p>
-				<p class="text-tertiary">Tertiary — captions, metadata, attribution lines.</p>
+				<p class="text-secondary">Secondary, supporting copy inside a card or section.</p>
+				<p class="text-tertiary">Tertiary, captions, metadata, attribution lines.</p>
 				<hr class="divider" />
 				<p class="swatch-note">Above is <code>.divider</code>.</p>
 			</div>
@@ -808,7 +797,7 @@ const measures = [
 			<h3>Links</h3>
 			<p class="text-secondary">
 				An <a href="/">inline link</a> in body copy, showing the default and hover accent colors.
-				Accent is reserved for these — buttons use ink.
+				Accent is reserved for these, buttons use ink.
 			</p>
 
 			<h3>FAQ accordion</h3>
@@ -824,7 +813,7 @@ const measures = [
 				<details class="faq-item">
 					<summary>A question someone actually asks</summary>
 					<p class="text-secondary">
-						The answer, written so its first sentence stands alone — that is what an
+						The answer, written so its first sentence stands alone, that is what an
 						answer engine quotes. The same array that renders this builds the FAQPage
 						schema, so the marked-up answer is always the rendered answer.
 					</p>
@@ -943,7 +932,7 @@ const measures = [
 		font-size: var(--text-large);
 	}
 
-	/* Wraps rather than holding its width — at narrow viewports the token
+	/* Wraps rather than holding its width, at narrow viewports the token
 	   name and its contrast note can't sit on one line beside the sample. */
 	.text-role-meta {
 		display: flex;

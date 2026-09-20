@@ -12,7 +12,7 @@
  *      search and answer engines read one connected graph of a single
  *      business rather than several unrelated snippets that happen to share
  *      a name.
- *   3. A malformed block fails silently — it just stops producing rich
+ *   3. A malformed block fails silently, it just stops producing rich
  *      results, with nothing visibly broken on the page. Generating it from
  *      one typed place is what stops that going unnoticed.
  *
@@ -53,7 +53,7 @@ export const ids = (site: URL | undefined) => ({
  * engine match "who does landscaping near me" without inferring it from prose.
  *
  * Note what is deliberately absent: no `address` (the client has no public
- * premises — see SITE_ADDRESS in consts.ts), no `aggregateRating`, and no
+ * premises, see SITE_ADDRESS in consts.ts), no `aggregateRating`, and no
  * `openingHours`. Inventing any of them would be fabricated structured data,
  * which is both a Google policy violation and worse for trust than omission.
  * Add each one only when the client supplies the real value.

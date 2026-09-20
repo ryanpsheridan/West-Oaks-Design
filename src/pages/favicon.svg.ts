@@ -3,16 +3,16 @@ import type { APIRoute } from 'astro';
 // Placeholder brand mark: a simplified oak canopy over a trunk, on the brand
 // field colour. The starter generates a letter from SITE_TITLE instead, but a
 // single "W" says nothing about what this business does, and West Oaks has a
-// literal namesake to draw — so this route draws that instead.
+// literal namesake to draw, so this route draws that instead.
 //
 // Deliberately coarse: a favicon renders at 16px, where a realistic canopy
 // turns to mush. Three overlapping lobes and a wide trunk still read as a tree
 // at that size, which is the only thing this has to do.
 //
 // Replace this whole route with a static public/favicon.svg once the client
-// has real branding — see CLAUDE.md, "First Steps On A New Client Project".
+// has real branding, see CLAUDE.md, "First Steps On A New Client Project".
 //
-// The fills come from tokens.css, parsed at build time — this is a static
+// The fills come from tokens.css, parsed at build time, this is a static
 // asset and can't read a CSS custom property, but it shouldn't need hand-syncing
 // either. See src/lib/brand.ts.
 import { BRAND_COLOR as BRAND, BRAND_CONTRAST as CONTRAST } from '../lib/brand';

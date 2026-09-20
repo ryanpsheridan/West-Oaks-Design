@@ -5,11 +5,11 @@ import { breadcrumbSchema, faqSchema, abs } from '../lib/schema';
 import { SITE_TITLE } from '../consts';
 
 // ---------------------------------------------------------------------------
-// PAGE CONTENT — everything a client edit touches lives in this block.
+// PAGE CONTENT, everything a client edit touches lives in this block.
 //
 // Why this page exists at all: the intake form asked for "anything else
 // suggested", and for a design-build firm this is the highest-value addition.
-// A landscape project is a large, slow, opaque purchase — the thing that
+// A landscape project is a large, slow, opaque purchase, the thing that
 // loses the sale is not doubt about the work, it is not knowing what happens
 // after you say yes. Every one of the three reference sites the client gave
 // leads with process for the same reason.
@@ -19,7 +19,7 @@ import { SITE_TITLE } from '../consts';
 // project take" are all questions with no good local answer, and this page
 // answers them in HowTo-marked steps.
 //
-// ⚠️ FIRST DRAFT — the stage names, durations and deliverables are informed
+// ⚠️ FIRST DRAFT, the stage names, durations and deliverables are informed
 // guesses at how this firm works. Walk through them with the client; the
 // durations in particular are quoted back at you later.
 // ---------------------------------------------------------------------------
@@ -27,10 +27,10 @@ import { SITE_TITLE } from '../consts';
 const intro = {
 	eyebrow: 'Process',
 	heading: 'How a project actually runs',
-	lead: 'Seven stages from the first enquiry to the last visit after everything is planted. Nothing here is a surprise on purpose — you should know what happens next at every point, including what it costs and what we need from you.',
+	lead: 'Seven stages from the first enquiry to the last visit after everything is planted. Nothing here is a surprise on purpose. You should know what happens next at every point, including what it costs and what we need from you.',
 	image: {
 		src: '/images/gallery/site-plan-drawing.svg',
-		alt: 'Photo placeholder — a hand-drafted site plan over a measured grid, showing a building footprint, a path and three tree canopies',
+		alt: 'Photo placeholder: a hand-drafted site plan over a measured grid, showing a building footprint, a path and three tree canopies',
 	},
 };
 
@@ -41,14 +41,14 @@ const steps = [
 		duration: 'A few minutes · No charge',
 		description:
 			'The form asks what kind of work you are after, where the property is, roughly when you want it done and roughly what budget it sits in. Those four answers are what let us reply with something useful instead of a request for more information. We read every one ourselves.',
-		client: 'A few minutes and an honest budget range. Skip anything you are unsure about — "not sure yet" is a real answer on every question.',
+		client: 'A few minutes and an honest budget range. Skip anything you are unsure about. "Not sure yet" is a real answer on every question.',
 	},
 	{
 		icon: 'pin',
 		title: 'Walking the property',
 		duration: 'About an hour · No charge',
 		description:
-			'If the project looks like a fit, we come out and walk it with you. You show us what you want; we look at what is already there — the slope, the soil, where water goes in a storm, which trees are worth building the whole design around. We arrange the time by email or phone once we have read your enquiry.',
+			'If the project looks like a fit, we come out and walk it with you. You show us what you want; we look at what is already there: the slope, the soil, where water goes in a storm, which trees are worth building the whole design around. We arrange the time by email or phone once we have read your enquiry.',
 		client: 'Nothing to prepare. If you have a survey or plat, have it handy.',
 	},
 	{
@@ -64,7 +64,7 @@ const steps = [
 		title: 'Design',
 		duration: 'Four to eight weeks',
 		description:
-			'We measure and document the site, then draw. You see a concept first — the big moves, in plan and in rough sketch — and we take it through two rounds of revisions with you. Once the shape is settled it goes to a full plan: planting, hardscape, levels, irrigation, lighting.',
+			'We measure and document the site, then draw. You see a concept first (the big moves, in plan and in rough sketch), and we take it through two rounds of revisions with you. Once the shape is settled it goes to a full plan: planting, hardscape, levels, irrigation, lighting.',
 		client: 'Two sessions of your time, and honest reactions. Changing your mind at concept stage is free; changing it during construction is not.',
 	},
 	{
@@ -80,7 +80,7 @@ const steps = [
 		title: 'Construction',
 		duration: 'Two weeks to several months',
 		description:
-			'The same people who drew it build it. Tree protection goes up before any machine arrives. We work in the order the site dictates — drainage and grading, then hardscape, then irrigation, then planting, then lighting — and you get a weekly update on where things stand.',
+			'The same people who drew it build it. Tree protection goes up before any machine arrives. We work in the order the site dictates (drainage and grading, then hardscape, then irrigation, then planting, then lighting), and you get a weekly update on where things stand.',
 		client: 'Access to the property, and a decision or two along the way when the ground tells us something the drawings did not.',
 	},
 	{
@@ -129,17 +129,17 @@ const faqs = [
 	{
 		question: 'Do I pay for the design even if I do not build it?',
 		answer:
-			'Yes — the design is a deliverable you own and can take to any contractor. If you do build with us, the design fee is credited against the construction cost, so you are not paying for it twice.',
+			'Yes. The design is a deliverable you own and can take to any contractor. If you do build with us, the design fee is credited against the construction cost, so you are not paying for it twice.',
 	},
 	{
 		question: 'Can I build the project in phases?',
 		answer:
-			'Almost everyone does. The plan is drawn as a whole so the phases do not fight each other — irrigation sleeves go under a patio before it is laid, not through it afterwards — and priced line by line so you can see exactly what each phase costs and choose the order.',
+			'Almost everyone does. The plan is drawn as a whole so the phases do not fight each other (irrigation sleeves go under a patio before it is laid, not through it afterwards), and priced line by line so you can see exactly what each phase costs and choose the order.',
 	},
 	{
 		question: 'What do you need from me during construction?',
 		answer:
-			'Access to the property, and a decision or two along the way. Sites reveal things drawings cannot predict — rock a foot down, an old line nobody documented — and when that happens we come to you with the options and a cost rather than deciding on your behalf.',
+			'Access to the property, and a decision or two along the way. Sites reveal things drawings cannot predict (rock a foot down, an old line nobody documented), and when that happens we come to you with the options and a cost rather than deciding on your behalf.',
 	},
 	{
 		question: 'What kind of warranty comes with the work?',
@@ -151,13 +151,13 @@ const faqs = [
 // HowTo markup. This is the part search and answer engines use to render the
 // stages as a sequence rather than as prose, which is the whole reason the
 // page is structured in numbered steps in the first place. The step text is
-// identical to what renders below — marking up steps a visitor cannot see is
+// identical to what renders below, marking up steps a visitor cannot see is
 // cloaking, so both read from the same array.
 const howToSchema = {
 	'@type': 'HowTo',
 	name: `How a landscape project runs with ${SITE_TITLE}`,
 	description: intro.lead,
-	totalTime: 'P4M', // TODO: confirm — ISO 8601 duration, currently "about four months" end to end
+	totalTime: 'P4M', // TODO: confirm. ISO 8601 duration, currently "about four months" end to end
 	step: steps.map((step, i) => ({
 		'@type': 'HowToStep',
 		position: i + 1,
@@ -204,11 +204,20 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 				{steps.map((step, i) => (
 					<li class="step" id={`step-${i + 1}`}>
 						<div class="step-marker" aria-hidden="true">
-							<span class="step-number">{i + 1}</span>
-							<span class="step-icon"><Icon name={step.icon} size={20} /></span>
+							<Icon name={step.icon} size={20} />
 						</div>
 						<div class="step-body">
-							<h3>{step.title}</h3>
+							{/*
+								The number is part of the heading rather than a separate
+								element beside it. Stacking a number above an icon gave
+								the marker column two things to read in a vertical
+								stack, which on a phone sat oddly next to a heading that
+								was itself only one line tall. It also means the step
+								number is announced as part of the heading text, which
+								is how someone navigating by headings would expect to
+								hear it.
+							*/}
+							<h3><span class="step-index">{i + 1}.</span> {step.title}</h3>
 							<p class="step-duration">{step.duration}</p>
 							<p class="text-secondary">{step.description}</p>
 							<p class="step-client">
@@ -290,7 +299,7 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 		margin-top: var(--space-6);
 	}
 
-	/* Steps — a vertical sequence rather than a grid. These are ordered and
+	/* Steps, a vertical sequence rather than a grid. These are ordered and
 	   cumulative: a three-up grid would read as three parallel options, which
 	   is the opposite of what a process is.
 
@@ -314,16 +323,21 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 		scroll-margin-top: var(--space-9);
 	}
 
+	/* One object, not a stack: the icon sits inside the numbered disc's old
+	   position and the number has moved into the heading. */
 	.step-marker {
 		position: relative;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--space-2);
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 50%;
+		background: var(--color-brand);
+		color: var(--color-brand-contrast);
 	}
 
-	/* The connector between markers. Sized off the gap so it reaches the next
-	   marker exactly, and suppressed on the last step where there is nothing
+	/* The connector between markers. Measured from the marker's own height to
+	   the next one, and suppressed on the last step where there is nothing
 	   below to connect to. */
 	.step:not(:last-child) .step-marker::after {
 		content: '';
@@ -331,32 +345,21 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 		top: 100%;
 		left: 50%;
 		width: 1px;
-		height: calc(var(--space-7) + var(--space-2));
+		height: var(--space-7);
 		transform: translateX(-50%);
 		background: var(--border-default);
-	}
-
-	.step-number {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.25rem;
-		height: 2.25rem;
-		border-radius: 50%;
-		background: var(--color-ink);
-		color: var(--color-ink-contrast);
-		font-size: var(--text-small);
-		font-weight: var(--weight-medium);
-	}
-
-	.step-icon {
-		display: flex;
-		color: var(--color-text-tertiary);
 	}
 
 	.step-body h3 {
 		font-size: var(--text-h4);
 		margin-bottom: var(--space-1);
+	}
+
+	/* Tertiary rather than full strength: the number orders the steps, it
+	   isn't part of what the step is called. */
+	.step-index {
+		color: var(--color-text-tertiary);
+		font-variant-numeric: tabular-nums;
 	}
 
 	.step-duration {
