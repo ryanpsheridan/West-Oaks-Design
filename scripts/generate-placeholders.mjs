@@ -16,8 +16,22 @@
  * Delete this script, and everything it writes, once real photos land — see
  * CLAUDE.md, "Gallery / Photo Uploads" for the naming convention they follow.
  */
-import { mkdir, writeFile, readdir, unlink } from 'node:fs/promises';
+import { mkdir, writeFile, readdir, unlink, readFile } from 'node:fs/promises';
 import sharp from 'sharp';
+
+// Read the brand colours out of tokens.css rather than pasting them here.
+// This script's output is a static PNG, so a stale hex would ship a social
+// card in a colour the site no longer uses — which is exactly what happened
+// across the last two re-themes.
+const tokens = await readFile('src/styles/tokens.css', 'utf8');
+const token = (name) => {
+	const match = tokens.match(new RegExp(`--${name}:\\s*(#[0-9A-Fa-f]{3,8})\\s*;`));
+	if (!match) throw new Error(`--${name} not found as a literal hex in tokens.css`);
+	return match[1];
+};
+const BRAND = token('color-brand');
+const BRAND_HOVER = token('color-brand-hover');
+const TINT_FERN = token('tint-fern');
 
 // Neutral on purpose, and not drawn from tokens.css. These are scaffolding,
 // not part of the design — a placeholder tinted to the brand palette starts
@@ -84,11 +98,11 @@ console.log(`wrote ${slugs.length} placeholder boxes to ${outDir}/`);
 const OGW = 1200;
 const OGH = 630;
 const og = `<svg xmlns="http://www.w3.org/2000/svg" width="${OGW}" height="${OGH}" viewBox="0 0 ${OGW} ${OGH}">
-	<rect width="${OGW}" height="${OGH}" fill="#17403A"/>
-	<ellipse cx="${OGW * 0.5}" cy="${OGH * 1.25}" rx="${OGW * 0.9}" ry="${OGH * 0.6}" fill="#12332E"/>
+	<rect width="${OGW}" height="${OGH}" fill="${BRAND}"/>
+	<ellipse cx="${OGW * 0.5}" cy="${OGH * 1.25}" rx="${OGW * 0.9}" ry="${OGH * 0.6}" fill="${BRAND_HOVER}"/>
 	<text x="80" y="290" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="88" font-weight="500" letter-spacing="-2.5" fill="#FFFFFF">West Oaks Design</text>
-	<text x="80" y="366" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="38" font-weight="400" fill="#DDE4DC">Landscape design, build and stewardship</text>
-	<text x="80" y="424" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="400" fill="#DDE4DC" opacity="0.8">Austin and the Texas Hill Country</text>
+	<text x="80" y="366" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="38" font-weight="400" fill="${TINT_FERN}">Landscape design, build and stewardship</text>
+	<text x="80" y="424" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="30" font-weight="400" fill="${TINT_FERN}" opacity="0.8">Austin and the Texas Hill Country</text>
 </svg>`;
 
 await mkdir('public/images', { recursive: true });

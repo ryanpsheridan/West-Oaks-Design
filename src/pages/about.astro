@@ -59,25 +59,21 @@ const values = {
 			title: 'The site knows more than we do',
 			description:
 				'Every property already tells you where water wants to go, where shade already falls, and what grows without help. Designing starts with reading that, not with a style.',
-			tint: '--tint-moss',
 		},
 		{
 			title: 'Slow-growing things first',
 			description:
 				'A patio can be rebuilt in a week. A canopy oak cannot be rebuilt at all. When the two are in conflict, the tree wins and the hardscape moves.',
-			tint: '--tint-sage',
 		},
 		{
 			title: 'Sustainable has to mean measurable',
 			description:
 				'Native planting, drip conversion, rainwater capture, dark-sky lighting. We can tell you what each one saves in gallons or watts, because a claim you cannot measure is a marketing line.',
-			tint: '--tint-fern',
 		},
 		{
 			title: 'Answerable in year ten',
 			description:
 				'We would rather do fewer projects and keep looking after them. The crew that built your patio is the crew that comes back when a joint lifts, and they know why it was built that way.',
-			tint: '--tint-sand',
 		},
 	],
 };
@@ -163,7 +159,7 @@ const schema = [
 			</div>
 			<ul class="grid-auto value-grid">
 				{values.items.map((item) => (
-					<li class="card card-tint" style={`--card-tint: var(${item.tint});`}>
+					<li class="card card-tint">
 						<h3>{item.title}</h3>
 						<p class="text-secondary">{item.description}</p>
 					</li>

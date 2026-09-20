@@ -34,19 +34,16 @@ const problems = [
 		title: 'The lawn needs more water every year',
 		description:
 			'A landscape planted for somewhere with more rain needs an irrigation system to keep it alive, and the bill grows as the system ages and the plants get more stressed. The fix is the planting, not a bigger controller.',
-		tint: '--tint-sage',
 	},
 	{
 		title: 'There is nowhere to sit outside from June to September',
 		description:
 			'Plenty of Texas properties are unusable for a third of the year because nothing casts shade where people would actually want to be. Shade is a design problem with a design answer: canopy, structure, orientation.',
-		tint: '--tint-fern',
 	},
 	{
 		title: 'The oaks are being slowly killed by good intentions',
 		description:
 			'Grade changes over the root zone, irrigation against the trunk, pruning in the wrong month, a trench cut for a new line. Most of the damage we see to mature trees was done by someone improving the property.',
-		tint: '--tint-moss',
 	},
 ];
 
@@ -187,7 +184,7 @@ const schema = [
 			</div>
 			<ul class="grid-auto">
 				{problems.map((problem) => (
-					<li class="card card-tint" style={`--card-tint: var(${problem.tint});`}>
+					<li class="card card-tint">
 						<h3>{problem.title}</h3>
 						<p class="text-secondary">{problem.description}</p>
 					</li>
@@ -241,10 +238,7 @@ const schema = [
 			</div>
 			<ul class="grid-auto pricing-grid">
 				{pricingTiers.map((tier) => (
-					<li
-						class:list={['card', 'pricing-card', { 'card-tint': tier.featured, featured: tier.featured }]}
-						style={tier.featured ? '--card-tint: var(--tint-moss);' : undefined}
-					>
+					<li class:list={['card', 'pricing-card', { 'card-tint': tier.featured, featured: tier.featured }]}>
 						{tier.featured && <p class="pricing-badge">Most projects</p>}
 						<h3>{tier.name}</h3>
 						<p class="pricing-price">{tier.price}<span class="pricing-unit">{tier.unit}</span></p>

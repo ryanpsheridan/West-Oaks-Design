@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { BRAND_COLOR } from '../lib/brand';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -72,10 +73,10 @@ const ogImage = new URL(image, Astro.site).toString();
 -->
 {!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
 
-<!-- Tints the browser chrome on mobile to the brand colour. Kept in sync
-     with --color-brand in tokens.css by hand; this is a meta tag, so it
-     can't read a custom property. -->
-<meta name="theme-color" content="#17403A" />
+<!-- Tints the browser chrome on mobile to the brand colour. A meta tag
+     can't read a custom property, so the value is parsed out of tokens.css
+     at build time rather than pasted here — see src/lib/brand.ts. -->
+<meta name="theme-color" content={BRAND_COLOR} />
 
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="en_US" />

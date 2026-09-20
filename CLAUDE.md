@@ -59,9 +59,20 @@ claims or feed structured data:
   darker than `--surface-raised` so fill alone distinguishes a card. Form
   inputs keep their borders: there, the border is the affordance. Restoring
   card borders means lightening the page back, so do both or neither.
-- **Tints stay in the green family.** Three greens plus `--tint-sand`, the one
-  warm tone, used at most once per page. An earlier pass spread these across
-  five hues and read as a borrowed pastel set.
+- **Tinted cards do not alternate.** Every `.card-tint` on the site takes the
+  same fill, `--tint-fern`, via the class default — no page passes
+  `--card-tint` per card. Cycling tints across a grid made the grid itself the
+  thing worth looking at rather than the content in it, and it meant a
+  seventh service couldn't be added without someone picking a colour for it.
+  `--tint-moss`, `--tint-sage` and `--tint-bone` stay defined as the ramp
+  around fern; `--tint-sand` is the eyebrow pill's warm tone. Use the knob for
+  a genuine one-off only.
+- **`--color-brand` is the darkest thing on the site**, darker than
+  `--color-ink`, which inverts the usual arrangement on purpose: the brand
+  band should be the deepest note on a page and the closing CTA band a step up
+  from it. Its depth comes from saturation as much as darkness (62%, against
+  the 42% of the value that previously read as black) — a desaturated dark
+  loses its hue long before it loses its luminance.
 
 **Deliberate decisions worth not undoing:**
 
@@ -272,6 +283,18 @@ Rules for any new motion:
 What's in place: cross-page view transitions; scroll-aware sticky header; staggered mobile-menu reveal; tinted cards deepening their fill on hover; the arrow-badge nudge on `.btn-arrow`; tap-to-copy on the contact details; a smooth FAQ accordion; and the `StatBand` count-up.
 
 ## Design Tokens
+
+Anything that needs a brand colour as a literal hex — the `theme-color` meta
+tag, the generated favicon, the Open Graph card — imports it from
+`src/lib/brand.ts`, which parses `tokens.css` at build time via Vite's `?raw`.
+Do not paste a hex into those files. All three had hand-copied values and all
+three were left stale by two consecutive re-themes; the favicon was painting a
+retired colour for two revisions before anyone would have noticed.
+
+Note the mechanism: `?raw` is resolved by the bundler and survives the build.
+Reading the file with `fs` and a path relative to `import.meta.url` looks
+equivalent and fails, because by build time the module has been bundled
+elsewhere and the relative path no longer points at `src/styles/`.
 
 Use CSS variables from `src/styles/tokens.css` for all styling — never hardcode a color, spacing value, duration, or font. `/style-guide` renders every token and component class below; if something isn't on that page, it isn't in the system.
 

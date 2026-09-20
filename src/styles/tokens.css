@@ -54,16 +54,19 @@
 	   Tints. Light card and section-band fields, used as whole backgrounds
 	   rather than as small accents.
 
-	   Three greens, one warm, one neutral. An earlier pass had these spread
-	   across five hues — a mint, a sky, a lavender — which read as a pastel
-	   set borrowed from somewhere else rather than as this brand's own range.
-	   They are now three steps off the same green (moss, fern, sage) plus
-	   --tint-sand, the warm tone the eyebrow pill uses, held as the single
-	   note of contrast against all that green.
+	   IN LIVE USE: --tint-fern on every tinted card, and --tint-sand on the
+	   eyebrow pill. That is the whole set in practice.
 
-	   Use the greens as the default and reach for sand sparingly: it is doing
-	   a job precisely because it is the only thing on the page that isn't
-	   green, and a second warm field costs the first that distinction.
+	   Cards do not alternate. An earlier pass cycled three or four tints
+	   across a card grid, which made the grid itself read as the thing worth
+	   looking at rather than the six services in it. One fill for every card
+	   puts the attention back on the words, and it means a seventh service
+	   can be added without anyone deciding what colour it should be.
+
+	   The other three stay defined because they are a ramp, not spare parts:
+	   moss and sage are the steps either side of fern, and bone is the
+	   neutral. Reach for one only for a genuine one-off, via the --card-tint
+	   knob. Do not reintroduce alternation.
 
 	   --color-text clears AA on every tint by a wide margin (13.8:1 at
 	   worst, measured). --color-text-secondary does not clear it by enough
@@ -111,11 +114,19 @@
 	   most saturated thing on the site without failing contrast: white on it
 	   measures 11.5:1.
 
-	   Deliberately a step lighter than --color-ink. If the two were the same
-	   value, .section-brand and .cta-band would read as one device used
-	   twice, and the green would stop registering as a colour at all. */
-	--color-brand: #1C5145;         /* white on it: 9.1:1 */
-	--color-brand-hover: #164037;
+	   This is a deep forest, and the depth is bought with saturation rather
+	   than just darkness. That distinction matters: the value this replaced
+	   two revisions ago read as black at this lightness because it was only
+	   42% saturated, and desaturated darks lose their hue long before they
+	   lose their luminance. This sits at 62%, so it stays unmistakably green
+	   as a full-bleed field.
+
+	   It is now the DARKEST thing on the site, darker than --color-ink. That
+	   inverts the usual arrangement on purpose: the brand band should be the
+	   deepest note on a page, and the closing CTA band a step up from it, not
+	   the other way round. */
+	--color-brand: #0D382B;         /* white on it: 13.0:1 */
+	--color-brand-hover: #092A20;
 	--color-brand-contrast: #FFFFFF;
 
 	/* Primary buttons and the closing CTA band — the near-black end of the
@@ -129,15 +140,16 @@
 	   band — and a black field on a warm limestone palette looks like a hole
 	   punched in the page rather than part of it.
 
-	   So this is a green dark enough to anchor (white clears 11.5:1) and
-	   light enough to be visibly green at any size. It stays a clear step
-	   below --color-brand, which is the more saturated of the two, so the
-	   brand band and the closing band still read as two different devices.
+	   So this is a green dark enough to anchor (white clears 9.8:1) and light
+	   enough to be visibly green at any size. It sits a clear step ABOVE
+	   --color-brand — 1.85x its luminance — so on a page carrying both, the
+	   brand band and the closing band read as two different devices rather
+	   than one repeated.
 
 	   Near-black is still correct for *text*, which is why --color-text keeps
 	   --gray-900. The rule is about fields, not glyphs. */
-	--color-ink: #164037;           /* white on it: 11.5:1 */
-	--color-ink-hover: #0F2E28;
+	--color-ink: #184C3E;           /* white on it: 9.8:1 */
+	--color-ink-hover: #123C31;
 	--color-ink-contrast: #FFFFFF;
 	/* Secondary text on an ink surface — ~9:1, so it still clears AA while
 	   reading as a step down from full white. */

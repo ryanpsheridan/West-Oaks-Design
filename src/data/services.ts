@@ -28,8 +28,6 @@ export interface Service {
 	includes: string[];
 	/** Icon name from src/components/Icon.astro. */
 	icon: string;
-	/** Tint token name for the card fill on the homepage. */
-	tint: string;
 }
 
 export const SERVICES: Service[] = [
@@ -46,7 +44,6 @@ export const SERVICES: Service[] = [
 			'Phasing and budget so the plan can be built over time',
 		],
 		icon: 'ruler',
-		tint: '--tint-moss',
 	},
 	{
 		slug: 'tree-care',
@@ -61,7 +58,6 @@ export const SERVICES: Service[] = [
 			'Native and adapted tree selection and planting',
 		],
 		icon: 'tree',
-		tint: '--tint-sage',
 	},
 	{
 		slug: 'hardscape',
@@ -76,7 +72,6 @@ export const SERVICES: Service[] = [
 			'Steps, seat walls and outdoor fireplaces',
 		],
 		icon: 'pergola',
-		tint: '--tint-sand',
 	},
 	{
 		slug: 'irrigation',
@@ -91,7 +86,6 @@ export const SERVICES: Service[] = [
 			'Grading, swales, dry creeks and detention',
 		],
 		icon: 'droplet',
-		tint: '--tint-fern',
 	},
 	{
 		slug: 'lighting',
@@ -106,7 +100,6 @@ export const SERVICES: Service[] = [
 			'Timers, zones and phone control',
 		],
 		icon: 'lamp',
-		tint: '--tint-moss',
 	},
 	{
 		slug: 'stewardship',
@@ -121,6 +114,5 @@ export const SERVICES: Service[] = [
 			'Native restoration and invasive species management',
 		],
 		icon: 'sprout',
-		tint: '--tint-fern',
 	},
 ];

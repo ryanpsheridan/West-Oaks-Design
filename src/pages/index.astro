@@ -212,7 +212,7 @@ const schema = [
 			</div>
 			<ul class="grid-auto service-grid">
 				{SERVICES.map((service) => (
-					<li class="card card-tint card-interactive" style={`--card-tint: var(${service.tint});`}>
+					<li class="card card-tint card-interactive">
 						<span class="service-icon"><Icon name={service.icon} size={22} /></span>
 						{/*
 							The whole card is the target, via a stretched link on the
