@@ -18,9 +18,11 @@ import { SITE_TITLE, SERVICE_AREA_LABEL, BOOKING_URL } from '../consts';
 // on screen. They do different jobs, so both are written rather than one
 // being duplicated into the other.
 //
-// ⚠️ FIRST DRAFT — every image below is a generated placeholder illustration
-// and every location is invented. Replace both with real project photography
-// as it arrives. File naming convention: descriptive slug, never IMG_4821.jpg.
+// ⚠️ FIRST DRAFT — every image below is a grey placeholder box and every
+// location is invented. Replace both with real project photography as it
+// arrives: drop the photo in at the same path, delete the "Photo placeholder
+// —" prefix from its alt text, and the rest needs no edit. File naming
+// convention: descriptive slug, never IMG_4821.jpg.
 // ---------------------------------------------------------------------------
 
 // Categories double as the filter control and as the grouping a visitor
@@ -38,77 +40,77 @@ const images = [
 	{
 		src: '/images/gallery/limestone-terrace.svg',
 		category: 'hardscape',
-		alt: 'Illustration of a limestone terrace stepping down toward a lawn beneath two mature oaks',
+		alt: 'Photo placeholder — a limestone terrace stepping down toward a lawn beneath two mature oaks',
 		caption: 'Limestone terrace stepping down to the lawn',
 		location: 'Dripping Springs',
 	},
 	{
 		src: '/images/gallery/pergola-shade-structure.svg',
 		category: 'hardscape',
-		alt: 'Illustration of a cedar pergola with evenly spaced rafters over a paved seating area',
+		alt: 'Photo placeholder — a cedar pergola with evenly spaced rafters over a paved seating area',
 		caption: 'Cedar pergola over a west-facing patio',
 		location: 'Wimberley',
 	},
 	{
 		src: '/images/gallery/dry-stack-retaining-wall.svg',
 		category: 'hardscape',
-		alt: 'Illustration of a dry-stacked limestone retaining wall holding a planted slope',
+		alt: 'Photo placeholder — a dry-stacked limestone retaining wall holding a planted slope',
 		caption: 'Dry-stacked limestone wall holding a slope',
 		location: 'West Austin',
 	},
 	{
 		src: '/images/gallery/live-oak-canopy.svg',
 		category: 'planting',
-		alt: 'Illustration of a single mature live oak with a broad canopy spreading over open ground',
+		alt: 'Photo placeholder — a single mature live oak with a broad canopy spreading over open ground',
 		caption: 'Heritage live oak, pruned for structure',
 		location: 'Driftwood',
 	},
 	{
 		src: '/images/gallery/oak-motte-meadow.svg',
 		category: 'planting',
-		alt: 'Illustration of a motte of live oaks standing over an open meadow, with low hills behind',
+		alt: 'Photo placeholder — a motte of live oaks standing over an open meadow, with low hills behind',
 		caption: 'Oak motte and restored meadow',
 		location: 'Kyle',
 	},
 	{
 		src: '/images/gallery/native-planting-beds.svg',
 		category: 'planting',
-		alt: 'Illustration of massed native planting flanking a stone path running away from the viewer',
+		alt: 'Photo placeholder — massed native planting flanking a stone path running away from the viewer',
 		caption: 'Native beds flanking the approach path',
 		location: 'Buda',
 	},
 	{
 		src: '/images/gallery/maintenance-visit.svg',
 		category: 'planting',
-		alt: 'Illustration of established planting under a mature canopy during a seasonal maintenance visit',
+		alt: 'Photo placeholder — established planting under a mature canopy during a seasonal maintenance visit',
 		caption: 'Seasonal visit on a stewardship plan',
 		location: 'San Marcos',
 	},
 	{
 		src: '/images/gallery/irrigation-zone.svg',
 		category: 'water',
-		alt: 'Illustration of an irrigation zone spraying in arcs across a planted field',
+		alt: 'Photo placeholder — an irrigation zone spraying in arcs across a planted field',
 		caption: 'Rezoned irrigation on a smart controller',
 		location: 'Buda',
 	},
 	{
 		src: '/images/gallery/evening-path-lighting.svg',
 		category: 'lighting',
-		alt: 'Illustration of shielded path lights casting pools of light along a paved route at dusk',
+		alt: 'Photo placeholder — shielded path lights casting pools of light along a paved route at dusk',
 		caption: 'Low-voltage path lighting at dusk',
 		location: 'West Austin',
 	},
 	{
 		src: '/images/gallery/site-plan-drawing.svg',
 		category: 'planting',
-		alt: 'Illustration of a hand-drafted site plan over a measured grid, showing a building footprint, a path and three tree canopies',
+		alt: 'Photo placeholder — a hand-drafted site plan over a measured grid, showing a building footprint, a path and three tree canopies',
 		caption: 'Master plan, built in three phases',
 		location: 'Dripping Springs',
 	},
 	{
 		src: '/images/gallery/crew-on-site.svg',
 		category: 'hardscape',
-		alt: 'Illustration of three crew members walking a property beneath mature oaks during a site visit',
+		alt: 'Photo placeholder — three crew members walking a property beneath mature oaks during a site visit',
 		caption: 'Walking a property before design begins',
 		location: 'Wimberley',
 	},
@@ -157,9 +159,9 @@ const schema = [
 					question: what is already good here, and what is in its way?
 				</p>
 				<p class="draft-note">
-					<strong>Draft note for the client:</strong> every image below is a placeholder
-					illustration standing in for your photography. Send us photos and we will swap
-					them in — see the handover notes for how.
+					<strong>Draft note for the client:</strong> every grey box below is holding space
+					for one of your photos. The caption under each says which photo goes there.
+					Send them over and we will swap them in.
 				</p>
 			</div>
 		</div>
@@ -236,7 +238,15 @@ const schema = [
 
 	<dialog id="lightbox" class="lightbox" aria-label="Photo preview">
 		<div class="lightbox-inner">
-			<img id="lightbox-img" src="" alt="" />
+			{/*
+				No `src` attribute at all, rather than src="". An empty src
+				resolves against the current document, so the browser fires a
+				second request for the page itself on every load of this page —
+				for an image that is inside a closed <dialog> and never shown.
+				Omitting the attribute makes no request; the script sets both
+				src and alt before the dialog is ever opened.
+			*/}
+			<img id="lightbox-img" alt="" />
 			<p class="lightbox-caption" id="lightbox-caption"></p>
 		</div>
 		<button type="button" id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Previous photo">
