@@ -361,10 +361,10 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 		margin-bottom: var(--space-1);
 	}
 
-	/* Tertiary rather than full strength: the number orders the steps, it
-	   isn't part of what the step is called. */
+	/* Same colour as the rest of the heading. Muting it made the number read
+	   as metadata attached to the title rather than as part of it, which is
+	   backwards: the number is how you find your place in the sequence. */
 	.step-index {
-		color: var(--color-text-tertiary);
 		font-variant-numeric: tabular-nums;
 	}
 

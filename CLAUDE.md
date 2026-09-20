@@ -59,10 +59,12 @@ claims or feed structured data:
   darker than `--surface-raised` so fill alone distinguishes a card. Form
   inputs keep their borders: there, the border is the affordance. Restoring
   card borders means lightening the page back, so do both or neither.
-- **Cards have no fill.** One `.card` class, a light outline, an 8px corner,
-  and no tinted variant: a card inherits whatever surface it sits on, so the
-  same class works on the page, on a sunken band, or inside another section.
-  Filled cards were tried in both directions, white and then warm tan, and
+- **Cards are an outline plus one step of value.** One `.card` class, a light
+  outline, an 8px corner, and a fill exactly one step off whatever the card
+  sits on: `--surface-card` on the page, `--surface-page` on a sunken band
+  (because `--surface-card` is within a hair of `--surface-sunken` and would
+  vanish), and a faint wash of the contrast colour on a dark band. One step of
+  *value*, never a hue. Filled cards were tried white and then warm tan and
   both turned a grid of cards into a set of coloured objects to look at rather
   than a list of things to read. `--tint-sand` survives on the eyebrow pill;
   the other tints are a kept ramp, not an invitation to tint cards again.

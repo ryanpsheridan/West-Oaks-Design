@@ -99,9 +99,14 @@ body {
 	margin: 0;
 	font-family: var(--font-sans);
 	font-size: var(--text-body);
-	/* Medium, not regular. Aspekta's 400 reads thin and its word spaces close
-	   up at body size; 500 is the weight the whole scale is designed around. */
-	font-weight: var(--weight-medium);
+	/* Regular for running text. The starter set this to medium on the grounds
+	   that Aspekta's 400 reads thin, which is true of the typeface in the
+	   abstract and wrong for this site: at these paragraph lengths, against a
+	   limestone page rather than white, 500 reads dense and closes the page
+	   up. Headings, buttons and labels all set medium explicitly, so they are
+	   unaffected by this and the contrast between them and body copy is what
+	   carries the hierarchy. */
+	font-weight: var(--weight-normal);
 	line-height: var(--leading-body);
 	letter-spacing: var(--tracking-normal);
 	color: var(--color-text);
@@ -413,6 +418,10 @@ svg {
    --------------------------------------------------------------------------- */
 .section-brand .card,
 .cta-band .card {
+	/* The same one-step rule, inverted: a faint wash of the band's own
+	   contrast colour rather than a light fill, which would be the brightest
+	   thing on the page and pull attention off the content. */
+	background: color-mix(in srgb, currentColor 6%, transparent);
 	border-color: color-mix(in srgb, currentColor 26%, transparent);
 }
 
@@ -502,7 +511,18 @@ svg {
    here costs the headings some of their authority.
    ---------------------------------------------------------------------------- */
 
+/* Height is declared, not derived from padding.
+
+   It used to come from padding-block plus the line box, which meant the
+   height changed with the font size of each variant and came out at awkward
+   values (59px at .btn-lg). That is fine for a plain button and wrong for
+   .btn-arrow, whose badge is a disc that has to sit in a visually even ring:
+   at lg the ring worked out to 13.5px above and below but 8px to the right,
+   which is what makes the label look pushed off centre. Declaring the height
+   lets the badge's inset be derived from real geometry instead of guessed. */
 .btn {
+	--btn-h: 3rem;
+	--btn-badge: 2rem;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -512,7 +532,8 @@ svg {
 	font-size: var(--text-body);
 	line-height: 1.5;
 	letter-spacing: var(--tracking-snug);
-	padding: var(--space-3) var(--space-5);
+	min-height: var(--btn-h);
+	padding: 0 var(--space-5);
 	border-radius: var(--radius-pill);
 	border: 1px solid transparent;
 	text-decoration: none;
@@ -531,13 +552,18 @@ svg {
 }
 
 .btn-sm {
+	--btn-h: 2.5rem;
+	/* Scaled with the button so its ring stays in proportion rather than
+	   nearly filling the height. */
+	--btn-badge: 1.5rem;
 	font-size: var(--text-small);
-	padding: var(--space-2) var(--space-4);
+	padding-inline: var(--space-4);
 }
 
 .btn-lg {
+	--btn-h: 3.5rem;
 	font-size: var(--text-large);
-	padding: var(--space-4) var(--space-6);
+	padding-inline: var(--space-6);
 }
 
 .btn-primary {
@@ -612,8 +638,22 @@ svg {
 	--glyph-arrow-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23081122' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
 }
 
+/* The badge sits in an even ring, and the label gets a left cap sized off
+   that same ring rather than off the button's default padding.
+
+   --btn-ring is the space around the disc: half of whatever the button's
+   height leaves over after the disc. Using it for padding-right makes the
+   ring identical on three sides at every size, by construction rather than
+   by three hand-tuned values that drift the next time a font size changes.
+
+   The left cap is twice the ring. Not equal to it: a disc is a solid mass
+   and a line of text is not, so matching them numerically leaves the text
+   looking cramped against the cap while the disc looks fine. Twice is the
+   ratio that reads as balanced. */
 .btn-arrow {
-	padding-right: var(--space-2);
+	--btn-ring: calc((var(--btn-h) - var(--btn-badge)) / 2);
+	padding-left: calc(var(--btn-ring) * 2);
+	padding-right: var(--btn-ring);
 	gap: var(--space-4);
 }
 
@@ -629,8 +669,8 @@ svg {
 .btn-arrow::after {
 	content: '';
 	flex-shrink: 0;
-	width: 2rem;
-	height: 2rem;
+	width: var(--btn-badge);
+	height: var(--btn-badge);
 	border-radius: 50%;
 	background:
 		var(--badge-glyph, var(--glyph-arrow-light)) center / 0.875rem 0.875rem no-repeat,
@@ -667,22 +707,30 @@ svg {
    surface it is placed on without needing a variant per background.
    ---------------------------------------------------------------------------- */
 
-/* One treatment for every card on the site: no fill, a light outline, and a
-   tight corner. Filled cards were tried in both directions, white on a
-   limestone page, then a warm tint, and both made a grid of cards read as a
-   set of coloured objects to look at rather than a list of things to read.
-   An outline draws the same boundary and then gets out of the way.
+/* One treatment for every card: a light outline, a tight corner, and a fill
+   exactly one step off the page. The outline does the defining; the fill is
+   only there so the card doesn't read as a hole cut in the background.
 
-   Because there is no fill, a card inherits whatever surface it sits on, so
-   the same class works unchanged on the page, on a sunken band, and inside
-   another section. Nothing needs re-pointing: the text roles are the page's
-   own, and they clear AA on every surface a card can land on. That is the
-   whole reason the tinted variant is gone rather than restyled. */
+   Deliberately not a tint. Earlier passes filled cards white and then warm
+   tan, and both turned a grid of cards into a set of coloured objects to look
+   at rather than a list of things to read. One step of value, no hue.
+
+   The fill flips depending on what the card sits on, because "one step off
+   the ground" is the rule rather than any particular colour. On the page it
+   goes darker, on a sunken band lighter, and on a dark band it is a faint
+   wash of that band's own contrast colour. All three are below. */
 .card {
-	background: transparent;
+	background: var(--surface-card);
 	border: 1px solid var(--border-default);
 	border-radius: var(--radius-xl);
 	padding: var(--space-6);
+}
+
+/* --surface-card is within a hair of --surface-sunken, so a card keeping its
+   default fill would disappear into a sunken band. It steps up to the page
+   colour instead and still reads as one layer off its ground. */
+.section-sunken .card {
+	background: var(--surface-page);
 }
 
 .card > :last-child {

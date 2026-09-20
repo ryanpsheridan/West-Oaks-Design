@@ -35,6 +35,7 @@
 	   ------------------------------------------------------------------------ */
 	--gray-0: #FFFFFF;    /* cards and raised surfaces */
 	--gray-25: #F2EFE7;   /* page, limestone, deliberately not near-white */
+	--gray-40: #ECE8DE;   /* card fill, one step off the page and no more */
 	--gray-50: #E6E2D8;   /* recessed section bands */
 	--gray-100: #DCD7CA;  /* inline code, subtle fills */
 	--gray-200: #D6D0C1;  /* hairline dividers */
@@ -166,6 +167,15 @@
 	   reads as raised via contrast. One class, both contexts.
 	   ------------------------------------------------------------------------ */
 	--surface-page: var(--color-bg);
+	/* Cards. One step off the page and no further: a card here is defined by
+	   its outline, and the fill is only there to stop it reading as a hole
+	   cut in the background. Anything darker starts competing with
+	   --surface-sunken and the two layering devices stop being distinguishable.
+
+	   A card on a sunken band inverts this and takes --surface-page instead,
+	   because this value is almost exactly --surface-sunken and a card filled
+	   with it would vanish into the band. See .section-sunken .card. */
+	--surface-card: var(--gray-40);
 	/* White, while the page itself is warm off-white, so a card lifts by being
 	   cleaner than its background rather than by borrowing a shadow. */
 	--surface-raised: var(--gray-0);
