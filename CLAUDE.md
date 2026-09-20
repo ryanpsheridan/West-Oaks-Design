@@ -348,7 +348,7 @@ Rules for any new motion:
 - **Don't call `scrollIntoView` to reposition something inside a scrollable strip.** It scrolls *every* scrollable ancestor including the document, so even `block: 'nearest'` will move the page, which is how the gallery carousel silently scrolled every visitor past the top of the page on load. Set the container's `scrollLeft`/`scrollTop` instead; that can only move the container.
 - **Don't use the `animation` shorthand with a scroll timeline.** It resets `animation-timeline` to `auto`, and the CSS minifier may reorder declarations so the reset lands last. Use longhands (see `Header.astro`).
 
-What's in place: cross-page view transitions; scroll-aware sticky header; staggered mobile-menu reveal; tinted cards deepening their fill on hover; the arrow-badge nudge on `.btn-arrow`; tap-to-copy on the contact details; a smooth FAQ accordion; and the `StatBand` count-up.
+What's in place: cross-page view transitions; scroll-aware sticky header; staggered mobile-menu reveal; tinted cards deepening their fill on hover; the arrow nudge on `.btn-arrow`; tap-to-copy on the contact details; a smooth FAQ accordion; and the `StatBand` count-up.
 
 ## Design Tokens
 

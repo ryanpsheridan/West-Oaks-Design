@@ -512,23 +512,28 @@ svg {
 /* ----------------------------------------------------------------------------
    Buttons
 
-   Medium weight rather than semibold: at button size on a filled pill,
-   semibold reads heavy and semibold is also the heading weight, so using it
-   here costs the headings some of their authority.
+   Medium weight rather than semibold: at button size, semibold reads heavy
+   and semibold is also the heading weight, so using it here costs the
+   headings some of their authority.
    ---------------------------------------------------------------------------- */
+
+/* The arrow the mask cuts out. No stroke colour baked in: a mask uses only
+   the shape, and the colour comes from background-color: currentColor on the
+   pseudo-element. That is what lets one glyph serve every button variant.
+   Kept next to its only consumer rather than in tokens.css, since it is an
+   asset rather than a design decision. */
+:root {
+	--glyph-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
+}
 
 /* Height is declared, not derived from padding.
 
-   It used to come from padding-block plus the line box, which meant the
-   height changed with the font size of each variant and came out at awkward
-   values (59px at .btn-lg). That is fine for a plain button and wrong for
-   .btn-arrow, whose badge is a disc that has to sit in a visually even ring:
-   at lg the ring worked out to 13.5px above and below but 8px to the right,
-   which is what makes the label look pushed off centre. Declaring the height
-   lets the badge's inset be derived from real geometry instead of guessed. */
+   Derived height came from padding-block plus the line box, so it changed
+   with each variant's font size and landed on awkward values (59px at
+   .btn-lg). Declaring it keeps every button on the same three heights
+   whatever type is inside them. */
 .btn {
 	--btn-h: 3rem;
-	--btn-badge: 2rem;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -559,9 +564,6 @@ svg {
 
 .btn-sm {
 	--btn-h: 2.5rem;
-	/* Scaled with the button so its ring stays in proportion rather than
-	   nearly filling the height. */
-	--btn-badge: 1.5rem;
 	font-size: var(--text-small);
 	padding-inline: var(--space-4);
 }
@@ -622,8 +624,6 @@ svg {
 .btn-brand {
 	background: var(--color-brand);
 	color: var(--color-brand-contrast);
-	--badge-bg: var(--color-brand-contrast);
-	--badge-glyph: var(--glyph-arrow-dark);
 }
 
 @media (hover: hover) {
@@ -633,87 +633,43 @@ svg {
 	}
 }
 
-/* Arrow badge. An inverted disc pinned inside the pill's right edge, the
-   detail that makes a button read as a destination rather than a form control.
+/* Arrow glyph. A small arrow sitting inside the button next to its label,
+   the detail that makes a button read as a destination rather than a form
+   control.
 
-   The glyph is a mask rather than a text character: the arrow in a webfont is
-   a fallback-font lottery, and at this size a substituted glyph lands visibly
-   off-centre and off-weight. A mask inherits currentColor and always matches.
+   It used to be an inverted disc pinned inside the right edge. That was drawn
+   for a fully round button, where a circle inside a capsule is the same shape
+   twice; against the 6px corners the buttons have now, a circle was the only
+   round thing left on the page and read as a leftover.
 
-   Each variant supplies --badge-bg / --badge-fg as its own inverse. Variants
-   that don't (btn-secondary) fall back to ink-on-page, which is correct on any
-   light surface. */
-/* The two arrow glyphs the badge picks between. Stroke colour has to be baked
-   into a data URI, so these are the whole set: one for a dark badge, one for a
-   light one. Kept next to their only consumer rather than in tokens.css,
-   they're assets, not design decisions. */
-:root {
-	--glyph-arrow-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FBFAF9' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
-	--glyph-arrow-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23081122' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
-}
+   Drawn with a mask rather than a background image, so the arrow takes
+   currentColor and is correct on any variant without being told. The previous
+   version baked the stroke colour into two data URIs and had every variant
+   declare which one to use, which is three places to update for each new
+   button style and was already wrong for .btn-outline-inverse.
 
-/* The badge sits in an even ring, and the label gets a left cap sized off
-   that same ring rather than off the button's default padding.
-
-   --btn-ring is the space around the disc: half of whatever the button's
-   height leaves over after the disc. Using it for padding-right makes the
-   ring identical on three sides at every size, by construction rather than
-   by three hand-tuned values that drift the next time a font size changes.
-
-   The left cap is twice the ring. Not equal to it: a disc is a solid mass
-   and a line of text is not, so matching them numerically leaves the text
-   looking cramped against the cap while the disc looks fine. Twice is the
-   ratio that reads as balanced. */
-.btn-arrow {
-	--btn-ring: calc((var(--btn-h) - var(--btn-badge)) / 2);
-	padding-left: calc(var(--btn-ring) * 2);
-	padding-right: var(--btn-ring);
-	gap: var(--space-4);
-}
-
-/* The disc, drawn as a background colour with the arrow sitting on it as a
-   background image.
-
-   The arrow is an image rather than a text glyph because an arrow character in
-   a webfont is a fallback lottery, a substituted glyph lands visibly
-   off-centre and off-weight at this size. Its stroke colour has to be baked
-   into the data URI, so there are exactly two: one for a dark badge, one for a
-   light one. Every variant's badge resolves to one or the other, so two is the
-   whole set rather than an arbitrary pair. */
+   A mask rather than a text character, though: an arrow glyph in a webfont is
+   a fallback lottery, and a substituted one lands visibly off-centre and
+   off-weight at this size. */
 .btn-arrow::after {
 	content: '';
 	flex-shrink: 0;
-	width: var(--btn-badge);
-	height: var(--btn-badge);
-	border-radius: 50%;
-	background:
-		var(--badge-glyph, var(--glyph-arrow-light)) center / 0.875rem 0.875rem no-repeat,
-		var(--badge-bg, var(--color-ink));
+	/* Sized in em so it tracks the label rather than the button, which is what
+	   keeps it looking like part of the text at every button size. */
+	width: 1em;
+	height: 1em;
+	background-color: currentColor;
+	-webkit-mask: var(--glyph-arrow) center / contain no-repeat;
+	mask: var(--glyph-arrow) center / contain no-repeat;
 	transition: transform var(--duration-base) var(--ease-out);
 }
 
+/* The nudge follows the arrow's own direction rather than scaling it, which
+   is what the disc did because a disc has no direction. */
 @media (hover: hover) {
 	.btn-arrow:hover::after {
-		transform: scale(1.03);
+		transform: translate(2px, -2px);
 	}
-}
-
-/* Each variant's badge is its own inverse: a dark button gets a light badge
-   with a dark arrow, a light or brand button gets a dark badge with a light
-   arrow. */
-.btn-primary {
-	--badge-bg: var(--color-ink-contrast);
-	--badge-glyph: var(--glyph-arrow-dark);
-}
-
-.btn-inverse {
-	--badge-bg: var(--color-ink);
-	--badge-glyph: var(--glyph-arrow-light);
-}
-
-.btn-secondary {
-	--badge-bg: var(--color-ink);
-	--badge-glyph: var(--glyph-arrow-light);
 }
 
 /* ----------------------------------------------------------------------------

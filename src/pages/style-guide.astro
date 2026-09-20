@@ -445,7 +445,7 @@ const measures = [
 				<li><code>animation-timeline: scroll()</code><span class="swatch-note"> sticky header gains blur, border, and shadow once scrolled</span></li>
 				<li><code>--i</code> stagger<span class="swatch-note"> mobile menu items rise in 40ms apart</span></li>
 				<li><code>.card-interactive:hover</code><span class="swatch-note"> the outline takes the brand colour; no shadow, which would land on the page rather than the card</span></li>
-				<li><code>.btn-arrow:hover</code><span class="swatch-note"> the badge nudges up and to the right</span></li>
+				<li><code>.btn-arrow:hover</code><span class="swatch-note"> the arrow nudges up and to the right, along its own direction</span></li>
 				<li><code>::details-content</code><span class="swatch-note"> FAQ accordion opens smoothly; the + rotates rather than swapping glyph</span></li>
 				<li><code>StatBand</code><span class="swatch-note"> figures count up once, the first time they scroll into view</span></li>
 				<li>Tap-to-copy<span class="swatch-note"> contact details copy on click, with an announced confirmation</span></li>
@@ -496,17 +496,19 @@ const measures = [
 				live above.
 			</p>
 
-			<h4>Arrow badge</h4>
+			<h4>Arrow</h4>
 			<div class="component-row">
 				<button type="button" class="btn btn-brand btn-arrow">Brand</button>
 				<button type="button" class="btn btn-primary btn-arrow">Primary</button>
 				<button type="button" class="btn btn-secondary btn-arrow">Secondary</button>
 			</div>
 			<p class="swatch-note">
-				<code>.btn-arrow</code> adds an inverted disc inside the pill's right edge, the detail
-				that makes a button read as a destination rather than a form control. Each variant
-				supplies its own badge colours, so the disc is always the button inverted. Reserve it
-				for navigation; a submit button shouldn't imply it takes you somewhere.
+				<code>.btn-arrow</code> adds a small arrow after the label, the detail that makes a
+				button read as a destination rather than a form control. It is a mask rather than a
+				background image, so it takes <code>currentColor</code> and is correct on every
+				variant without any of them declaring an arrow colour. Sized in <code>em</code>, so
+				it tracks the label rather than the button. Reserve it for navigation; a submit
+				button shouldn't imply it takes you somewhere.
 			</p>
 
 			<h3>Cards</h3>
