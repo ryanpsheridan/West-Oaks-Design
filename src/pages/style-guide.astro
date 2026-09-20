@@ -43,11 +43,11 @@ const brand = [
 ];
 
 const tints = [
-	{ name: '--tint-lime', label: 'Tint 1' },
-	{ name: '--tint-mint', label: 'Tint 2' },
-	{ name: '--tint-sky', label: 'Tint 3' },
-	{ name: '--tint-lavender', label: 'Tint 4' },
-	{ name: '--tint-cream', label: 'Tint 5' },
+	{ name: '--tint-sage', label: 'Sage' },
+	{ name: '--tint-moss', label: 'Moss' },
+	{ name: '--tint-mist', label: 'Mist' },
+	{ name: '--tint-clay', label: 'Clay' },
+	{ name: '--tint-bone', label: 'Bone' },
 ];
 
 const semanticSwatches = [
@@ -144,6 +144,7 @@ const measures = [
 <BaseLayout
 	title="Style Guide"
 	description="Visual reference for this site's design tokens — colors, typography, spacing, motion, and components."
+	noindex
 >
 	<section class="section">
 		<div class="container">
@@ -604,7 +605,7 @@ const measures = [
 						<p class="text-secondary">Capped at a readable measure while the media carries the rest of the width.</p>
 					</div>
 					<div class="media-frame" style="--media-ratio: 4 / 3;">
-						<img src="/images/gallery/placeholder-1.svg" alt="Example placeholder image inside a media frame" loading="lazy" />
+						<img src="/images/gallery/limestone-terrace.svg" alt="Example placeholder image inside a media frame" loading="lazy" />
 					</div>
 				</div>
 			</div>
@@ -616,10 +617,10 @@ const measures = [
 			</p>
 			<div class="component-row">
 				<div class="media-frame demo-frame" style="--media-ratio: 1 / 1;">
-					<img src="/images/gallery/placeholder-2.svg" alt="Square media frame example" loading="lazy" />
+					<img src="/images/gallery/live-oak-canopy.svg" alt="Square media frame example" loading="lazy" />
 				</div>
 				<div class="media-frame demo-frame" style="--media-ratio: 4 / 3;">
-					<img src="/images/gallery/placeholder-3.svg" alt="Four by three media frame example" loading="lazy" />
+					<img src="/images/gallery/pergola-shade-structure.svg" alt="Four by three media frame example" loading="lazy" />
 				</div>
 			</div>
 
@@ -793,8 +794,8 @@ const measures = [
 				<code>--radius-md</code> corner. Every one needs descriptive alt text.
 			</p>
 			<ul class="grid-auto demo-grid image-grid" style="--grid-min:200px;">
-				<li><img src="/images/gallery/placeholder-1.svg" alt="Example placeholder image showing the standard image treatment" loading="lazy" /></li>
-				<li><img src="/images/gallery/placeholder-2.svg" alt="Example placeholder image showing the standard image treatment" loading="lazy" /></li>
+				<li><img src="/images/gallery/limestone-terrace.svg" alt="Example placeholder image showing the standard image treatment" loading="lazy" /></li>
+				<li><img src="/images/gallery/live-oak-canopy.svg" alt="Example placeholder image showing the standard image treatment" loading="lazy" /></li>
 			</ul>
 
 			<h3>Links</h3>
@@ -802,6 +803,30 @@ const measures = [
 				An <a href="/">inline link</a> in body copy, showing the default and hover accent colors.
 				Accent is reserved for these — buttons use ink.
 			</p>
+
+			<h3>FAQ accordion</h3>
+			<p class="text-secondary measure">
+				<code>.faq-list</code> wrapping <code>.faq-item</code> around a native
+				<code>&lt;details&gt;</code>. No JavaScript: the browser already knows how to
+				open, keyboard-operate and announce this. The open/close easing is behind an
+				<code>@supports</code> check, so browsers without
+				<code>::details-content</code> get an accordion that snaps rather than one
+				that breaks.
+			</p>
+			<div class="faq-list">
+				<details class="faq-item">
+					<summary>A question someone actually asks</summary>
+					<p class="text-secondary">
+						The answer, written so its first sentence stands alone — that is what an
+						answer engine quotes. The same array that renders this builds the FAQPage
+						schema, so the marked-up answer is always the rendered answer.
+					</p>
+				</details>
+				<details class="faq-item">
+					<summary>A second question</summary>
+					<p class="text-secondary">A second answer, to show the closed state beneath an open one.</p>
+				</details>
+			</div>
 		</div>
 	</section>
 </BaseLayout>

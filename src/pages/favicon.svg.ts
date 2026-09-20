@@ -1,16 +1,23 @@
 import type { APIRoute } from 'astro';
-import { SITE_TITLE } from '../consts';
 
-// Auto-generates a favicon from the business name's first letter so a new
-// client project has a reasonable default with zero manual asset work.
-// Once the client has a real logo, replace this with a static file in
-// public/ (favicon.svg or .ico) and delete this route — see CLAUDE.md.
-const initial = (SITE_TITLE.trim().charAt(0) || '?').toUpperCase();
+// Placeholder brand mark: a simplified oak canopy over a trunk, on the brand
+// field colour. The starter generates a letter from SITE_TITLE instead, but a
+// single "W" says nothing about what this business does, and West Oaks has a
+// literal namesake to draw — so this route draws that instead.
+//
+// Deliberately coarse: a favicon renders at 16px, where a realistic canopy
+// turns to mush. Three overlapping lobes and a wide trunk still read as a tree
+// at that size, which is the only thing this has to do.
+//
+// Replace this whole route with a static public/favicon.svg once the client
+// has real branding — see CLAUDE.md, "First Steps On A New Client Project".
+//
+// The fill is hardcoded because this is a build-time asset and can't read CSS
+// custom properties: keep it in sync with --color-brand in tokens.css.
+const BRAND = '#17403A';
+const CONTRAST = '#FFFFFF';
 
-// Keep this in sync with --color-accent / --color-accent-contrast in
-// tokens.css — this is a static build-time asset, so it can't read CSS
-// custom properties directly.
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#2952CC"/><text x="16" y="22" text-anchor="middle" font-family="sans-serif" font-weight="600" font-size="16" fill="#FFFFFF">${initial}</text></svg>`;
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="West Oaks Design"><rect width="32" height="32" rx="7" fill="${BRAND}"/><g fill="${CONTRAST}"><circle cx="16" cy="12" r="6.2"/><circle cx="10" cy="15" r="4.6"/><circle cx="22" cy="15" r="4.6"/><rect x="14.4" y="16" width="3.2" height="9" rx="1.2"/></g></svg>`;
 
 export const GET: APIRoute = () =>
 	new Response(svg, {

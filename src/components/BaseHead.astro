@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -9,10 +9,27 @@ interface Props {
 	description: string;
 	image?: string;
 	noindex?: boolean;
+	/**
+	 * Use `title` verbatim instead of appending "| SITE_TITLE".
+	 *
+	 * Only the homepage should set this. Every other page wants the suffix so
+	 * a tab or a SERP row carries the business name, but the homepage needs
+	 * its full ~55 characters for the name *and* the positioning, and
+	 * "West Oaks Design | … | West Oaks Design" is what the default produces.
+	 */
+	fullTitle?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const { title, description, image = '/images/og-default.png', noindex } = Astro.props;
+const {
+	title,
+	description,
+	image = '/images/og-default.png',
+	noindex,
+	fullTitle,
+} = Astro.props;
+
+const pageTitle = fullTitle ? title : `${title} | ${SITE_TITLE}`;
 const ogImage = new URL(image, Astro.site).toString();
 ---
 
@@ -45,19 +62,35 @@ const ogImage = new URL(image, Astro.site).toString();
 	as props. Titles should read naturally for both search engines and
 	answer engines (how people actually ask, not keyword-stuffed).
 -->
-<title>{title} | {SITE_TITLE}</title>
-<meta name="title" content={`${title} | ${SITE_TITLE}`} />
+<title>{pageTitle}</title>
 <meta name="description" content={description} />
 
+<!--
+	Explicitly allow the large text/image previews that answer engines and
+	social cards build from. Without it, some crawlers default to a truncated
+	snippet, which is the opposite of what an AEO-focused build wants.
+-->
+{!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+
+<!-- Tints the browser chrome on mobile to the brand colour. Kept in sync
+     with --color-brand in tokens.css by hand; this is a meta tag, so it
+     can't read a custom property. -->
+<meta name="theme-color" content="#17403A" />
+
 <meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
 <meta property="og:site_name" content={SITE_TITLE} />
 <meta property="og:url" content={canonicalURL} />
-<meta property="og:title" content={title} />
+<meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${SITE_TITLE} — ${SITE_DESCRIPTION}`} />
 
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={title} />
+<meta property="twitter:title" content={pageTitle} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={ogImage} />
+<meta property="twitter:image:alt" content={`${SITE_TITLE} — ${SITE_DESCRIPTION}`} />

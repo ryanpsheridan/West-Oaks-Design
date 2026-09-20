@@ -2,44 +2,63 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import Icon from '../components/Icon.astro';
-import { SITE_TITLE, SITE_EMAIL, SITE_PHONE, SITE_ADDRESS } from '../consts';
+import {
+	SITE_TITLE,
+	SITE_EMAIL,
+	SITE_PHONE,
+	SITE_ADDRESS,
+	SERVICE_AREA,
+	SERVICE_AREA_LABEL,
+	BOOKING_URL,
+} from '../consts';
+import { breadcrumbSchema, abs } from '../lib/schema';
 
 // ---------------------------------------------------------------------------
 // PAGE CONTENT — everything a client edit touches lives in this block.
 //
-// Hours and the response-time line are the two things visitors look for after
-// the phone number. Delete either if it doesn't apply rather than guessing.
+// Three ways to start, in the order people actually use them: book a visit
+// (the ask the whole site funnels toward), send a message, or just call.
+//
+// ⚠️ FIRST DRAFT — hours, the response-time commitment and the service-area
+// list are invented. The response commitment in particular is a promise the
+// client has to be willing to keep, so confirm it before launch.
 // ---------------------------------------------------------------------------
 
 const intro = {
 	eyebrow: 'Contact',
-	heading: 'Get in touch',
-	lead: 'Replace with a line telling the visitor what happens after they send this — how fast someone replies, and what they should include.',
+	heading: 'Start with a site visit',
+	lead: 'Every project here begins the same way: about an hour walking the property together, looking at what is there and what you want from it. There is no charge for it, no drawings are made yet, and nothing obliges you to go further.',
 };
 
+// TODO: confirm real hours.
 const hours = [
-	{ days: 'Monday – Friday', time: 'Replace with real hours' },
-	{ days: 'Saturday', time: 'Replace with real hours' },
+	{ days: 'Monday – Friday', time: '7:30am – 5:30pm' },
+	{ days: 'Saturday', time: 'By appointment' },
 	{ days: 'Sunday', time: 'Closed' },
 ];
 
-const responseNote = 'Replace with a real response-time commitment (e.g. "We reply to every message within one business day").';
+// TODO: confirm. This is a promise, not copy — only ship it if the client
+// will actually keep it.
+const responseNote =
+	'We reply to every message by the end of the next business day. Telling us the town you are in and roughly what you are hoping to do gets you a more useful first reply.';
 
-const schema = {
-	'@context': 'https://schema.org',
-	'@type': 'ContactPage',
-	name: `Contact ${SITE_TITLE}`,
-	description: intro.lead,
-	url: Astro.site ? new URL('/contact/', Astro.site).toString() : undefined,
-};
+const trail = [{ name: 'Contact', path: '/contact/' }];
+const schema = [
+	breadcrumbSchema(Astro.site, trail),
+	{
+		'@type': 'ContactPage',
+		name: `Contact ${SITE_TITLE}`,
+		description: intro.lead,
+		url: abs(Astro.site, '/contact/'),
+	},
+];
 ---
 
 <BaseLayout
-	title="Contact"
-	description="Phone, email, and hours — plus a form that reaches us directly."
+	title="Contact & Book a Site Visit"
+	description={`Book a free site visit, send a message, or call. ${SITE_TITLE} works across ${SERVICE_AREA_LABEL} — phone, email and hours below.`}
+	schema={schema}
 >
-	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
-
 	<section class="section">
 		<div class="container">
 			<div class="split split-top" style="--split-cols: 1fr 1.15fr;">
@@ -48,7 +67,7 @@ const schema = {
 					<h1>{intro.heading}</h1>
 					<p class="lead">{intro.lead}</p>
 
-					<div class="card card-tint details-card" style="--card-tint: var(--tint-cream);">
+					<div class="card card-tint details-card" style="--card-tint: var(--tint-bone);">
 						<dl class="contact-list">
 							<dt>Phone</dt>
 							<dd>
@@ -91,6 +110,14 @@ const schema = {
 								))}
 							</ul>
 						</div>
+
+						<div class="hours">
+							<h2 class="hours-heading">Where we work</h2>
+							<p class="area-list">
+								{SERVICE_AREA.slice(0, -1).join(', ')} and {SERVICE_AREA.at(-1)}.
+								Somewhere else in the Hill Country? Ask — we travel for the right project.
+							</p>
+						</div>
 					</div>
 				</div>
 
@@ -98,6 +125,65 @@ const schema = {
 					<h2 class="form-heading">Send a message</h2>
 					<p class="text-secondary form-note">{responseNote}</p>
 					<ContactForm />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/*
+		The booking section is the page's primary conversion, but it sits
+		below the form rather than above it: the scheduler is a third-party
+		iframe that cannot be made to paint before the rest of the page, and
+		putting it first means the first thing a visitor sees is a loading
+		rectangle.
+
+		#book is linked from the header CTA and from every page's closing
+		band, so the anchor has to survive any reordering of this page.
+	*/}
+	<section class="section section-sunken" id="book">
+		<div class="container">
+			<div class="booking">
+				<div class="booking-copy">
+					<p class="eyebrow">Book directly</p>
+					<h2>Pick a time that works</h2>
+					<p class="text-secondary">
+						Site visits run about an hour and are free. Pick a slot and it lands in our
+						calendar and yours — no back-and-forth over email to find a time.
+					</p>
+					<ul class="booking-list">
+						<li><Icon name="clock" size={18} /> About an hour on site</li>
+						<li><Icon name="leaf" size={18} /> Free, with no obligation</li>
+						<li><Icon name="mail" size={18} /> Written proposal within a week</li>
+					</ul>
+				</div>
+
+				<div class="card booking-card">
+					{/*
+						TODO: replace this placeholder with the real Calendly inline
+						embed once the client's account exists, and update
+						BOOKING_URL in consts.ts.
+
+						Deliberately NOT embedded yet: Calendly's widget script is
+						~90KB of third-party JS that sets cookies, and pointing it
+						at a slug that does not exist would render an error box on
+						the most important section of the site. The link below does
+						the same job with none of that until the account is real.
+
+						When embedding: load the widget script with `defer`, give
+						the container an explicit min-height so the page does not
+						jump when it paints, and keep this link as the no-JS
+						fallback rather than deleting it.
+					*/}
+					<span class="booking-icon"><Icon name="calendar" size={28} /></span>
+					<h3>Schedule a site visit</h3>
+					<p class="text-secondary booking-card-note">
+						Opens our scheduling calendar. Choose a day and time, and you will get a
+						confirmation by email straight away.
+					</p>
+					<a href={BOOKING_URL} class="btn btn-brand btn-lg btn-arrow">Book a site visit</a>
+					<p class="booking-alt text-tertiary">
+						Would rather just talk? Call <a href={`tel:${SITE_PHONE.replace(/[^\d+]/g, '')}`}>{SITE_PHONE}</a>.
+					</p>
 				</div>
 			</div>
 		</div>
@@ -137,6 +223,88 @@ const schema = {
 		max-width: var(--measure);
 	}
 
+	/* Anchored from the header CTA on every page, so the sticky header must
+	   not land on top of the heading when the anchor is followed. */
+	#book {
+		scroll-margin-top: var(--space-8);
+	}
+
+	.booking {
+		display: grid;
+		gap: var(--space-7);
+		align-items: center;
+	}
+
+	@media (min-width: 900px) {
+		.booking {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.booking-copy {
+		max-width: var(--measure);
+	}
+
+	.booking-list {
+		list-style: none;
+		margin: var(--space-5) 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+
+	.booking-list li {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		font-size: var(--text-small);
+		color: var(--color-text-secondary);
+	}
+
+	/* The card is where the real scheduler embed will go. It is sized and
+	   padded now so dropping the widget in later doesn't reflow the section. */
+	.booking-card {
+		padding: var(--space-7);
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-height: 22rem;
+		justify-content: center;
+	}
+
+	.booking-icon {
+		display: grid;
+		place-items: center;
+		width: 3.5rem;
+		height: 3.5rem;
+		margin-bottom: var(--space-4);
+		border-radius: var(--radius-lg);
+		background: var(--surface-fill);
+		color: var(--color-text);
+	}
+
+	.booking-card h3 {
+		font-size: var(--text-h4);
+	}
+
+	.booking-card-note {
+		max-width: 28ch;
+		margin-bottom: var(--space-6);
+	}
+
+	.booking-alt {
+		font-size: var(--text-small);
+		margin: var(--space-5) 0 0;
+	}
+
+	@media (max-width: 560px) {
+		.booking-card {
+			padding: var(--space-5);
+		}
+	}
+
 	/* Details sit in a tinted card so the page isn't two plain columns of text.
 	   The card re-points the muted text tokens, so the dt/hours styling below
 	   lands on tint-safe tones without any override here. */
@@ -167,6 +335,31 @@ const schema = {
 		display: flex;
 		align-items: center;
 		gap: var(--space-2);
+		/* Grid and flex children default to min-width:auto, which means they
+		   refuse to shrink below their content's min-content width. An email
+		   address has no break opportunities, so its min-content width is the
+		   whole string — which on a 390px screen pushed this card, the column
+		   it sits in and the page itself 42px wider than the viewport.
+		   min-width:0 lets the track shrink; overflow-wrap lets the address
+		   break rather than simply clipping once it does. */
+		min-width: 0;
+	}
+
+	.contact-list dd a {
+		min-width: 0;
+		overflow-wrap: anywhere;
+	}
+
+	/* The 32px column gap is comfortable at desktop and pure waste at phone
+	   width, where it competes with the address for the same pixels. */
+	@media (max-width: 560px) {
+		.contact-list {
+			gap: var(--space-3) var(--space-4);
+		}
+
+		.contact-list dd {
+			font-size: var(--text-body);
+		}
 	}
 
 	/* Copy button. Sits quiet until the row is hovered or it's focused, so the

@@ -26,44 +26,46 @@
 	   lighter reads as "muted" but fails, so the ramp has no #999-class step.
 	   ------------------------------------------------------------------------ */
 	--gray-0: #FFFFFF;    /* cards and raised surfaces */
-	--gray-25: #FBFAF9;   /* page — warm off-white, not pure white */
-	--gray-50: #F4F2EE;   /* recessed section bands */
-	--gray-100: #EFEDE8;  /* inline code, subtle fills */
-	--gray-200: #E7E4DE;  /* hairline dividers */
-	--gray-300: #DCD8D1;  /* default borders */
-	--gray-400: #C6C2B9;  /* emphasised / hover borders */
-	--gray-500: #666B75;  /* tertiary text — 5.13:1 on page, 4.78:1 on sunken */
-	--gray-600: #575D68;  /* secondary text — 6.36:1 on page, 5.93:1 on sunken */
-	--gray-900: #081122;  /* primary text — 18.9:1 on page */
+	--gray-25: #FAF8F4;   /* page — limestone off-white, not pure white */
+	--gray-50: #F1EEE7;   /* recessed section bands */
+	--gray-100: #EAE6DD;  /* inline code, subtle fills */
+	--gray-200: #E2DED4;  /* hairline dividers */
+	--gray-300: #D5D0C4;  /* default borders */
+	--gray-400: #BEB9AA;  /* emphasised / hover borders */
+	--gray-500: #56625B;  /* tertiary text — 6.01:1 page, 5.50:1 sunken, 5.12:1 fill */
+	--gray-600: #4E5A54;  /* secondary text — 6.79:1 page, 6.22:1 sunken, 5.79:1 fill */
+	--gray-900: #0A1A16;  /* primary text — 16.9:1 on page */
 
-	--ink-900: #081122;
-	--ink-950: #030812;
+	/* Near-black with the green pulled through it rather than a blue-black,
+	   so the darkest surfaces read as the same family as the brand colour
+	   instead of as a second, colder hue. */
+	--ink-900: #0A1A16;
+	--ink-950: #050E0B;
 
 	/* ------------------------------------------------------------------------
 	   Tints. Light card and section-band fields, used as whole backgrounds
 	   rather than as small accents.
 
-	   This starter ships them neutral on purpose — every hue below is a step
-	   off the same warm-grey ramp, not a colour. That's deliberate: this is a
-	   template meant to be duplicated per client, and the tint set is where
-	   their brand personality goes back in during re-theming. Shipping it
-	   grey means every new project starts from a genuinely blank slate
-	   instead of inheriting a previous client's palette.
+	   The set is drawn from the materials West Oaks actually builds with —
+	   sage and moss off the planting palette, mist off the blue-green brand,
+	   clay and bone off limestone and decomposed granite. Every one is
+	   desaturated hard: these are whole fields behind body copy, and a tint
+	   that competes with the photography above it stops reading as ground.
 
-	   --color-text clears AA on every tint by a wide margin (>15:1, being
-	   near-white). --color-text-secondary clears it too, comfortably — unlike
-	   a saturated tint, a light neutral doesn't tighten that margin the way a
-	   client's eventual brand hue might, so re-check contrast after a
-	   re-theme rather than assuming it still holds.
+	   --color-text clears AA on every tint by a wide margin (13.8:1 at
+	   worst, measured). --color-text-secondary does not clear it by enough
+	   to build on, so anything set on a tint takes primary text or a tone
+	   mixed down from it via color-mix — which is what .card-tint and
+	   .section-brand already do for you.
 	   ------------------------------------------------------------------------ */
-	--tint-lime: #E6E4E2;
-	--tint-mint: #F3F2F0;
-	--tint-sky: #EEEDEB;
-	--tint-lavender: #E0DDDA;
-	--tint-cream: #F2F0ED;
+	--tint-sage: #DDE4DC;     /* --color-text at 13.8:1 */
+	--tint-moss: #E9EDE5;     /* --color-text at 14.7:1 */
+	--tint-mist: #E3E9E8;     /* --color-text at 14.3:1 */
+	--tint-clay: #EBE2D8;     /* --color-text at 14.0:1 */
+	--tint-bone: #F3EFE8;     /* --color-text at 15.2:1 */
 
 	/* Shadow base, kept neutral so no elevation ever inherits a brand hue. */
-	--shadow-rgb: 8, 17, 34;
+	--shadow-rgb: 10, 26, 22;
 
 	/* ------------------------------------------------------------------------
 	   2. BRAND — the re-theme surface. Swap these per client; everything
@@ -80,29 +82,42 @@
 	--color-bg: var(--gray-25);
 	--color-bg-subtle: var(--gray-50);
 
-	/* The one hue in this starter — reserved for links and nothing else, so
-	   it always reads as "this is clickable" rather than decoration. */
-	--color-accent: #2447BE;        /* 7.42:1 on white */
-	--color-accent-hover: #1B3691;
+	/* Links, and nothing else. Deep enough to clear AA as text at 7.07:1 on
+	   the page surface, and far enough off --color-text that an inline link
+	   in a paragraph is unmistakable without an underline doing all the work.
+	   It's a lighter, wetter green than the brand field — same family, read
+	   as a different role. */
+	--color-accent: #1A5F52;        /* 7.07:1 on --surface-page */
+	--color-accent-hover: #133F37;
 	--color-accent-contrast: #FFFFFF;
 
-	/* The highlight. Unlike --color-accent (which is link-only and must clear
-	   AA as text), this is a *field* color: it is only ever a background, with
-	   --color-brand-contrast on top. That inversion is what would let it be
-	   far more saturated than anything else in the system without failing
-	   contrast, once a client's brand color is dropped in here.
+	/* The brand field. This is West Oaks' dark blue-green, and unlike
+	   --color-accent it is only ever a *background*, with
+	   --color-brand-contrast (white) on top — which is exactly how the
+	   client described wanting it used. The inversion is what lets it be the
+	   most saturated thing on the site without failing contrast: white on it
+	   measures 11.5:1.
 
-	   Until then it's intentionally aliased to --color-ink: there is no
-	   brand color yet, so a saturated .section-brand band would just be an
-	   arbitrary color with no meaning. Re-theming per client: point this at
-	   their actual brand color instead. If theirs is dark rather than light,
-	   swap --color-brand-contrast to white and re-check the pairing. */
-	--color-brand: var(--ink-900);
-	--color-brand-hover: var(--ink-950);
+	   Deliberately a step lighter than --color-ink. If the two were the same
+	   value, .section-brand and .cta-band would read as one device used
+	   twice, and the green would stop registering as a colour at all. */
+	--color-brand: #17403A;         /* white on it: 11.5:1 */
+	--color-brand-hover: #12332E;
 	--color-brand-contrast: #FFFFFF;
 
-	--color-ink: var(--ink-900);
-	--color-ink-hover: var(--ink-950);
+	/* Primary buttons and the closing CTA band — the near-black end of the
+	   same green, so high-emphasis controls sit under the brand colour
+	   rather than beside it.
+
+	   Deliberately NOT aliased to --ink-900 the way the starter had it.
+	   --ink-900 is also --color-text, and a value tuned to be crisp at 16px
+	   body size reads as flat black when it becomes a full-bleed band —
+	   which on a warm limestone palette looked like a hole in the page. This
+	   is two steps lighter: still unmistakably darker than --color-brand
+	   (white clears 15.7:1 here against the brand's 11.5:1), but green
+	   enough to belong to the same palette as everything above it. */
+	--color-ink: #102722;           /* white on it: 15.7:1 */
+	--color-ink-hover: #0A1A16;
 	--color-ink-contrast: #FFFFFF;
 	/* Secondary text on an ink surface — ~9:1, so it still clears AA while
 	   reading as a step down from full white. */
@@ -139,15 +154,20 @@
 
 	/* Semantic accents — reserved for real state (success, warning, error,
 	   informational). Never decoration. Always paired with text or an icon,
-	   never carrying the signal on color alone. */
-	--color-accent-positive: #1B8A5A;
-	--color-accent-positive-bg: #E6F4EC;
-	--color-accent-caution: #B5720A;
-	--color-accent-caution-bg: #FBF0DD;
-	--color-accent-critical: #C23A3A;
-	--color-accent-critical-bg: #FBEAEA;
-	--color-accent-info: #2952CC;
-	--color-accent-info-bg: #EAEFFB;
+	   never carrying the signal on color alone.
+
+	   Each foreground is darkened past the starter's values so it clears AA
+	   as *text* both on --surface-page and on its own -bg pairing — the
+	   starter's originals cleared the page but not their own chip, which
+	   .field-error and the style-guide swatches both rely on. */
+	--color-accent-positive: #14724A;
+	--color-accent-positive-bg: #E5F2EA;
+	--color-accent-caution: #7E4E05;
+	--color-accent-caution-bg: #F8EFDC;
+	--color-accent-critical: #A82A2A;
+	--color-accent-critical-bg: #F8E8E6;
+	--color-accent-info: #1F5E86;
+	--color-accent-info-bg: #E6EFF4;
 
 	/* ------------------------------------------------------------------------
 	   4a. TYPOGRAPHY

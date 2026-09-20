@@ -1,168 +1,193 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Testimonial from '../components/Testimonial.astro';
-import { SITE_TITLE } from '../consts';
+import Icon from '../components/Icon.astro';
+import { SERVICES } from '../data/services';
+import { breadcrumbSchema, serviceSchema, faqSchema } from '../lib/schema';
+import { SERVICE_AREA_LABEL, BOOKING_URL } from '../consts';
 
-// Placeholder content throughout this page — replace every field with the
-// client's real offering before launch. Structure follows the standard
-// service-business page pattern (problem → offer → process → pricing →
-// social proof → FAQ → CTA) since that's what visitors and search/AI
-// answer engines both expect from a services page.
+// ---------------------------------------------------------------------------
+// PAGE CONTENT — the six service lines come from src/data/services.ts, shared
+// with the homepage and the structured data. Everything below is the framing
+// around them.
+//
+// Structure: problem → offer → what it costs → proof → FAQ → CTA. The process
+// step that normally sits in the middle of a services page has its own page
+// at /process/, since a design-build client cares more about how a project
+// runs than a plumbing client does.
+//
+// ⚠️ FIRST DRAFT. Pricing and FAQ answers below are informed guesses about a
+// Hill Country design-build firm and every one is marked TODO. Real numbers
+// only, before this goes live — a wrong price is worse than no price.
+// ---------------------------------------------------------------------------
+
+const intro = {
+	heading: 'Landscape services',
+	lead: `Design, construction and ongoing care for residential properties across ${SERVICE_AREA_LABEL}. Most clients come to us for one of these and end up with two or three, because on a real site they are not separable — the patio, the drainage and the tree it sits under are one problem.`,
+};
 
 const problems = [
 	{
-		title: 'Replace with a problem your client solves',
-		description: 'Describe the pain point from the visitor’s point of view — what’s frustrating or costly about not having this handled.',
+		title: 'The lawn needs more water every year',
+		description:
+			'A landscape planted for somewhere with more rain needs an irrigation system to keep it alive, and the bill grows as the system ages and the plants get more stressed. The fix is the planting, not a bigger controller.',
+		tint: '--tint-mist',
 	},
 	{
-		title: 'Replace with a second problem',
-		description: 'Keep it specific and concrete rather than generic — visitors recognize themselves in specifics, not buzzwords.',
+		title: 'There is nowhere to sit outside from June to September',
+		description:
+			'Plenty of Texas properties are unusable for a third of the year because nothing casts shade where people would actually want to be. Shade is a design problem with a design answer: canopy, structure, orientation.',
+		tint: '--tint-clay',
 	},
 	{
-		title: 'Replace with a third problem',
-		description: 'Three is usually enough to establish credibility without turning this into a wall of text.',
+		title: 'The oaks are being slowly killed by good intentions',
+		description:
+			'Grade changes over the root zone, irrigation against the trunk, pruning in the wrong month, a trench cut for a new line. Most of the damage we see to mature trees was done by someone improving the property.',
+		tint: '--tint-moss',
 	},
 ];
 
-// Tints cycle across the problem cards, same pattern as the homepage.
-const problemTints = ['--tint-sky', '--tint-lavender', '--tint-mint'];
-
-const services = [
-	{
-		title: 'Service one',
-		description: 'Replace with a real description of what this includes.',
-		includes: ['Replace with what’s included', 'Replace with what’s included', 'Replace with what’s included'],
-	},
-	{
-		title: 'Service two',
-		description: 'Replace with a real description of what this includes.',
-		includes: ['Replace with what’s included', 'Replace with what’s included', 'Replace with what’s included'],
-	},
-	{
-		title: 'Service three',
-		description: 'Replace with a real description of what this includes.',
-		includes: ['Replace with what’s included', 'Replace with what’s included', 'Replace with what’s included'],
-	},
-];
-
-const steps = [
-	{ title: 'Reach out', description: 'Replace with how a visitor starts — a call, a form, a quote request.' },
-	{ title: 'We build a plan', description: 'Replace with what happens next — an assessment, a proposal, a scheduled visit.' },
-	{ title: 'Get results', description: 'Replace with the outcome the client walks away with.' },
-];
-
+// TODO: confirm every number with the client before launch. These are
+// plausible Central Texas ranges, not quotes, and the page says so — but a
+// range that is wrong by half will cost them qualified leads either way.
 const pricingTiers = [
 	{
-		name: 'Starter',
-		price: '$X',
-		unit: '/ project',
-		description: 'Replace with who this tier is for.',
-		features: ['Replace with a feature', 'Replace with a feature', 'Replace with a feature'],
+		name: 'Design only',
+		price: '$2,500',
+		unit: '+ / plan',
+		description: 'For people who want a plan they can build themselves, or in stages over several years.',
+		features: [
+			'Site analysis and measured base plan',
+			'Concept design and two rounds of revisions',
+			'Planting plan with every species named',
+			'Material schedule you can price anywhere',
+		],
 		featured: false,
 	},
 	{
-		name: 'Standard',
-		price: '$X',
-		unit: '/ project',
-		description: 'Replace with who this tier is for.',
-		features: ['Everything in Starter', 'Replace with a feature', 'Replace with a feature', 'Replace with a feature'],
+		name: 'Design and build',
+		price: '$25,000',
+		unit: '+ / project',
+		description: 'The usual route. One team draws it and builds it, so nothing is lost between the two.',
+		features: [
+			'Everything in Design only',
+			'Construction of hardscape, planting and irrigation',
+			'One point of contact from first visit to walkthrough',
+			'Design fee credited against the build',
+			'One year on plants, five on hardscape',
+		],
 		featured: true,
 	},
 	{
-		name: 'Premium',
-		price: '$X',
-		unit: '/ project',
-		description: 'Replace with who this tier is for.',
-		features: ['Everything in Standard', 'Replace with a feature', 'Replace with a feature'],
+		name: 'Stewardship',
+		price: '$350',
+		unit: '+ / month',
+		description: 'Ongoing care on a written plan, for properties we built and properties we did not.',
+		features: [
+			'Written annual management plan',
+			'Scheduled seasonal visits',
+			'Irrigation audit and water budget review',
+			'Priority scheduling for storm damage',
+		],
 		featured: false,
 	},
 ];
 
+// TODO: real quotes, with permission. See the note on the homepage.
 const testimonials = [
 	{
-		quote: 'Replace with a real quote from a client — specific results read as more credible than generic praise.',
+		quote:
+			'PLACEHOLDER — replace with a real client quote about a service on this page. Specific beats glowing: what was wrong, what was done, what it is like now.',
 		name: 'Client name',
-		role: 'Replace with their role or company',
+		role: 'Project type, town',
 		rating: 5,
 	},
 	{
-		quote: 'Replace with a second real quote, ideally from a different type of client to show range.',
+		quote:
+			'PLACEHOLDER — a second real quote, ideally about a different service line than the first.',
 		name: 'Client name',
-		role: 'Replace with their role or company',
+		role: 'Project type, town',
 		rating: 5,
 	},
 ];
 
+// These are written as answer-engine bait in the honest sense: the question is
+// phrased the way someone would actually type or ask it, and the answer is
+// complete in its first sentence so it can be quoted standalone. The same
+// array builds the visible accordion and the FAQPage schema, so the marked-up
+// answer is always the rendered answer.
+// TODO: confirm every factual answer — costs, timelines, licensing, warranty.
 const faqs = [
 	{
-		question: 'Replace with a real question clients actually ask',
-		answer: 'Replace with a direct, specific answer — this doubles as AEO content, so phrase both the question and answer the way a person would actually ask and expect to hear it.',
+		question: 'How much does a landscape design cost in the Austin area?',
+		answer:
+			'A full design for a typical residential lot starts around $2,500 and rises with the size and complexity of the property. That buys a measured base plan, a concept you help shape over two rounds of revisions, a planting plan naming every species, and a material schedule you can take to any contractor. If we go on to build the project, the design fee is credited against the construction cost.',
 	},
 	{
-		question: 'How long does a typical project take?',
-		answer: 'Replace with a real timeframe or range.',
+		question: 'How long does a landscape project take from start to finish?',
+		answer:
+			'Design takes four to eight weeks, depending on how much of the property is in scope and how quickly revisions come back. Construction runs anywhere from two weeks for a patio and planting to several months for a whole property built in phases. We give you a schedule with the proposal, before any money changes hands.',
 	},
 	{
-		question: 'What areas or industries do you serve?',
-		answer: 'Replace with real service-area or industry detail.',
+		question: 'When can oak trees be pruned in Central Texas?',
+		answer:
+			'Avoid pruning oaks from February through June, which is when the beetles that spread oak wilt are most active and fresh cuts are most likely to be infected. The safest windows are the heat of summer and the cold of winter. Any cut made on an oak at any time of year should be sealed immediately — including damage from storms or equipment, which is not optional to seal just because it was not planned.',
+	},
+	{
+		question: 'Do I need a licensed irrigator to install a sprinkler system in Texas?',
+		answer:
+			'Yes. Texas requires anyone installing, altering or repairing an irrigation system to hold a licence issued by the TCEQ, and the licence number has to appear on the contract. Ask any company you are considering for theirs before you sign anything — it is public and verifiable in seconds.',
+	},
+	{
+		question: 'What does biophilic landscape design actually mean?',
+		answer:
+			'It means designing around the ways people respond to the natural world rather than treating the outdoors as decoration. In practice that is shade where you actually sit, water you can hear from inside, a living view from the windows you use most, and planting that brings birds and pollinators close enough to notice. It is a set of design decisions, not a style or a finish.',
+	},
+	{
+		question: 'Do you work on acreage, or only on residential lots?',
+		answer:
+			`Both. On acreage the work usually starts earlier and wider: what the land can carry, what is worth clearing, what should be protected, and where a house or a drive should go before anything is planted. We consult on all of that, including for properties clients are still deciding whether to buy. We work across ${SERVICE_AREA_LABEL}.`,
+	},
+	{
+		question: 'Do you offer ongoing maintenance after the project is finished?',
+		answer:
+			'Yes, on a written annual plan rather than as call-outs. The plan sets out what gets pruned when, what the water budget is, and what is due for replacement, so the landscape is managed rather than reacted to. We take on properties we did not build, and you are never obliged to use us to keep the warranty.',
 	},
 	{
 		question: 'How do I get started?',
-		answer: 'Replace with the real first step — usually a link back to the contact page.',
+		answer:
+			'Book a site visit. We spend about an hour walking the property with you, looking at what is there and what you want from it. There is no charge for that visit and no drawings are made yet — it is how both of us work out whether the project is a fit.',
 	},
 ];
 
-const faqSchema = {
-	'@context': 'https://schema.org',
-	'@type': 'FAQPage',
-	mainEntity: faqs.map((faq) => ({
-		'@type': 'Question',
-		name: faq.question,
-		acceptedAnswer: {
-			'@type': 'Answer',
-			text: faq.answer,
-		},
-	})),
-};
-
-const serviceSchema = {
-	'@context': 'https://schema.org',
-	'@type': 'Service',
-	provider: {
-		'@type': 'LocalBusiness',
-		name: SITE_TITLE,
-	},
-	hasOfferCatalog: {
-		'@type': 'OfferCatalog',
-		name: 'Services',
-		itemListElement: services.map((service) => ({
-			'@type': 'Offer',
-			itemOffered: {
-				'@type': 'Service',
-				name: service.title,
-				description: service.description,
-			},
-		})),
-	},
-};
+const trail = [{ name: 'Services', path: '/services/' }];
+const schema = [
+	breadcrumbSchema(Astro.site, trail),
+	faqSchema(faqs),
+	...SERVICES.map((service) =>
+		serviceSchema(Astro.site, {
+			title: service.title,
+			description: service.long,
+			slug: service.slug,
+		})
+	),
+];
 ---
 
 <BaseLayout
-	title="Services"
-	description="What we offer, how it works, and what it costs — everything you need to know before reaching out."
+	title="Landscape Services"
+	description="Landscape design, tree care, patios, irrigation, lighting and stewardship across Austin and the Hill Country — what each includes, and what it costs."
+	schema={schema}
 >
-	<script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
-	<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-
 	<section class="section-hero">
 		<div class="container">
 			<div class="page-hero">
-				<h1>Services</h1>
-				<p class="lead">
-					One or two sentences summarizing the range of services and the outcome a client gets —
-					lead with the result, the same way the homepage headline does.
-				</p>
-				<a href="/contact/" class="btn btn-brand btn-lg btn-arrow">Get a free quote</a>
+				<h1>{intro.heading}</h1>
+				<p class="lead">{intro.lead}</p>
+				<div class="hero-actions">
+					<a href="/contact/#book" class="btn btn-brand btn-lg btn-arrow">Book a site visit</a>
+					<a href="/process/" class="btn btn-secondary btn-lg">How a project runs</a>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -171,13 +196,13 @@ const serviceSchema = {
 		<div class="container">
 			<div class="section-header section-header-center">
 				<div class="section-header-text">
-					<p class="eyebrow">The problem</p>
-					<h2>Common problems we solve</h2>
+					<p class="eyebrow">What we get called about</p>
+					<h2>Three problems, over and over</h2>
 				</div>
 			</div>
 			<ul class="grid-auto">
-				{problems.map((problem, i) => (
-					<li class="card card-tint" style={`--card-tint: var(${problemTints[i % problemTints.length]});`}>
+				{problems.map((problem) => (
+					<li class="card card-tint" style={`--card-tint: var(${problem.tint});`}>
 						<h3>{problem.title}</h3>
 						<p class="text-secondary">{problem.description}</p>
 					</li>
@@ -190,16 +215,21 @@ const serviceSchema = {
 		<div class="container">
 			<div class="section-header">
 				<div class="section-header-text">
-					<p class="eyebrow">The offer</p>
-					<h2>What we offer</h2>
+					<p class="eyebrow">Services</p>
+					<h2>What we do, in detail</h2>
+					<p class="lead">Six lines of work. Most projects use three or four of them at once.</p>
 				</div>
-				<a href="/contact/" class="btn btn-primary btn-arrow">Get a quote</a>
+				<a href="/contact/#book" class="btn btn-primary btn-arrow">Book a site visit</a>
 			</div>
-			<ul class="grid-auto">
-				{services.map((service) => (
-					<li class="card card-interactive">
-						<h3>{service.title}</h3>
-						<p class="text-secondary">{service.description}</p>
+			<ul class="service-list">
+				{SERVICES.map((service) => (
+					<li class="card service-card" id={service.slug}>
+						<div class="service-head">
+							<span class="service-icon"><Icon name={service.icon} size={24} /></span>
+							<h3>{service.title}</h3>
+						</div>
+						<p class="text-secondary service-body">{service.long}</p>
+						<h4 class="includes-heading">What it includes</h4>
 						<ul class="includes-list">
 							{service.includes.map((item) => (
 								<li>{item}</li>
@@ -211,39 +241,23 @@ const serviceSchema = {
 		</div>
 	</section>
 
-	<section class="section-loose section-brand">
-		<div class="container">
-			<div class="section-header section-header-center">
-				<div class="section-header-text">
-					<p class="eyebrow">The process</p>
-					<h2>How it works</h2>
-				</div>
-			</div>
-			<ol class="grid-auto step-list">
-				{steps.map((step, i) => (
-					<li class="step">
-						<span class="step-number" aria-hidden="true">{i + 1}</span>
-						<h3>{step.title}</h3>
-						<p class="text-secondary">{step.description}</p>
-					</li>
-				))}
-			</ol>
-		</div>
-	</section>
-
-	<section class="section section-sunken">
+	<section class="section-loose">
 		<div class="container">
 			<div class="section-header section-header-center">
 				<div class="section-header-text">
 					<p class="eyebrow">Pricing</p>
 					<h2>What it costs</h2>
-					<p class="lead">Starting prices below — every project is a little different, so treat these as a guide and reach out for an exact quote.</p>
+					<p class="lead">
+						Starting points, not quotes. Every property is different enough that a real
+						number needs a real visit, but nobody should have to book a call to find out
+						whether they are in the right shop.
+					</p>
 				</div>
 			</div>
 			<ul class="grid-auto pricing-grid">
 				{pricingTiers.map((tier) => (
 					<li class:list={['card', 'pricing-card', { featured: tier.featured }]}>
-						{tier.featured && <p class="pricing-badge">Most popular</p>}
+						{tier.featured && <p class="pricing-badge">Most projects</p>}
 						<h3>{tier.name}</h3>
 						<p class="pricing-price">{tier.price}<span class="pricing-unit">{tier.unit}</span></p>
 						<p class="pricing-description text-secondary">{tier.description}</p>
@@ -252,15 +266,18 @@ const serviceSchema = {
 								<li>{feature}</li>
 							))}
 						</ul>
-						<a href="/contact/" class={`btn ${tier.featured ? 'btn-primary' : 'btn-secondary'} pricing-cta`}>Get started</a>
+						<a href="/contact/#book" class={`btn ${tier.featured ? 'btn-primary' : 'btn-secondary'} pricing-cta`}>
+							Get a quote
+						</a>
 					</li>
 				))}
 			</ul>
 		</div>
 	</section>
 
-	<section class="section">
+	<section class="section section-sunken">
 		<div class="container">
+			<h2 class="visually-hidden">What clients say</h2>
 			<ul class="grid-auto testimonial-grid">
 				{testimonials.map((t) => (
 					<li>
@@ -271,12 +288,17 @@ const serviceSchema = {
 		</div>
 	</section>
 
-	<section class="section section-sunken">
+	<section class="section">
 		<div class="container">
 			<div class="section-header section-header-center">
 				<div class="section-header-text">
 					<p class="eyebrow">Questions</p>
 					<h2>Frequently asked questions</h2>
+					<p class="lead">
+						The things people ask on the first call. If yours is not here,
+						<a href="/contact/">ask us directly</a> — we would rather answer it than have
+						you guess.
+					</p>
 				</div>
 			</div>
 			<div class="faq-list">
@@ -293,10 +315,13 @@ const serviceSchema = {
 	<section class="section cta-band">
 		<div class="container">
 			<div class="cta-inner">
-				<h2>Ready to get started?</h2>
-				<p class="cta-lead">Replace with a closing line that restates the outcome and makes the next step obvious.</p>
+				<h2>Come walk the property with us</h2>
+				<p class="cta-lead">
+					An hour on site, no charge, no drawings yet. It is how we both work out whether
+					the project is a fit.
+				</p>
 				<div class="cta-actions">
-					<a href="/contact/" class="btn btn-inverse btn-lg btn-arrow">Get in touch</a>
+					<a href={BOOKING_URL} class="btn btn-inverse btn-lg btn-arrow">Book a site visit</a>
 					<a href="/gallery/" class="link-arrow cta-link">See our work</a>
 				</div>
 			</div>
@@ -313,14 +338,78 @@ const serviceSchema = {
 		margin-bottom: var(--space-6);
 	}
 
-	.card h3,
-	.topline h3 {
+	.hero-actions {
+		display: flex;
+		gap: var(--space-3);
+		flex-wrap: wrap;
+	}
+
+	.card h3 {
 		font-size: var(--text-h4);
 	}
 
-	/* Services */
+	/* Services — a single column of wide cards rather than a grid. Each one
+	   carries a paragraph and a list, which a three-up grid would squeeze into
+	   a column too narrow to read either in. Two-up at desktop keeps the page
+	   from running unreasonably long. */
+	.service-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--space-5);
+	}
+
+	@media (min-width: 900px) {
+		.service-list {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	/* Anchored from the homepage's service cards, so the sticky header must
+	   not land on top of the heading when one of these is jumped to. */
+	.service-card {
+		scroll-margin-top: var(--space-9);
+	}
+
+	.service-head {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		margin-bottom: var(--space-4);
+	}
+
+	.service-head h3 {
+		margin: 0;
+	}
+
+	.service-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: var(--radius-md);
+		background: var(--surface-fill);
+		color: var(--color-text);
+	}
+
+	.service-body {
+		margin-bottom: var(--space-5);
+	}
+
+	.includes-heading {
+		font-size: var(--text-eyebrow);
+		font-weight: var(--weight-medium);
+		letter-spacing: var(--tracking-caps);
+		text-transform: uppercase;
+		color: var(--color-text-tertiary);
+		margin-bottom: var(--space-3);
+	}
+
 	.includes-list {
-		margin: var(--space-4) 0 0;
+		margin: 0;
 		padding: 0;
 		list-style: none;
 		display: flex;
@@ -346,35 +435,12 @@ const serviceSchema = {
 		background: var(--border-strong);
 	}
 
-	/* How it works */
-	.step-list {
-		--grid-min: 200px;
-		gap: var(--space-7);
-	}
-
-	.step-number {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.25rem;
-		height: 2.25rem;
-		border-radius: 50%;
-		background: var(--color-ink);
-		color: var(--color-ink-contrast);
-		font-size: var(--text-small);
-		font-weight: var(--weight-medium);
-		margin-bottom: var(--space-4);
-	}
-
-	.step h3 {
-		font-size: var(--text-h4);
-	}
-
-	.step p:last-child {
-		margin-bottom: 0;
-	}
-
-	/* Pricing */
+	/* Pricing sits on the page surface, not on the brand band. A band there
+	   would have forced each card to re-point --color-text and friends back
+	   to their light-surface values, and the only way to write that is by
+	   reaching into the raw --gray-* palette from a component — which is the
+	   one thing the token layering in tokens.css exists to prevent. The
+	   closing .cta-band is this page's single saturated device instead. */
 	.pricing-grid {
 		align-items: start;
 	}
@@ -400,25 +466,22 @@ const serviceSchema = {
 		margin: 0 0 var(--space-3);
 	}
 
-	.pricing-card h3 {
-		font-size: var(--text-h4);
-		margin-bottom: var(--space-1);
-	}
-
 	.pricing-price {
 		font-size: var(--text-h2);
-		font-weight: var(--weight-semibold);
-		letter-spacing: var(--tracking-snug);
 		line-height: var(--leading-tight);
-		margin: 0 0 var(--space-3);
+		letter-spacing: var(--tracking-snug);
+		margin: 0 0 var(--space-2);
 	}
 
 	.pricing-unit {
-		font-size: var(--text-small);
-		font-weight: var(--weight-normal);
-		letter-spacing: var(--tracking-normal);
+		font-size: var(--text-body);
 		color: var(--color-text-tertiary);
+		letter-spacing: var(--tracking-normal);
 		margin-left: var(--space-1);
+	}
+
+	.pricing-description {
+		margin-bottom: var(--space-5);
 	}
 
 	.pricing-features {
@@ -427,12 +490,13 @@ const serviceSchema = {
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-3);
+		gap: var(--space-2);
 		flex-grow: 1;
 	}
 
 	.pricing-features li {
 		font-size: var(--text-small);
+		color: var(--color-text-secondary);
 		padding-left: var(--space-4);
 		position: relative;
 	}
@@ -441,7 +505,7 @@ const serviceSchema = {
 		content: '';
 		position: absolute;
 		left: 0;
-		top: 0.55em;
+		top: 0.6em;
 		width: 5px;
 		height: 5px;
 		border-radius: 50%;
@@ -449,10 +513,10 @@ const serviceSchema = {
 	}
 
 	.pricing-cta {
-		margin-top: auto;
+		align-self: stretch;
+		justify-content: center;
 	}
 
-	/* Testimonials */
 	.testimonial-grid {
 		--grid-min: 340px;
 		gap: var(--space-5);
@@ -462,86 +526,7 @@ const serviceSchema = {
 		display: flex;
 	}
 
-	/* FAQ */
-	/* Centred to sit under the centred section header — a left-aligned list
-	   under a centred heading reads as a layout mistake. The rows inside stay
-	   left-aligned; it's the block that centres, not the text. */
-	.faq-list {
-		max-width: var(--measure-wide);
-		margin-inline: auto;
-		border-top: 1px solid var(--border-default);
-	}
-
-	.faq-item {
-		border-bottom: 1px solid var(--border-default);
-	}
-
-	/* Padding lives on the summary itself, not the wrapping .faq-item, so
-	   the whole tappable row (not just the text line) is a comfortable
-	   touch target on mobile. */
-	.faq-item summary {
-		display: flex;
-		gap: var(--space-3);
-		padding-block: var(--space-4);
-		cursor: pointer;
-		font-weight: var(--weight-medium);
-		color: var(--color-text);
-		list-style: none;
-	}
-
-	.faq-item summary::-webkit-details-marker {
-		display: none;
-	}
-
-	/* Rotating a + into an x rather than swapping the glyph for a minus: the
-	   character swap jumps, this reads as the same mark turning. */
-	.faq-item summary::before {
-		content: '+';
-		flex-shrink: 0;
-		width: 1em;
-		font-weight: var(--weight-normal);
-		color: var(--color-text-tertiary);
-		transition: transform var(--duration-base) var(--ease-out);
-	}
-
-	.faq-item[open] summary::before {
-		transform: rotate(135deg);
-	}
-
-	/* Smooth open/close. <details> snaps by default because it animates from a
-	   height of 0 to `auto`, which isn't interpolatable — interpolate-size
-	   makes that keyword animatable, and allow-discrete carries the
-	   content-visibility flip along with it.
-
-	   Guarded by @supports: where ::details-content isn't implemented the
-	   accordion just snaps open exactly as it does today. Nothing is hidden
-	   behind the animation, so there's no failure mode where content is
-	   unreachable. */
-	@supports (interpolate-size: allow-keywords) {
-		.faq-list {
-			interpolate-size: allow-keywords;
-		}
-
-		.faq-item::details-content {
-			block-size: 0;
-			overflow: hidden;
-			transition:
-				block-size var(--duration-base) var(--ease-out),
-				content-visibility var(--duration-base) allow-discrete;
-		}
-
-		.faq-item[open]::details-content {
-			block-size: auto;
-		}
-	}
-
-	.faq-item p {
-		margin: 0 0 var(--space-4);
-		padding-left: calc(1em + var(--space-3));
-		max-width: var(--measure);
-	}
-
-	/* Final CTA */
+	/* CTA band */
 	.cta-inner {
 		max-width: var(--measure);
 	}

@@ -3,111 +3,179 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import Testimonial from '../components/Testimonial.astro';
 import Icon from '../components/Icon.astro';
-import { SITE_TITLE, SITE_DESCRIPTION, SITE_PHONE, SITE_EMAIL, SITE_ADDRESS } from '../consts';
+import { SERVICES } from '../data/services';
+import { breadcrumbSchema, serviceSchema } from '../lib/schema';
+import {
+	SITE_PHONE,
+	SITE_EMAIL,
+	SITE_ADDRESS,
+	SERVICE_AREA,
+	SERVICE_AREA_LABEL,
+	BOOKING_URL,
+} from '../consts';
 
 // ---------------------------------------------------------------------------
 // PAGE CONTENT — everything a client edit touches lives in this block. The
 // markup below reads from it, so copy changes never mean hunting through JSX.
 //
-// Section order follows the standard small-business homepage pattern:
-// hero → trust signals → services → why-us → work → testimonials → contact.
+// Section order: hero → trust → services → why us → work → testimonials →
+// contact. The services themselves come from src/data/services.ts, shared
+// with /services/ and the structured data, so they can't drift apart.
+//
+// ⚠️ FIRST DRAFT. The voice here is drawn from the three reference sites the
+// client gave (Lake|Flato, Escobedo Group, LandWest): plain, specific,
+// regionally grounded, and allergic to "transform your outdoor oasis". Claims
+// of fact — crew credentials, project counts, the testimonials — are marked
+// TODO and must not ship unverified.
 // ---------------------------------------------------------------------------
 
 const hero = {
-	headline: 'Headline that says what you do and for whom',
-	sub: 'One or two sentences of supporting copy. Lead with the outcome the visitor cares about, not a list of features.',
-	primaryCta: { label: 'Get in touch', href: '/contact/' },
+	// The h1 carries the service and the region because it is the strongest
+	// single on-page signal for a local query. The personality goes in the
+	// paragraph under it, where it costs nothing.
+	headline: 'Landscape design and build, rooted in the Hill Country',
+	sub: 'We plan, build and look after residential landscapes across Austin and the Hill Country — native planting, limestone hardscape, efficient irrigation, and the tree care that keeps it all standing. Designed around the site you actually have.',
+	primaryCta: { label: 'Book a site visit', href: '/contact/#book' },
 	secondaryCta: { label: 'See our work', href: '/gallery/' },
-	// Swap for a real photo of the client's work, team, or storefront.
-	image: { src: '/images/gallery/placeholder-1.svg', alt: 'Replace with a real, descriptive alt text for this photo' },
+	image: {
+		src: '/images/gallery/oak-motte-meadow.svg',
+		alt: 'Illustration of a motte of live oaks standing over an open meadow, with low hills behind',
+	},
 };
 
-// Icon names come from src/components/Icon.astro — swap for whichever of that
-// set fits the client's actual credentials. Three is the right number: a fourth
-// starts reading as a list rather than a set of proof points.
+// Three proof points, not four — a fourth starts reading as a list rather
+// than a set of claims someone stands behind.
+// TODO: every one of these is a factual claim about the business. Confirm
+// each with the client, or delete it. A credential that turns out to be
+// wrong is worse than no credential at all.
 const trustSignals = [
-	{ icon: 'shield', label: 'Licensed & insured', detail: 'Replace with the real license number or coverage detail.' },
-	{ icon: 'star', label: '5-star rated', detail: 'Replace with a real review count and where the reviews live.' },
-	{ icon: 'pin', label: 'Serving [area] since 20XX', detail: 'Replace with the real service area and the year they started.' },
+	{
+		icon: 'award',
+		label: 'ISA Certified Arborists on staff',
+		detail: 'TODO: confirm, and add the certification number.',
+	},
+	{
+		icon: 'droplet',
+		label: 'Licensed Texas irrigator',
+		detail: 'TODO: confirm, and add the LI number — required on irrigation work in Texas.',
+	},
+	{
+		icon: 'ruler',
+		label: 'Design and build under one roof',
+		detail: 'The people who drew it are the people who build it, so nothing is lost in the handoff.',
+	},
 ];
 
 const servicesSection = {
 	eyebrow: 'Services',
 	heading: 'What we do',
-	lead: 'Short section introducing the core service(s) — answer the question a visitor is actually asking when they land here.',
+	lead: 'Six lines of work that hold together: a plan first, then the ground, the water, the structures and the trees, and the care that keeps them going afterwards.',
 	action: { label: 'All services', href: '/services/' },
 };
 
-// Tints cycle across the service cards in order. Swap or reorder to change
-// which card gets which colour; add a fourth entry and a fourth card picks it
-// up automatically rather than repeating the first.
-const serviceTints = ['--tint-mint', '--tint-sky', '--tint-lavender'];
-
-const services = [
-	{ title: 'Service one', description: 'Replace with a real description of what this includes.' },
-	{ title: 'Service two', description: 'Replace with a real description of what this includes.' },
-	{ title: 'Service three', description: 'Replace with a real description of what this includes.' },
-];
-
 const benefitsSection = {
-	eyebrow: 'Why us',
-	heading: 'Why choose us',
-	lead: 'Four reasons a visitor should pick this business over the next result down the page.',
+	eyebrow: 'Our approach',
+	heading: 'Built for this place, not in spite of it',
+	lead: 'Most landscapes here fail for the same few reasons: the wrong plants, too much water, too little shade, and nobody looking after the trees. We design against all four from the first sketch.',
 };
 
 const benefits = [
-	{ title: 'Fast, reliable service', description: 'Replace with what makes response time or turnaround a real advantage.' },
-	{ title: 'Transparent, upfront pricing', description: 'Replace with how you handle quotes — no surprise costs.' },
-	{ title: 'Locally owned and operated', description: 'Replace with real local/community credibility.' },
-	{ title: 'Satisfaction guaranteed', description: 'Replace with the real guarantee or standard you hold work to.' },
+	{
+		title: 'Native and adapted planting',
+		description:
+			'Plants chosen for Central Texas soil, heat and rainfall, so the landscape survives a dry August without an irrigation system carrying it. Less water, less replacement, less work for you.',
+	},
+	{
+		title: 'Biophilic by default',
+		description:
+			'Shade where you sit, water you can hear, a view from every window that has something living in it. Designing for how people actually feel outdoors is the whole point, not a finish applied at the end.',
+	},
+	{
+		title: 'The trees come first',
+		description:
+			'A mature live oak takes eighty years and cannot be bought. We protect root zones before a machine arrives on site, and time every cut around the oak wilt calendar.',
+	},
+	{
+		title: 'Built to be looked after',
+		description:
+			'Every project leaves with a written plan for keeping it: what gets pruned when, what the water budget is, what needs replacing in year five. Whether we do that work or you do, you have it.',
+	},
 ];
 
 const workSection = {
-	eyebrow: 'Portfolio',
-	heading: 'Our work',
-	lead: 'A look at recent projects.',
+	eyebrow: 'Recent work',
+	heading: 'Projects around the Hill Country',
+	lead: 'A few recent properties. Each one started with the same question: what is already good here, and what is in its way?',
 	action: { label: 'Full gallery', href: '/gallery/' },
 };
 
+// TODO: replace all three with real project photography and real locations
+// once the client sends it — see CLAUDE.md, "Gallery / Photo Uploads".
 const galleryPreview = [
-	{ src: '/images/gallery/placeholder-1.svg', alt: 'Replace with a real, descriptive alt text for this photo' },
-	{ src: '/images/gallery/placeholder-2.svg', alt: 'Replace with a real, descriptive alt text for this photo' },
-	{ src: '/images/gallery/placeholder-3.svg', alt: 'Replace with a real, descriptive alt text for this photo' },
+	{
+		src: '/images/gallery/limestone-terrace.svg',
+		alt: 'Illustration of a limestone terrace stepping down toward a lawn beneath two oaks',
+		caption: 'Limestone terrace, Dripping Springs',
+	},
+	{
+		src: '/images/gallery/pergola-shade-structure.svg',
+		alt: 'Illustration of a cedar pergola with evenly spaced rafters over a paved seating area',
+		caption: 'Cedar pergola, Wimberley',
+	},
+	{
+		src: '/images/gallery/native-planting-beds.svg',
+		alt: 'Illustration of massed native planting flanking a stone path running away from the viewer',
+		caption: 'Native planting, West Austin',
+	},
 ];
 
+// TODO: real quotes from real clients, with permission to use their names.
+// Invented testimonials are the fastest way to lose the trust this page is
+// built to earn — delete this section entirely rather than shipping filler.
 const testimonials = [
 	{
-		quote: 'Replace with a real quote from a client — specific results read as more credible than generic praise.',
+		quote:
+			'PLACEHOLDER — replace with a real client quote. The most persuasive ones name something specific: a problem that got solved, a number, a season the work held up through.',
 		name: 'Client name',
-		role: 'Replace with their role or company',
+		role: 'Project type, town',
 		rating: 5,
 	},
 	{
-		quote: 'Replace with a second real quote, ideally from a different type of client to show range.',
+		quote:
+			'PLACEHOLDER — a second real quote, ideally from a different kind of project, so the two together show range rather than repeating one story.',
 		name: 'Client name',
-		role: 'Replace with their role or company',
+		role: 'Project type, town',
 		rating: 5,
 	},
 ];
 
 const contactSection = {
-	eyebrow: 'Contact',
-	heading: 'Get in touch',
-	lead: 'Replace with a short line inviting the visitor to reach out — restate the outcome one more time before they leave the page.',
+	eyebrow: 'Get started',
+	heading: 'Come walk the property with us',
+	lead: 'Every project starts the same way: an hour on site, looking at what you have and what you want from it. No charge, no drawings yet, no obligation to go further.',
 };
 
-const schema = {
-	'@context': 'https://schema.org',
-	'@type': 'LocalBusiness', // TODO: swap for the more specific type if one fits (Restaurant, Plumber, ProfessionalService, etc.)
-	name: SITE_TITLE,
-	description: SITE_DESCRIPTION,
-	url: Astro.site,
-};
+const trail = [];
+const schema = [
+	breadcrumbSchema(Astro.site, trail),
+	// The homepage is where the full service catalogue is declared. Each entry
+	// points back at the business node by @id rather than restating it.
+	...SERVICES.map((service) =>
+		serviceSchema(Astro.site, {
+			title: service.title,
+			description: service.long,
+			slug: service.slug,
+		})
+	),
+];
 ---
 
-<BaseLayout title="Home" description={SITE_DESCRIPTION}>
-	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
-
+<BaseLayout
+	title="West Oaks Design | Hill Country Landscape Design & Build"
+	fullTitle
+	description="Landscape design-build in Austin and the Texas Hill Country: native planting, limestone patios, irrigation, lighting and expert tree care."
+	schema={schema}
+>
 	<section class="section-loose">
 		<div class="container">
 			<div class="split hero" style="--split-cols: 1.3fr 1fr;">
@@ -118,15 +186,18 @@ const schema = {
 						<a href={hero.primaryCta.href} class="btn btn-brand btn-lg btn-arrow">{hero.primaryCta.label}</a>
 						<a href={hero.secondaryCta.href} class="btn btn-secondary btn-lg">{hero.secondaryCta.label}</a>
 					</div>
+					<p class="hero-area text-tertiary">
+						Serving {SERVICE_AREA.slice(0, -1).join(', ')} and {SERVICE_AREA.at(-1)}.
+					</p>
 				</div>
 				<div class="media-frame hero-media" style="--media-ratio: 5 / 4;">
-					<img src={hero.image.src} alt={hero.image.alt} fetchpriority="high" />
+					<img src={hero.image.src} alt={hero.image.alt} fetchpriority="high" width="1600" height="1200" />
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="trust-bar" aria-label="Why clients trust us">
+	<section class="trust-bar" aria-label="Credentials">
 		<div class="container">
 			<ul class="trust-list">
 				{trustSignals.map((signal) => (
@@ -152,11 +223,18 @@ const schema = {
 				</div>
 				<a href={servicesSection.action.href} class="btn btn-primary btn-arrow">{servicesSection.action.label}</a>
 			</div>
-			<ul class="grid-auto">
-				{services.map((service, i) => (
-					<li class="card card-tint card-interactive" style={`--card-tint: var(${serviceTints[i % serviceTints.length]});`}>
-						<h3>{service.title}</h3>
-						<p class="text-secondary">{service.description}</p>
+			<ul class="grid-auto service-grid">
+				{SERVICES.map((service) => (
+					<li class="card card-tint card-interactive" style={`--card-tint: var(${service.tint});`}>
+						<span class="service-icon"><Icon name={service.icon} size={22} /></span>
+						{/*
+							The whole card is the target, via a stretched link on the
+							heading — one link per card rather than a card-wide <a>
+							wrapping a heading, so the accessible name of the link is the
+							service name and nothing else.
+						*/}
+						<h3><a href={`/services/#${service.slug}`} class="service-link">{service.title}</a></h3>
+						<p class="text-secondary">{service.short}</p>
 					</li>
 				))}
 			</ul>
@@ -196,9 +274,12 @@ const schema = {
 			<ul class="work-grid">
 				{galleryPreview.map((image) => (
 					<li>
-						<a href="/gallery/" class="work-item media-frame">
-							<img src={image.src} alt={image.alt} loading="lazy" />
-						</a>
+						<figure class="work-figure">
+							<a href="/gallery/" class="work-item media-frame">
+								<img src={image.src} alt={image.alt} loading="lazy" width="1600" height="1200" />
+							</a>
+							<figcaption class="work-caption text-tertiary">{image.caption}</figcaption>
+						</figure>
 					</li>
 				))}
 			</ul>
@@ -207,6 +288,7 @@ const schema = {
 
 	<section class="section section-sunken">
 		<div class="container">
+			<h2 class="visually-hidden">What clients say</h2>
 			<ul class="grid-auto testimonial-grid">
 				{testimonials.map((t) => (
 					<li>
@@ -224,6 +306,10 @@ const schema = {
 					<p class="eyebrow">{contactSection.eyebrow}</p>
 					<h2>{contactSection.heading}</h2>
 					<p class="text-secondary measure">{contactSection.lead}</p>
+					<p class="text-secondary measure">
+						Not ready to talk yet? Read <a href="/process/">how a project runs</a> from
+						first visit to final walkthrough, or browse <a href="/services/">what we do</a>.
+					</p>
 					<p class="contact-details">
 						<a href={`tel:${SITE_PHONE.replace(/[^\d+]/g, '')}`}>{SITE_PHONE}</a>
 						<br />
@@ -235,8 +321,14 @@ const schema = {
 							</>
 						)}
 					</p>
+					<p class="text-tertiary contact-area">{SERVICE_AREA_LABEL}</p>
+					<a href={BOOKING_URL} class="btn btn-secondary contact-book">
+						<Icon name="calendar" size={18} />
+						Book a site visit
+					</a>
 				</div>
 				<div class="card contact-card">
+					<h3 class="contact-form-heading">Send a message</h3>
 					<ContactForm />
 				</div>
 			</div>
@@ -262,17 +354,20 @@ const schema = {
 		flex-wrap: wrap;
 	}
 
+	/* The service-area line sits under the buttons rather than in the
+	   headline: it's the answer to "do you come to me?", which matters a lot
+	   to the few people asking it and not at all to the rest. */
+	.hero-area {
+		font-size: var(--text-small);
+		margin: var(--space-5) 0 0;
+	}
+
 	.hero-media {
 		box-shadow: var(--shadow-lg);
 	}
 
 	/* Trust bar — proof points between the hero and the first real section,
-	   full-bleed so the hairlines run the whole width.
-
-	   Each item is an icon plus a two-level text block rather than a single
-	   grey string: the claim carries weight, the detail behind it carries the
-	   evidence. A row of same-weight grey text reads as boilerplate nobody
-	   is meant to actually check. */
+	   full-bleed so the hairlines run the whole width. */
 	.trust-bar {
 		padding-block: var(--space-6);
 		border-block: 1px solid var(--border-hairline);
@@ -331,8 +426,6 @@ const schema = {
 			gap: 0;
 		}
 
-		/* Hairline separators reinforce that these are three distinct claims
-		   rather than one run-on sentence. */
 		.trust-item + .trust-item {
 			border-left: 1px solid var(--border-hairline);
 			padding-left: var(--space-6);
@@ -343,6 +436,65 @@ const schema = {
 	.card h3,
 	.topline h3 {
 		font-size: var(--text-h4);
+	}
+
+	/* Services — six cards, so a slightly tighter minimum than the default
+	   lets three sit per row at desktop and two at tablet, rather than
+	   stranding a fifth and sixth on a sparse third row. */
+	.service-grid {
+		--grid-min: 280px;
+	}
+
+	/* The stretched link below is positioned against the card, so the card has
+	   to establish the containing block. .card doesn't set position itself —
+	   it's a plain surface — so it's set here rather than pushed into the
+	   shared class, where it would affect every card on the site. */
+	.service-grid .card {
+		position: relative;
+	}
+
+	.service-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		margin-bottom: var(--space-4);
+		border-radius: var(--radius-md);
+		/* Mixed from the card's own text colour rather than a surface token:
+		   the card is a tint, and a neutral fill on a tint reads as a patch. */
+		background: color-mix(in srgb, var(--color-text) 8%, transparent);
+		color: var(--color-text);
+	}
+
+	/* Stretched link — the heading's anchor covers the whole card, so the
+	   entire tile is clickable while the link's accessible name stays just
+	   the service title. */
+	.service-link {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.service-link::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+	}
+
+	.service-link:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	/* The card, not the text, is what visibly receives focus — otherwise the
+	   ring draws around a heading inside a tile that is itself the target. */
+	.service-grid .card:has(.service-link:focus-visible) {
+		box-shadow: var(--focus-ring);
+	}
+
+	.service-link:focus-visible {
+		outline: none;
 	}
 
 	/* Wide enough that three columns can't fit, so four items land as a
@@ -362,6 +514,10 @@ const schema = {
 		gap: var(--space-4);
 	}
 
+	.work-figure {
+		margin: 0;
+	}
+
 	.work-item {
 		display: block;
 	}
@@ -372,6 +528,11 @@ const schema = {
 
 	.work-item:hover img {
 		transform: scale(1.03);
+	}
+
+	.work-caption {
+		font-size: var(--text-small);
+		margin: var(--space-3) 0 0;
 	}
 
 	@media (max-width: 640px) {
@@ -386,8 +547,9 @@ const schema = {
 		}
 	}
 
-	/* Testimonials carry the section on their own — no header above them, so
-	   the quotes are the first thing read rather than a label about quotes. */
+	/* Testimonials carry the section on their own — no visible header above
+	   them, so the quotes are the first thing read rather than a label about
+	   quotes. The heading still exists for anyone navigating by headings. */
 	.testimonial-grid {
 		--grid-min: 340px;
 		gap: var(--space-5);
@@ -400,12 +562,26 @@ const schema = {
 	/* Contact */
 	.contact-details {
 		margin-top: var(--space-5);
-		margin-bottom: 0;
+		margin-bottom: var(--space-2);
 		font-size: var(--text-large);
+	}
+
+	.contact-area {
+		font-size: var(--text-small);
+		margin-bottom: var(--space-5);
+	}
+
+	.contact-book {
+		gap: var(--space-2);
 	}
 
 	.contact-card {
 		padding: var(--space-7);
+	}
+
+	.contact-form-heading {
+		font-size: var(--text-h4);
+		margin-bottom: var(--space-5);
 	}
 
 	@media (max-width: 560px) {

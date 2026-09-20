@@ -1,0 +1,420 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { breadcrumbSchema, faqSchema, abs } from '../lib/schema';
+import { BOOKING_URL, SITE_TITLE } from '../consts';
+
+// ---------------------------------------------------------------------------
+// PAGE CONTENT — everything a client edit touches lives in this block.
+//
+// Why this page exists at all: the intake form asked for "anything else
+// suggested", and for a design-build firm this is the highest-value addition.
+// A landscape project is a large, slow, opaque purchase — the thing that
+// loses the sale is not doubt about the work, it is not knowing what happens
+// after you say yes. Every one of the three reference sites the client gave
+// leads with process for the same reason.
+//
+// It is also the best AEO page on the site: "how does landscape design work",
+// "what happens at a landscape consultation" and "how long does a landscape
+// project take" are all questions with no good local answer, and this page
+// answers them in HowTo-marked steps.
+//
+// ⚠️ FIRST DRAFT — the stage names, durations and deliverables are informed
+// guesses at how this firm works. Walk through them with the client; the
+// durations in particular are quoted back at you later.
+// ---------------------------------------------------------------------------
+
+const intro = {
+	eyebrow: 'Process',
+	heading: 'How a project actually runs',
+	lead: 'Six stages from the first walk around the property to the last visit after everything is planted. Nothing here is a surprise on purpose — you should know what happens next at every point, including what it costs and what we need from you.',
+	image: {
+		src: '/images/gallery/site-plan-drawing.svg',
+		alt: 'Illustration of a hand-drafted site plan over a measured grid, showing a building footprint, a path and three tree canopies',
+	},
+};
+
+const steps = [
+	{
+		icon: 'pin',
+		title: 'Site visit',
+		duration: 'About an hour · No charge',
+		description:
+			'We walk the property with you. You show us what you want; we look at what is already there — the slope, the soil, where water goes in a storm, which trees are worth building the whole design around. By the end of it we both know whether this is a fit.',
+		client: 'Nothing to prepare. If you have a survey or plat, bring it.',
+	},
+	{
+		icon: 'ruler',
+		title: 'Proposal and agreement',
+		duration: 'Within a week',
+		description:
+			'A written scope, a fee for the design, and an honest construction range for what we discussed. No drawings yet. If the number and the scope work for you, we sign and start.',
+		client: 'Read it properly and ask about anything unclear before signing.',
+	},
+	{
+		icon: 'sprout',
+		title: 'Design',
+		duration: 'Four to eight weeks',
+		description:
+			'We measure and document the site, then draw. You see a concept first — the big moves, in plan and in rough sketch — and we take it through two rounds of revisions with you. Once the shape is settled it goes to a full plan: planting, hardscape, levels, irrigation, lighting.',
+		client: 'Two sessions of your time, and honest reactions. Changing your mind at concept stage is free; changing it during construction is not.',
+	},
+	{
+		icon: 'wrench',
+		title: 'Pricing and scheduling',
+		duration: 'Two to three weeks',
+		description:
+			'The finished plan gets priced line by line, so you can see what each part of it costs and decide what to build now and what to leave for a later phase. Then we schedule, and tell you what we will be doing when.',
+		client: 'Decide the phasing. Nearly everyone builds in stages, and the plan is drawn to allow it.',
+	},
+	{
+		icon: 'truck',
+		title: 'Construction',
+		duration: 'Two weeks to several months',
+		description:
+			'The same people who drew it build it. Tree protection goes up before any machine arrives. We work in the order the site dictates — drainage and grading, then hardscape, then irrigation, then planting, then lighting — and you get a weekly update on where things stand.',
+		client: 'Access to the property, and a decision or two along the way when the ground tells us something the drawings did not.',
+	},
+	{
+		icon: 'leaf',
+		title: 'Walkthrough and aftercare',
+		duration: 'Ongoing',
+		description:
+			'We walk the finished project together and hand over a written care plan: what to water and for how long, what gets pruned when, what to expect in the first two summers. We come back at thirty days and again at a year to check how things took. After that you can keep us on a stewardship plan or take it from there yourself.',
+		client: 'Follow the watering schedule for the first summer. It is the single biggest factor in whether new planting establishes.',
+	},
+];
+
+const principles = {
+	eyebrow: 'How we work',
+	heading: 'Four things we will not trade away',
+	items: [
+		{
+			title: 'One team, start to finish',
+			description:
+				'The person who drew the plan is on site while it is built. Design-build exists precisely so that nothing has to survive a handoff between two companies who blame each other when the levels do not work.',
+		},
+		{
+			title: 'Trees before schedule',
+			description:
+				'Protection fencing goes up before the first machine. If the oak wilt calendar says we cannot make a cut this month, we do not make it this month, and the schedule moves instead of the tree.',
+		},
+		{
+			title: 'A price you can read',
+			description:
+				'Estimates are itemised, so you can see what the patio costs separately from the planting and make a real decision about phasing rather than a yes-or-no on one big number.',
+		},
+		{
+			title: 'Built to be maintained',
+			description:
+				'Every project leaves with a written care plan, whether or not we are the ones doing the maintaining. A landscape nobody knows how to look after starts failing in year two.',
+		},
+	],
+};
+
+const faqs = [
+	{
+		question: 'What happens at a landscape design consultation?',
+		answer:
+			'We spend about an hour walking the property with you. You describe how you want to use the space and what is not working now; we look at drainage, soil, sun, existing trees and access, and talk through what is realistic. No drawings are produced at this stage and there is no charge for it. Within a week you get a written proposal with a design fee and a construction range.',
+	},
+	{
+		question: 'Do I pay for the design even if I do not build it?',
+		answer:
+			'Yes — the design is a deliverable you own and can take to any contractor. If you do build with us, the design fee is credited against the construction cost, so you are not paying for it twice.',
+	},
+	{
+		question: 'Can I build the project in phases?',
+		answer:
+			'Almost everyone does. The plan is drawn as a whole so the phases do not fight each other — irrigation sleeves go under a patio before it is laid, not through it afterwards — and priced line by line so you can see exactly what each phase costs and choose the order.',
+	},
+	{
+		question: 'What do you need from me during construction?',
+		answer:
+			'Access to the property, and a decision or two along the way. Sites reveal things drawings cannot predict — rock a foot down, an old line nobody documented — and when that happens we come to you with the options and a cost rather than deciding on your behalf.',
+	},
+	{
+		question: 'What kind of warranty comes with the work?',
+		answer:
+			'One year on plant material and five years on hardscape construction, provided the care plan we hand over at the walkthrough is followed. The warranty does not require you to keep us on for maintenance.',
+	},
+];
+
+// HowTo markup. This is the part search and answer engines use to render the
+// stages as a sequence rather than as prose, which is the whole reason the
+// page is structured in numbered steps in the first place. The step text is
+// identical to what renders below — marking up steps a visitor cannot see is
+// cloaking, so both read from the same array.
+const howToSchema = {
+	'@type': 'HowTo',
+	name: `How a landscape project runs with ${SITE_TITLE}`,
+	description: intro.lead,
+	totalTime: 'P4M', // TODO: confirm — ISO 8601 duration, currently "about four months" end to end
+	step: steps.map((step, i) => ({
+		'@type': 'HowToStep',
+		position: i + 1,
+		name: step.title,
+		text: step.description,
+		url: abs(Astro.site, `/process/#step-${i + 1}`),
+	})),
+};
+
+const trail = [{ name: 'Process', path: '/process/' }];
+const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs)];
+---
+
+<BaseLayout
+	title="Our Process"
+	description="From first site visit to final walkthrough: six stages, how long each takes, what it costs, and what we need from you at every point."
+	schema={schema}
+>
+	<section class="section-loose">
+		<div class="container">
+			<div class="split" style="--split-cols: 1.1fr 1fr;">
+				<div class="intro-copy">
+					<p class="eyebrow">{intro.eyebrow}</p>
+					<h1>{intro.heading}</h1>
+					<p class="lead">{intro.lead}</p>
+					<a href="/contact/#book" class="btn btn-brand btn-lg btn-arrow intro-cta">Start with a site visit</a>
+				</div>
+				<div class="media-frame" style="--media-ratio: 4 / 5;">
+					<img src={intro.image.src} alt={intro.image.alt} fetchpriority="high" width="1600" height="1200" />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section-sunken">
+		<div class="container">
+			<div class="section-header section-header-center">
+				<div class="section-header-text">
+					<p class="eyebrow">The stages</p>
+					<h2>Six stages, start to finish</h2>
+				</div>
+			</div>
+			<ol class="step-list">
+				{steps.map((step, i) => (
+					<li class="step" id={`step-${i + 1}`}>
+						<div class="step-marker" aria-hidden="true">
+							<span class="step-number">{i + 1}</span>
+							<span class="step-icon"><Icon name={step.icon} size={20} /></span>
+						</div>
+						<div class="step-body">
+							<h3>{step.title}</h3>
+							<p class="step-duration">{step.duration}</p>
+							<p class="text-secondary">{step.description}</p>
+							<p class="step-client">
+								<span class="step-client-label">What we need from you</span>
+								{step.client}
+							</p>
+						</div>
+					</li>
+				))}
+			</ol>
+		</div>
+	</section>
+
+	<section class="section-loose section-brand">
+		<div class="container">
+			<div class="section-header section-header-center">
+				<div class="section-header-text">
+					<p class="eyebrow">{principles.eyebrow}</p>
+					<h2>{principles.heading}</h2>
+				</div>
+			</div>
+			<ul class="grid-auto principle-grid">
+				{principles.items.map((item) => (
+					<li class="topline">
+						<h3>{item.title}</h3>
+						<p class="text-secondary">{item.description}</p>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<div class="section-header section-header-center">
+				<div class="section-header-text">
+					<p class="eyebrow">Questions</p>
+					<h2>Questions about how it works</h2>
+					<p class="lead">
+						More on what each service covers is on the <a href="/services/">services page</a>,
+						including costs and the questions we get asked most.
+					</p>
+				</div>
+			</div>
+			<div class="faq-list">
+				{faqs.map((faq) => (
+					<details class="faq-item">
+						<summary>{faq.question}</summary>
+						<p class="text-secondary">{faq.answer}</p>
+					</details>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="section cta-band">
+		<div class="container">
+			<div class="cta-inner">
+				<h2>Stage one is an hour of your time</h2>
+				<p class="cta-lead">
+					No charge, no drawings, no obligation to go further. Just the two of us walking
+					the property and working out what is possible.
+				</p>
+				<div class="cta-actions">
+					<a href={BOOKING_URL} class="btn btn-inverse btn-lg btn-arrow">Book a site visit</a>
+					<a href="/services/" class="link-arrow cta-link">See what we do</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.intro-copy {
+		max-width: var(--measure);
+	}
+
+	.intro-cta {
+		margin-top: var(--space-6);
+	}
+
+	/* Steps — a vertical sequence rather than a grid. These are ordered and
+	   cumulative: a three-up grid would read as three parallel options, which
+	   is the opposite of what a process is.
+
+	   The rule down the left is the sequence made visible. It is drawn on the
+	   marker column rather than on the list so it stops at the last step
+	   instead of trailing past it. */
+	.step-list {
+		list-style: none;
+		margin: 0 auto;
+		padding: 0;
+		max-width: var(--measure-wide);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-7);
+	}
+
+	.step {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: var(--space-5);
+		scroll-margin-top: var(--space-9);
+	}
+
+	.step-marker {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	/* The connector between markers. Sized off the gap so it reaches the next
+	   marker exactly, and suppressed on the last step where there is nothing
+	   below to connect to. */
+	.step:not(:last-child) .step-marker::after {
+		content: '';
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		width: 1px;
+		height: calc(var(--space-7) + var(--space-2));
+		transform: translateX(-50%);
+		background: var(--border-default);
+	}
+
+	.step-number {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: 50%;
+		background: var(--color-ink);
+		color: var(--color-ink-contrast);
+		font-size: var(--text-small);
+		font-weight: var(--weight-medium);
+	}
+
+	.step-icon {
+		display: flex;
+		color: var(--color-text-tertiary);
+	}
+
+	.step-body h3 {
+		font-size: var(--text-h4);
+		margin-bottom: var(--space-1);
+	}
+
+	.step-duration {
+		font-size: var(--text-small);
+		color: var(--color-text-tertiary);
+		margin-bottom: var(--space-4);
+	}
+
+	/* The "what we need from you" line is the one thing on this page a
+	   prospect is scanning for, so it gets its own field rather than being a
+	   sentence inside the paragraph above it. */
+	.step-client {
+		margin: var(--space-4) 0 0;
+		padding: var(--space-4);
+		border-radius: var(--radius-md);
+		background: var(--surface-raised);
+		border: 1px solid var(--border-hairline);
+		font-size: var(--text-small);
+		color: var(--color-text-secondary);
+	}
+
+	.step-client-label {
+		display: block;
+		font-size: var(--text-eyebrow);
+		font-weight: var(--weight-medium);
+		letter-spacing: var(--tracking-caps);
+		text-transform: uppercase;
+		color: var(--color-text-tertiary);
+		margin-bottom: var(--space-1);
+	}
+
+	@media (max-width: 560px) {
+		.step {
+			gap: var(--space-4);
+		}
+	}
+
+	/* Four principles land as a balanced 2x2 rather than a 3+1 orphan row. */
+	.principle-grid {
+		--grid-min: 360px;
+		gap: var(--space-6) var(--space-7);
+	}
+
+	.principle-grid h3 {
+		font-size: var(--text-h4);
+	}
+
+	/* CTA band */
+	.cta-inner {
+		max-width: var(--measure);
+	}
+
+	.cta-lead {
+		font-size: var(--text-large);
+		margin-bottom: var(--space-6);
+	}
+
+	.cta-actions {
+		display: flex;
+		align-items: center;
+		gap: var(--space-5);
+		flex-wrap: wrap;
+	}
+
+	.cta-link,
+	.cta-link:hover {
+		color: var(--color-ink-contrast);
+	}
+</style>

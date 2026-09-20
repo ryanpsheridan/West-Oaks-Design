@@ -1,80 +1,123 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StatBand from '../components/StatBand.astro';
-import { SITE_TITLE } from '../consts';
+import { breadcrumbSchema, abs } from '../lib/schema';
+import { SITE_TITLE, FOUNDED_YEAR, SERVICE_AREA_LABEL, BOOKING_URL } from '../consts';
 
 // ---------------------------------------------------------------------------
 // PAGE CONTENT — everything a client edit touches lives in this block.
 //
 // Structure: intro → credibility stats → story → values → quote → CTA.
-// Delete any section that doesn't apply to a given client rather than
-// filling it with filler; a short honest page beats a padded one.
+//
+// ⚠️ FIRST DRAFT, AND THE MOST INVENTED PAGE ON THE SITE. The intake form
+// said nothing about who runs this business, when it started, or how it got
+// here — so the story below is a plausible shape for a Hill Country
+// design-build firm, written to show the layout working, not to be true.
+//
+// Every factual claim on this page must be replaced by the client's own
+// account before launch, and the numbers in the stat band must come from
+// their records. An invented founding story is the one thing on a small
+// business site that, if noticed, undoes every other trust signal at once.
 // ---------------------------------------------------------------------------
+
+const yearsInBusiness = new Date().getFullYear() - FOUNDED_YEAR;
 
 const intro = {
 	eyebrow: 'About us',
-	heading: 'The people behind the work',
-	lead: "Replace with the client's real story — who they are, how long they've been doing this, and why a visitor should trust them. This page should read like a person wrote it, not a template.",
-	image: { src: '/images/gallery/placeholder-2.svg', alt: 'Replace with a real photo of the team, owner, or workspace' },
+	heading: 'We build landscapes that outlast us',
+	lead: `${SITE_TITLE} is a design-build studio working across ${SERVICE_AREA_LABEL}. We draw the plan, build it with our own crews, and come back to look after it — which is a slower way to run a landscape company and the only way we have found to be answerable for how a property looks in year ten rather than on handover day.`,
+	image: {
+		src: '/images/gallery/crew-on-site.svg',
+		alt: 'Illustration of three crew members walking a property beneath mature oaks during a site visit',
+	},
 };
 
+// TODO: every number here is invented. Pull the real ones from the client's
+// records, or delete the stat — a stat band with three honest numbers is
+// worth more than one with five impressive ones.
 const stats = [
-	{ value: '20+', label: 'Replace with a real number (years in business)' },
-	{ value: '500+', label: 'Replace with a real number (projects completed)' },
-	{ value: '4.9', label: 'Replace with a real number (average rating)' },
+	{ value: `${yearsInBusiness}`, label: 'TODO: confirm — years working in the Hill Country' },
+	{ value: '400+', label: 'TODO: confirm — properties designed and built' },
+	{ value: '1,200', label: 'TODO: confirm — native trees planted' },
 ];
 
 const story = {
 	eyebrow: 'Our story',
-	heading: 'How we got here',
+	heading: 'It started with a dying oak',
+	// TODO: replace wholesale with the client's real account.
 	paragraphs: [
-		'Replace with the origin — why this business exists and what the founder was trying to fix. Concrete beginnings read as credible; mission statements read as filler.',
-		'Replace with what changed along the way, and what the business looks like today. One or two paragraphs is plenty — a visitor is skimming for reasons to trust, not reading a memoir.',
+		`PLACEHOLDER STORY — invented to show the page working. ${SITE_TITLE} started in ${FOUNDED_YEAR} doing tree work, which is a good way to learn what actually kills a landscape. Almost every failing tree we were called out to had been failing for years, and almost none of it was disease: it was a grade change over the roots, a trench cut for an irrigation line, a bed built up against a trunk. The damage was always done by someone improving the property.`,
+		'PLACEHOLDER STORY — the second half. We started drawing plans so the improving and the protecting would be the same job rather than two companies working against each other on the same site. The crews grew from there, and the work grew with them: hardscape, irrigation, lighting, and the ongoing care that keeps it all going.',
+		`PLACEHOLDER STORY — where it stands now. Today we work on properties from small in-town lots to acreage out past Dripping Springs, and the question at the start of every one is the same: what is already good here, and what is in its way?`,
 	],
-	image: { src: '/images/gallery/placeholder-3.svg', alt: 'Replace with a real photo showing the work being done' },
+	image: {
+		src: '/images/gallery/live-oak-canopy.svg',
+		alt: 'Illustration of a single mature live oak with a broad canopy spreading over open ground',
+	},
 };
-
-// Tints cycle across the value cards, same pattern as the homepage services.
-const valueTints = ['--tint-lavender', '--tint-mint', '--tint-sky'];
 
 const values = {
 	eyebrow: 'What we stand for',
 	heading: 'How we work',
 	items: [
-		{ title: 'Replace with a real value', description: 'Describe how this actually shows up in the work — a value nobody could disagree with says nothing.' },
-		{ title: 'Replace with a second value', description: 'Tie it to something a client would notice, not something internal.' },
-		{ title: 'Replace with a third value', description: 'Three is usually enough. Six reads as a wall nobody finishes.' },
+		{
+			title: 'The site knows more than we do',
+			description:
+				'Every property already tells you where water wants to go, where shade already falls, and what grows without help. Designing starts with reading that, not with a style.',
+			tint: '--tint-moss',
+		},
+		{
+			title: 'Slow-growing things first',
+			description:
+				'A patio can be rebuilt in a week. A canopy oak cannot be rebuilt at all. When the two are in conflict, the tree wins and the hardscape moves.',
+			tint: '--tint-sage',
+		},
+		{
+			title: 'Sustainable has to mean measurable',
+			description:
+				'Native planting, drip conversion, rainwater capture, dark-sky lighting. We can tell you what each one saves in gallons or watts, because a claim you cannot measure is a marketing line.',
+			tint: '--tint-mist',
+		},
+		{
+			title: 'Answerable in year ten',
+			description:
+				'We would rather do fewer projects and keep looking after them. The crew that built your patio is the crew that comes back when a joint lifts, and they know why it was built that way.',
+			tint: '--tint-clay',
+		},
 	],
 };
 
 const quote = {
-	text: 'Replace with a quote from the owner, or a client line that captures what the business is about.',
+	// TODO: replace with a real line from the owner, in their own words.
+	text: 'PLACEHOLDER — a line from the owner about what the business is for. One sentence in their own voice beats a paragraph in a copywriter’s.',
 	name: 'Owner name',
 	role: 'Founder',
 };
 
 const cta = {
-	heading: 'Ready to work together?',
-	lead: 'Replace with a closing line that makes the next step obvious.',
-	primary: { label: 'Get in touch', href: '/contact/' },
-	secondary: { label: 'See our services', href: '/services/' },
+	heading: 'Come walk the property with us',
+	lead: 'An hour on site, no charge. It is how every project here has started.',
+	primary: { label: 'Book a site visit', href: BOOKING_URL },
+	secondary: { label: 'See how a project runs', href: '/process/' },
 };
 
-const schema = {
-	'@context': 'https://schema.org',
-	'@type': 'AboutPage',
-	name: `About ${SITE_TITLE}`,
-	description: intro.lead,
-	url: Astro.site ? new URL('/about/', Astro.site).toString() : undefined,
-};
+const trail = [{ name: 'About', path: '/about/' }];
+const schema = [
+	breadcrumbSchema(Astro.site, trail),
+	{
+		'@type': 'AboutPage',
+		name: `About ${SITE_TITLE}`,
+		description: intro.lead,
+		url: abs(Astro.site, '/about/'),
+	},
+];
 ---
 
 <BaseLayout
-	title="About"
-	description="Who we are, how long we've been doing this, and why clients keep coming back."
+	title="About Us"
+	description={`${SITE_TITLE} is a landscape design-build studio serving ${SERVICE_AREA_LABEL} — who we are, how long we have done this, and how we work.`}
+	schema={schema}
 >
-	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
-
 	<section class="section-loose">
 		<div class="container">
 			<div class="split" style="--split-cols: 1.1fr 1fr;">
@@ -84,7 +127,7 @@ const schema = {
 					<p class="lead">{intro.lead}</p>
 				</div>
 				<div class="media-frame" style="--media-ratio: 4 / 5;">
-					<img src={intro.image.src} alt={intro.image.alt} fetchpriority="high" />
+					<img src={intro.image.src} alt={intro.image.alt} fetchpriority="high" width="1600" height="1200" />
 				</div>
 			</div>
 		</div>
@@ -100,20 +143,25 @@ const schema = {
 		<div class="container">
 			<div class="split split-reverse split-top">
 				<div class="media-frame" style="--media-ratio: 4 / 3;">
-					<img src={story.image.src} alt={story.image.alt} loading="lazy" />
+					<img src={story.image.src} alt={story.image.alt} loading="lazy" width="1600" height="1200" />
 				</div>
-				<div>
+				<div class="story-copy">
 					<p class="eyebrow">{story.eyebrow}</p>
 					<h2>{story.heading}</h2>
 					{story.paragraphs.map((text) => (
 						<p class="text-secondary">{text}</p>
 					))}
+					<p class="text-secondary">
+						What that looks like in practice is set out on the
+						<a href="/process/">process page</a>, and the work itself is in the
+						<a href="/gallery/">gallery</a>.
+					</p>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="section">
+	<section class="section section-sunken">
 		<div class="container">
 			<div class="section-header section-header-center">
 				<div class="section-header-text">
@@ -121,9 +169,9 @@ const schema = {
 					<h2>{values.heading}</h2>
 				</div>
 			</div>
-			<ul class="grid-auto">
-				{values.items.map((item, i) => (
-					<li class="card card-tint" style={`--card-tint: var(${valueTints[i % valueTints.length]});`}>
+			<ul class="grid-auto value-grid">
+				{values.items.map((item) => (
+					<li class="card card-tint" style={`--card-tint: var(${item.tint});`}>
 						<h3>{item.title}</h3>
 						<p class="text-secondary">{item.description}</p>
 					</li>
@@ -162,8 +210,17 @@ const schema = {
 		max-width: var(--measure);
 	}
 
+	.story-copy {
+		max-width: var(--measure);
+	}
+
 	.card h3 {
 		font-size: var(--text-h4);
+	}
+
+	/* Four values land as a balanced 2x2 rather than a 3+1 orphan row. */
+	.value-grid {
+		--grid-min: 340px;
 	}
 
 	/* On the brand band the quote carries the whole section, so it loses the
@@ -199,10 +256,7 @@ const schema = {
 		flex-wrap: wrap;
 	}
 
-	.cta-link {
-		color: var(--color-ink-contrast);
-	}
-
+	.cta-link,
 	.cta-link:hover {
 		color: var(--color-ink-contrast);
 	}

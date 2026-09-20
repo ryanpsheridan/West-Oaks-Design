@@ -1,24 +1,64 @@
 ---
-import { SITE_TITLE, SITE_EMAIL, SITE_PHONE, NAV_LINKS } from '../consts';
+import {
+	SITE_TITLE,
+	SITE_TAGLINE,
+	SITE_EMAIL,
+	SITE_PHONE,
+	SITE_ADDRESS,
+	SERVICE_AREA,
+	NAV_LINKS,
+	FOOTER_LINKS,
+} from '../consts';
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
 	<div class="container site-footer-inner">
-		<div>
+		{/*
+			The name, phone and email are repeated here in plain text on every
+			page deliberately. This is the NAP block (name / address / phone)
+			that local search cross-references against a Google Business
+			Profile and other directories, and consistency between them is a
+			real ranking factor — which is also why all three come from
+			consts.ts rather than being typed here.
+		*/}
+		<div class="site-footer-brand">
 			<p class="site-footer-title">{SITE_TITLE}</p>
+			<p class="site-footer-tagline">{SITE_TAGLINE}</p>
 			<p class="site-footer-contact">
 				<a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a><br />
 				<a href={`tel:${SITE_PHONE.replace(/[^\d+]/g, '')}`}>{SITE_PHONE}</a>
+				{SITE_ADDRESS && (
+					<>
+						<br />
+						{SITE_ADDRESS}
+					</>
+				)}
 			</p>
 		</div>
+
 		<nav aria-label="Footer">
+			<h2 class="site-footer-heading">Site</h2>
 			<ul class="site-footer-nav">
-				{NAV_LINKS.map((link) => (
+				{[...NAV_LINKS, ...FOOTER_LINKS].map((link) => (
 					<li><a href={link.href}>{link.label}</a></li>
 				))}
 			</ul>
 		</nav>
+
+		{/*
+			The service-area list is the footer's other job: it is the plainest
+			possible answer to "do you come to my town?", on every page, in
+			crawlable text.
+		*/}
+		<div class="site-footer-area">
+			<h2 class="site-footer-heading">Areas we serve</h2>
+			<ul class="site-footer-nav site-footer-area-list">
+				{SERVICE_AREA.map((place) => (
+					<li>{place}, TX</li>
+				))}
+			</ul>
+		</div>
 	</div>
 	<div class="container">
 		<p class="site-footer-copy">&copy; {year} {SITE_TITLE}. All rights reserved.</p>
@@ -32,12 +72,44 @@ const year = new Date().getFullYear();
 		padding-block: var(--space-8) var(--space-5);
 	}
 
+	/* Three columns at desktop, stacking to one on a phone. A grid rather
+	   than a flex row with space-between: with three unequal columns, that
+	   pushed the last one hard against the right gutter and left a gap in
+	   the middle wide enough to read as a mistake. */
 	.site-footer-inner {
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: 1fr;
 		gap: var(--space-7);
 		margin-bottom: var(--space-7);
+	}
+
+	@media (min-width: 720px) {
+		.site-footer-inner {
+			grid-template-columns: 1.4fr 1fr 1fr;
+			gap: var(--space-8);
+		}
+	}
+
+	.site-footer-brand {
+		max-width: var(--measure-narrow);
+	}
+
+	.site-footer-tagline {
+		color: var(--color-text-secondary);
+		font-size: var(--text-small);
+		margin-bottom: var(--space-4);
+	}
+
+	/* A real heading, so the footer's three blocks are navigable by heading
+	   rather than being one undifferentiated run of links. Sized down to
+	   label scale — the hierarchy here is structural, not visual. */
+	.site-footer-heading {
+		font-size: var(--text-eyebrow);
+		font-weight: var(--weight-medium);
+		letter-spacing: var(--tracking-caps);
+		text-transform: uppercase;
+		color: var(--color-text-tertiary);
+		margin-bottom: var(--space-3);
 	}
 
 	.site-footer-title {
@@ -68,6 +140,13 @@ const year = new Date().getFullYear();
 
 	.site-footer-nav a:hover {
 		color: var(--color-text);
+		text-decoration: underline;
+	}
+
+	/* Plain text, not links — these are places, not pages. */
+	.site-footer-area-list li {
+		font-size: var(--text-small);
+		color: var(--color-text-secondary);
 	}
 
 	.site-footer-copy {

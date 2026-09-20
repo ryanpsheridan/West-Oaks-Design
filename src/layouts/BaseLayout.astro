@@ -2,21 +2,44 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { graph } from '../lib/schema';
 
 interface Props {
 	title: string;
 	description: string;
 	image?: string;
 	noindex?: boolean;
+	fullTitle?: boolean;
+	/**
+	 * Page-specific JSON-LD nodes. They're merged with the sitewide business
+	 * and website nodes into one `@graph` here, rather than each page
+	 * emitting its own <script> — see src/lib/schema.ts for why one graph
+	 * beats several loose blocks.
+	 *
+	 * Every page should pass at least its BreadcrumbList.
+	 */
+	schema?: object[];
 }
 
-const { title, description, image, noindex } = Astro.props;
+const { title, description, image, noindex, fullTitle, schema = [] } = Astro.props;
+
+// Astro.site is undefined until `site` is set in astro.config.mjs. It is set,
+// but the builders degrade to relative URLs rather than throwing if it ever
+// isn't, so a missing config can't take the whole build down.
+const jsonLd = graph(Astro.site, schema);
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} image={image} noindex={noindex} />
+		<BaseHead
+			title={title}
+			description={description}
+			image={image}
+			noindex={noindex}
+			fullTitle={fullTitle}
+		/>
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
 	</head>
 	<body>
 		<a href="#main-content" class="skip-link">Skip to main content</a>
