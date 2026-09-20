@@ -325,8 +325,10 @@ const currentPath = Astro.url.pathname;
 		transition: color var(--duration-fast) var(--ease-out);
 	}
 
-	.nav-link:hover {
-		color: var(--color-text);
+	@media (hover: hover) {
+		.nav-link:hover {
+			color: var(--color-text);
+		}
 	}
 
 	/* The underline is a pseudo-element rather than text-decoration so the
@@ -376,8 +378,10 @@ const currentPath = Astro.url.pathname;
 			transform var(--duration-fast) var(--ease-out);
 	}
 
-	.menu-toggle:hover {
-		background: var(--color-ink-hover);
+	@media (hover: hover) {
+		.menu-toggle:hover {
+			background: var(--color-ink-hover);
+		}
 	}
 
 	.menu-toggle:active {
@@ -525,8 +529,10 @@ const currentPath = Astro.url.pathname;
 		text-decoration: none;
 	}
 
-	.menu-contact:hover {
-		color: var(--color-text);
+	@media (hover: hover) {
+		.menu-contact:hover {
+			color: var(--color-text);
+		}
 	}
 
 	/* Duration is already near-zero under reduced motion, but the delay isn't,

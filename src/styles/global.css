@@ -196,8 +196,10 @@ a {
 	transition: color var(--duration-fast) var(--ease-out);
 }
 
-a:hover {
-	color: var(--color-accent-hover);
+@media (hover: hover) {
+	a:hover {
+		color: var(--color-accent-hover);
+	}
 }
 
 /* Uppercase overline label. Does more work than anything else in this
@@ -425,9 +427,11 @@ svg {
 	border-color: color-mix(in srgb, currentColor 26%, transparent);
 }
 
-.section-brand .card-interactive:hover,
-.cta-band .card-interactive:hover {
-	border-color: color-mix(in srgb, currentColor 55%, transparent);
+@media (hover: hover) {
+	.section-brand .card-interactive:hover,
+	.cta-band .card-interactive:hover {
+		border-color: color-mix(in srgb, currentColor 55%, transparent);
+	}
 }
 
 .section-brand .field input,
@@ -467,10 +471,12 @@ svg {
 	text-underline-offset: 0.2em;
 }
 
-.section-brand p a:hover,
-.cta-band p a:hover {
-	color: inherit;
-	text-decoration-color: currentColor;
+@media (hover: hover) {
+	.section-brand p a:hover,
+	.cta-band p a:hover {
+		color: inherit;
+		text-decoration-color: currentColor;
+	}
 }
 
 .section-brand a:focus-visible,
@@ -572,10 +578,12 @@ svg {
 	box-shadow: var(--shadow-xs);
 }
 
-.btn-primary:hover {
-	background: var(--color-ink-hover);
-	color: var(--color-ink-contrast);
-	box-shadow: var(--shadow-sm);
+@media (hover: hover) {
+	.btn-primary:hover {
+		background: var(--color-ink-hover);
+		color: var(--color-ink-contrast);
+		box-shadow: var(--shadow-sm);
+	}
 }
 
 .btn-secondary {
@@ -584,10 +592,12 @@ svg {
 	border-color: var(--border-default);
 }
 
-.btn-secondary:hover {
-	background: var(--surface-sunken);
-	border-color: var(--border-strong);
-	color: var(--color-text);
+@media (hover: hover) {
+	.btn-secondary:hover {
+		background: var(--surface-sunken);
+		border-color: var(--border-strong);
+		color: var(--color-text);
+	}
 }
 
 /* The quiet action on a dark band. .btn-secondary is a light fill and would
@@ -599,10 +609,12 @@ svg {
 	border-color: color-mix(in srgb, currentColor 45%, transparent);
 }
 
-.btn-outline-inverse:hover {
-	background: color-mix(in srgb, currentColor 12%, transparent);
-	border-color: currentColor;
-	color: currentColor;
+@media (hover: hover) {
+	.btn-outline-inverse:hover {
+		background: color-mix(in srgb, currentColor 12%, transparent);
+		border-color: currentColor;
+		color: currentColor;
+	}
 }
 
 /* The highlight button. --color-brand is a field color, never text, so this
@@ -614,9 +626,11 @@ svg {
 	--badge-glyph: var(--glyph-arrow-dark);
 }
 
-.btn-brand:hover {
-	background: var(--color-brand-hover);
-	color: var(--color-brand-contrast);
+@media (hover: hover) {
+	.btn-brand:hover {
+		background: var(--color-brand-hover);
+		color: var(--color-brand-contrast);
+	}
 }
 
 /* Arrow badge. An inverted disc pinned inside the pill's right edge, the
@@ -678,8 +692,10 @@ svg {
 	transition: transform var(--duration-base) var(--ease-out);
 }
 
-.btn-arrow:hover::after {
-	transform: scale(1.03);
+@media (hover: hover) {
+	.btn-arrow:hover::after {
+		transform: scale(1.03);
+	}
 }
 
 /* Each variant's badge is its own inverse: a dark button gets a light badge
@@ -739,10 +755,18 @@ svg {
 
 /* The outline is the thing that changes on hover. A shadow under a card with
    no fill lands on the page rather than on the card, which reads as a smudge;
-   darkening the edge reads as the card itself responding. */
-.card-interactive:hover {
-	border-color: var(--color-brand);
-	transform: translateY(-2px);
+   darkening the edge reads as the card itself responding.
+
+   Behind (hover: hover), like every other hover state on the site. A touch
+   device has no hover to leave, so it latches the state on tap and holds it:
+   cards lit up and stayed lit while scrolling past them. There is no
+   substitute :active state here on purpose. A card is not a button, and a
+   whole tile flashing under your thumb mid-scroll is the same problem again. */
+@media (hover: hover) {
+	.card-interactive:hover {
+		border-color: var(--color-brand);
+		transform: translateY(-2px);
+	}
 }
 
 /* ----------------------------------------------------------------------------
@@ -785,10 +809,12 @@ svg {
 		box-shadow var(--duration-fast) var(--ease-out);
 }
 
-.field input:hover,
-.field textarea:hover,
-.field select:hover {
-	border-color: var(--border-strong);
+@media (hover: hover) {
+	.field input:hover,
+	.field textarea:hover,
+	.field select:hover {
+		border-color: var(--border-strong);
+	}
 }
 
 /* Focus changes the border as well as raising the global ring, the ring
@@ -890,12 +916,16 @@ svg {
 	transition: transform var(--duration-base) var(--ease-out);
 }
 
-.link-arrow:hover {
-	color: var(--color-text);
+@media (hover: hover) {
+	.link-arrow:hover {
+		color: var(--color-text);
+	}
 }
 
-.link-arrow:hover::after {
-	transform: translateX(3px);
+@media (hover: hover) {
+	.link-arrow:hover::after {
+		transform: translateX(3px);
+	}
 }
 
 /* ----------------------------------------------------------------------------
@@ -1092,9 +1122,11 @@ svg {
 	color: var(--color-ink);
 }
 
-.btn-inverse:hover {
-	background: var(--surface-sunken);
-	color: var(--color-ink);
+@media (hover: hover) {
+	.btn-inverse:hover {
+		background: var(--surface-sunken);
+		color: var(--color-ink);
+	}
 }
 
 /* The default focus ring is derived from the accent, which can fall too close

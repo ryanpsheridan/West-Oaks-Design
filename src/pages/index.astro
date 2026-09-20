@@ -461,9 +461,11 @@ const schema = [
 		border-radius: inherit;
 	}
 
-	.service-link:hover {
-		text-decoration: underline;
-		text-underline-offset: 0.2em;
+	@media (hover: hover) {
+		.service-link:hover {
+			text-decoration: underline;
+			text-underline-offset: 0.2em;
+		}
 	}
 
 	/* The card, not the text, is what visibly receives focus, otherwise the
@@ -505,8 +507,10 @@ const schema = [
 		transition: transform var(--duration-slow) var(--ease-out);
 	}
 
-	.work-item:hover img {
-		transform: scale(1.03);
+	@media (hover: hover) {
+		.work-item:hover img {
+			transform: scale(1.03);
+		}
 	}
 
 	.work-caption {

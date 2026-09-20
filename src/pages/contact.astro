@@ -250,9 +250,16 @@ const schema = [
 			background-color var(--duration-fast) var(--ease-out);
 	}
 
-	.contact-list dd:hover .copy-btn,
 	.copy-btn:focus-visible {
 		opacity: 1;
+	}
+
+	/* Split from the :focus-visible rule above, so keyboard focus still
+	   reveals the button on a device that reports hover: none. */
+	@media (hover: hover) {
+		.contact-list dd:hover .copy-btn {
+			opacity: 1;
+		}
 	}
 
 	@media (hover: none) {
@@ -261,9 +268,11 @@ const schema = [
 		}
 	}
 
-	.copy-btn:hover {
-		color: var(--color-text);
-		background: color-mix(in srgb, var(--color-text) 8%, transparent);
+	@media (hover: hover) {
+		.copy-btn:hover {
+			color: var(--color-text);
+			background: color-mix(in srgb, var(--color-text) 8%, transparent);
+		}
 	}
 
 	/* Both icons occupy the same cell, so swapping them can't reflow the row. */

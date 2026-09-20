@@ -410,9 +410,11 @@ const schema = [
 			color var(--duration-fast) var(--ease-out);
 	}
 
-	.filter-btn:hover {
-		background: var(--surface-fill);
-		color: var(--color-text);
+	@media (hover: hover) {
+		.filter-btn:hover {
+			background: var(--surface-fill);
+			color: var(--color-text);
+		}
 	}
 
 	/* Selected state carries weight and fill, not colour alone, and
@@ -422,9 +424,11 @@ const schema = [
 		color: var(--color-brand-contrast);
 	}
 
-	.filter-btn.active:hover {
-		background: var(--color-brand-hover);
-		color: var(--color-brand-contrast);
+	@media (hover: hover) {
+		.filter-btn.active:hover {
+			background: var(--color-brand-hover);
+			color: var(--color-brand-contrast);
+		}
 	}
 
 	/* Grid */
@@ -462,8 +466,10 @@ const schema = [
 		transition: transform var(--duration-slow) var(--ease-out);
 	}
 
-	.gallery-trigger:hover img {
-		transform: scale(1.03);
+	@media (hover: hover) {
+		.gallery-trigger:hover img {
+			transform: scale(1.03);
+		}
 	}
 
 	/* Expand affordance, revealed on hover and whenever the trigger is
@@ -483,9 +489,17 @@ const schema = [
 		transition: opacity var(--duration-base) var(--ease-out);
 	}
 
-	.gallery-trigger:hover .photo-expand,
 	.gallery-trigger:focus-visible .photo-expand {
 		opacity: 1;
+	}
+
+	/* Split from the :focus-visible rule above rather than grouped with it:
+	   grouping would put keyboard focus behind the hover guard too, and a
+	   laptop with a touchscreen reports hover: none. */
+	@media (hover: hover) {
+		.gallery-trigger:hover .photo-expand {
+			opacity: 1;
+		}
 	}
 
 	@media (hover: none) {
@@ -629,9 +643,11 @@ const schema = [
 		transition: background-color var(--duration-fast) var(--ease-out);
 	}
 
-	.lightbox-nav:hover,
-	.lightbox-close:hover {
-		background: var(--surface-page);
+	@media (hover: hover) {
+		.lightbox-nav:hover,
+		.lightbox-close:hover {
+			background: var(--surface-page);
+		}
 	}
 
 	.lightbox-nav {

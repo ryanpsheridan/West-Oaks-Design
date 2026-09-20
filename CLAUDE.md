@@ -300,6 +300,27 @@ Recommended option: **Decap CMS** (free, open-source, git-based, formerly Netlif
 - Setup isn't as turnkey as Formspree/Calendly/Stripe: Decap CMS needs an OAuth backend to authenticate the client against GitHub, and since this template deploys to Vercel (not Netlify, where Decap's auth is native), that backend has to be a small serverless function added to the project. Research the current recommended approach for wiring Decap CMS's GitHub OAuth flow on Vercel before implementing this for a real client, the ecosystem around this shifts, so verify rather than assuming the setup is a five-minute account signup like the other decision trees.
 - Access to `/admin` should be gated to the client (and the developer), never left open to the public.
 
+## Hover States
+
+**Every hover rule on the site sits inside `@media (hover: hover)`.** A touch
+device has no hover to leave, so it latches the state on tap and holds it:
+cards lit up and stayed lit while scrolling past them, which is what this
+rule exists to prevent. Put any new hover styling behind the same guard.
+
+Two details worth keeping:
+
+- **Don't group `:hover` with `:focus-visible` in one rule.** Putting the pair
+  behind the guard takes keyboard focus with it, and a laptop with a
+  touchscreen reports `hover: none`. Split them, guard only the hover half.
+  `.gallery-trigger` and `.copy-btn` both do this.
+- **Cards get no `:active` substitute.** A button can flash under a thumb; a
+  whole tile doing it mid-scroll is the same problem the guard just fixed.
+
+The only ungated `:hover` selectors left are the four `.cta-link, .cta-link:hover`
+rules, which declare the *same* colour for both states. They exist to stop the
+global `a:hover` accent applying on a dark band, so there is no hover change to
+suppress and guarding them would be pointless.
+
 ## Motion
 
 The site's motion budget is deliberately small: roughly 10% surprise-and-delight on top of 90% functionality. Everything below is CSS-first and adds no third-party bytes, **never add an animation library** (GSAP, Framer Motion, AOS). The whole build is currently ~500KB including the font and images, with zero external JS or CSS files; one animation library would be a bigger download than the entire site.
