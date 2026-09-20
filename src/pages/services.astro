@@ -223,7 +223,7 @@ const schema = [
 		</div>
 	</section>
 
-	<section class="section-loose">
+	<section class="section-loose section-brand">
 		<div class="container">
 			<div class="section-header section-header-center">
 				<div class="section-header-text">
@@ -248,7 +248,7 @@ const schema = [
 								<li>{feature}</li>
 							))}
 						</ul>
-						<a href="/contact/#project" class={`btn ${tier.featured ? 'btn-primary' : 'btn-secondary'} pricing-cta`}>
+						<a href="/contact/#project" class={`btn ${tier.featured ? 'btn-inverse' : 'btn-outline-inverse'} pricing-cta`}>
 							Get a quote
 						</a>
 					</li>
@@ -420,16 +420,19 @@ const schema = [
 	}
 
 	/* Every card on the site is an outline now, so the featured tier is
-	   marked by the weight and colour of its own outline rather than by a
-	   fill. The inset ring doubles the edge visually without adding a second
-	   pixel of border, which would make this card sit 1px taller than its
-	   neighbours and break the row's baseline.
+	   marked by the weight of its own outline rather than by a fill. The
+	   inset ring doubles the edge visually without adding a second pixel of
+	   border, which would make this card sit 1px taller than its neighbours
+	   and break the row's baseline.
+
+	   These sit on the dark band, so the ring is drawn from the band's
+	   contrast colour rather than the brand colour, which is the band.
 
 	   The "Most projects" badge above it carries the same signal in words,
 	   so the distinction is never colour alone. */
 	.pricing-card.featured {
-		border-color: var(--color-brand);
-		box-shadow: inset 0 0 0 1px var(--color-brand);
+		border-color: var(--color-brand-contrast);
+		box-shadow: inset 0 0 0 1px var(--color-brand-contrast);
 	}
 
 
@@ -477,6 +480,8 @@ const schema = [
 		position: relative;
 	}
 
+	/* --border-strong is a light-page neutral and disappears on the band, so
+	   the bullets are drawn from the copy's own colour instead. */
 	.pricing-features li::before {
 		content: '';
 		position: absolute;
@@ -485,7 +490,7 @@ const schema = [
 		width: 5px;
 		height: 5px;
 		border-radius: 50%;
-		background: var(--border-strong);
+		background: color-mix(in srgb, currentColor 60%, transparent);
 	}
 
 	.pricing-cta {

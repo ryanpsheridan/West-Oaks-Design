@@ -192,7 +192,7 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 		</div>
 	</section>
 
-	<section class="section section-sunken">
+	<section class="section-loose section-brand">
 		<div class="container">
 			<div class="section-header section-header-center">
 				<div class="section-header-text">
@@ -231,7 +231,7 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 		</div>
 	</section>
 
-	<section class="section-loose section-brand">
+	<section class="section section-sunken">
 		<div class="container">
 			<div class="section-header section-header-center">
 				<div class="section-header-text">
@@ -324,7 +324,11 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 	}
 
 	/* One object, not a stack: the icon sits inside the numbered disc's old
-	   position and the number has moved into the heading. */
+	   position and the number has moved into the heading.
+
+	   The disc inverts against the band it sits on. This section is the brand
+	   colour, so a brand-coloured disc would be invisible on it; it takes the
+	   band's contrast colour and puts the brand back on the icon. */
 	.step-marker {
 		position: relative;
 		display: grid;
@@ -332,8 +336,8 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 		width: 2.75rem;
 		height: 2.75rem;
 		border-radius: 50%;
-		background: var(--color-brand);
-		color: var(--color-brand-contrast);
+		background: var(--color-brand-contrast);
+		color: var(--color-brand);
 	}
 
 	/* The connector between markers. Measured from the marker's own height to
@@ -347,7 +351,9 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 		width: 1px;
 		height: var(--space-7);
 		transform: translateX(-50%);
-		background: var(--border-default);
+		/* Drawn from the band's own contrast colour: --border-default is a
+		   light-page neutral and vanishes here. */
+		background: color-mix(in srgb, var(--color-brand-contrast) 30%, transparent);
 	}
 
 	.step-body h3 {
@@ -371,11 +377,16 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 	/* The "what we need from you" line is the one thing on this page a
 	   prospect is scanning for, so it gets its own field rather than being a
 	   sentence inside the paragraph above it. */
+	/* A panel inside a dark band, lifted by a wash of the band's own contrast
+	   colour rather than by a white fill. A white panel here would be the
+	   brightest thing on the page and would pull attention off the step it
+	   belongs to, and the muted text inside it is white on this band, so it
+	   would land white-on-white. */
 	.step-client {
 		margin: var(--space-4) 0 0;
 		padding: var(--space-4);
 		border-radius: var(--radius-md);
-		background: var(--surface-raised);
+		background: color-mix(in srgb, var(--color-brand-contrast) 8%, transparent);
 		font-size: var(--text-small);
 		color: var(--color-text-secondary);
 	}

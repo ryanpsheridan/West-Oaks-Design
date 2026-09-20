@@ -401,6 +401,69 @@ svg {
 	border-color: color-mix(in srgb, var(--color-brand-contrast) 22%, transparent);
 }
 
+/* ---------------------------------------------------------------------------
+   Anything sitting on a dark band.
+
+   These exist so a dark section is a class you add, not a section you then
+   have to restyle from scratch. --border-default and --surface-page are tuned
+   for a light page and both disappear against a dark field, so a card's
+   outline and a field's edge have to be redrawn from the band's own contrast
+   colour. Doing it here means the next dark section added to any page gets
+   working cards, fields and eyebrows for free.
+   --------------------------------------------------------------------------- */
+.section-brand .card,
+.cta-band .card {
+	border-color: color-mix(in srgb, currentColor 26%, transparent);
+}
+
+.section-brand .card-interactive:hover,
+.cta-band .card-interactive:hover {
+	border-color: color-mix(in srgb, currentColor 55%, transparent);
+}
+
+.section-brand .field input,
+.section-brand .field textarea,
+.section-brand .field select,
+.cta-band .field input,
+.cta-band .field textarea,
+.cta-band .field select {
+	border-color: color-mix(in srgb, currentColor 34%, transparent);
+	color: inherit;
+}
+
+.section-brand .field input::placeholder,
+.cta-band .field input::placeholder {
+	color: color-mix(in srgb, currentColor 60%, transparent);
+}
+
+/* The eyebrow pill inverts on ink for the same reason it does on brand: a
+   light tint on a dark field reads as a smudge. */
+.cta-band .eyebrow {
+	background: var(--color-ink-contrast);
+	color: var(--color-ink);
+}
+
+.cta-band .topline,
+.cta-band .divider {
+	border-color: color-mix(in srgb, var(--color-ink-contrast) 22%, transparent);
+}
+
+/* A link in running copy on a dark band cannot use --color-accent, which is
+   tuned to clear AA on a light surface and is close to black on this one.
+   Inherit the band's colour and let the underline carry the affordance. */
+.section-brand p a,
+.cta-band p a {
+	color: inherit;
+	text-decoration-color: color-mix(in srgb, currentColor 55%, transparent);
+	text-underline-offset: 0.2em;
+}
+
+.section-brand p a:hover,
+.cta-band p a:hover {
+	color: inherit;
+	text-decoration-color: currentColor;
+}
+
 .section-brand a:focus-visible,
 .section-brand button:focus-visible {
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-contrast) 70%, transparent);
@@ -499,6 +562,21 @@ svg {
 	background: var(--surface-sunken);
 	border-color: var(--border-strong);
 	color: var(--color-text);
+}
+
+/* The quiet action on a dark band. .btn-secondary is a light fill and would
+   read as the primary action there, which is backwards; this is an outline in
+   the band's own contrast colour, so the filled .btn-inverse stays dominant. */
+.btn-outline-inverse {
+	background: transparent;
+	color: currentColor;
+	border-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.btn-outline-inverse:hover {
+	background: color-mix(in srgb, currentColor 12%, transparent);
+	border-color: currentColor;
+	color: currentColor;
 }
 
 /* The highlight button. --color-brand is a field color, never text, so this
@@ -655,7 +733,12 @@ svg {
 	border: 1px solid var(--border-default);
 	border-radius: var(--radius-md);
 	color: var(--color-text);
-	background: var(--surface-page);
+	/* Transparent, so a field is the same colour as whatever it sits in and
+	   the border alone draws it. A field painted a different shade from its
+	   own container reads as a second surface stacked inside the first, which
+	   on a form of a dozen fields turns the whole card into a stack of tinted
+	   slabs. The border is the affordance; it does not need a fill helping. */
+	background: transparent;
 	transition:
 		border-color var(--duration-fast) var(--ease-out),
 		box-shadow var(--duration-fast) var(--ease-out);
@@ -935,6 +1018,14 @@ svg {
 .cta-band {
 	background: var(--color-ink);
 	color: var(--color-ink-contrast);
+	/* Re-point the roles rather than colouring a list of elements, the same
+	   way .section-brand does. This band used to hold nothing but a heading, a
+	   paragraph and a button; it now carries cards and contact details too,
+	   and anything reaching for .text-tertiary inside it would otherwise land
+	   on a value tuned for a light page and come out near-black on near-black. */
+	--color-text: var(--color-ink-contrast);
+	--color-text-secondary: var(--color-ink-contrast-muted);
+	--color-text-tertiary: color-mix(in srgb, var(--color-ink-contrast) 66%, transparent);
 }
 
 .cta-band h2,
@@ -943,17 +1034,26 @@ svg {
 }
 
 .cta-band p {
-	color: var(--color-ink-contrast-muted);
+	color: var(--color-text-secondary);
 }
 
+/* The light button on a dark band.
+
+   Its text colour is --color-ink, NOT --color-text. That looks like a
+   pointless distinction and is not: .cta-band and .section-brand re-point
+   --color-text to their own contrast colour so that everything sitting on
+   them inverts. This button does not invert, because it is already the light
+   thing on the dark band, so inheriting that re-pointing painted white text
+   on a near-white fill. Anything that stays light on a dark band has to name
+   a colour that the band does not redefine. */
 .btn-inverse {
 	background: var(--surface-page);
-	color: var(--color-text);
+	color: var(--color-ink);
 }
 
 .btn-inverse:hover {
 	background: var(--surface-sunken);
-	color: var(--color-text);
+	color: var(--color-ink);
 }
 
 /* The default focus ring is derived from the accent, which can fall too close
