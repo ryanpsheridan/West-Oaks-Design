@@ -71,19 +71,24 @@ const schema = [breadcrumbSchema(Astro.site, trail)];
 				<p class="text-secondary pay-note">
 					Opens Stripe’s secure checkout in a new tab. You will need your invoice number.
 				</p>
+				{/*
+					The new-tab warning lives inside the link rather than beside
+					it. A loose <p> is not part of the link's accessible name, so
+					a screen reader reaching the link by tabbing never heard it;
+					a span inside the anchor is announced as part of the link,
+					which is the behaviour WCAG 3.2.5 is actually asking for.
+					The visible duplicate is gone: the button already says
+					Stripe, and a second line repeating the mechanics was noise
+					on the one card that should be reassuring.
+				*/}
 				<a
 					href={PAYMENT_URL}
 					class="btn btn-brand btn-lg btn-arrow"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					Pay with Stripe
+					Pay with Stripe<span class="visually-hidden"> (opens in a new tab on stripe.com)</span>
 				</a>
-				{/* Opening in a new tab is announced rather than left as a
-				    surprise, a link that silently moves you to another site is
-				    a WCAG 3.2.5 problem and, on a payment link, a trust one. */}
-				<p class="visually-hidden">Opens in a new tab on stripe.com</p>
-				<p class="pay-newtab text-tertiary">Opens in a new tab</p>
 			</div>
 
 			<h2 class="steps-heading">How it works</h2>
@@ -152,11 +157,6 @@ const schema = [breadcrumbSchema(Astro.site, trail)];
 	.pay-note {
 		max-width: 34ch;
 		margin-bottom: var(--space-6);
-	}
-
-	.pay-newtab {
-		font-size: var(--text-small);
-		margin: var(--space-4) 0 0;
 	}
 
 	.steps-heading {

@@ -418,6 +418,13 @@ svg {
    colour. Doing it here means the next dark section added to any page gets
    working cards, fields and eyebrows for free.
    --------------------------------------------------------------------------- */
+.section-brand .faq-list,
+.cta-band .faq-list,
+.section-brand .faq-item,
+.cta-band .faq-item {
+	border-color: color-mix(in srgb, currentColor 22%, transparent);
+}
+
 .section-brand .card,
 .cta-band .card {
 	/* The same one-step rule, inverted: a faint wash of the band's own
@@ -693,7 +700,12 @@ svg {
    light fill cannot cover. */
 .card {
 	background: var(--surface-card);
-	border: 1px solid var(--border-default);
+	/* One step up the border ramp from --border-default, which is tuned for
+	   form controls where the edge is the affordance. A card's edge only has
+	   to say "this is a separate plane", and at --border-default it was
+	   drawing more attention than the content inside it. Fields keep the
+	   heavier value. */
+	border: 1px solid var(--border-hairline);
 	border-radius: var(--radius-xl);
 	padding: var(--space-6);
 }
@@ -1144,19 +1156,32 @@ svg {
 	display: none;
 }
 
-/* Rotating a + into an x rather than swapping the glyph for a minus: the
-   character swap jumps, this reads as the same mark turning. */
+/* The + is drawn from two gradient bars rather than set as a text character.
+
+   A text '+' is not centred in its own em box, and its ink sits above the
+   baseline, so rotating it swings the glyph around a point that is not the
+   middle of the mark. It visibly wanders across the animation. Two bars
+   crossing at the centre of a box rotate around the centre of the cross,
+   which is what "rotates in place" actually requires.
+
+   The box is a full line tall so the mark centres on the first line of the
+   summary without any baseline nudging. */
 .faq-item summary::before {
-	content: '+';
+	content: '';
 	flex-shrink: 0;
 	width: 1em;
-	font-weight: var(--weight-normal);
+	height: 1.5em;
+	background:
+		linear-gradient(currentColor, currentColor) center / 0.75em 1.5px no-repeat,
+		linear-gradient(currentColor, currentColor) center / 1.5px 0.75em no-repeat;
 	color: var(--color-text-tertiary);
 	transition: transform var(--duration-base) var(--ease-out);
 }
 
+/* 45 degrees, not 135: the mark is symmetrical, so a quarter turn is the
+   shortest path from + to x and reads as one movement rather than a spin. */
 .faq-item[open] summary::before {
-	transform: rotate(135deg);
+	transform: rotate(45deg);
 }
 
 /* Smooth open/close. <details> snaps by default because it animates from a

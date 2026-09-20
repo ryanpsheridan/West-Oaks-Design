@@ -217,10 +217,27 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 							*/}
 							<h3><span class="step-index">{i + 1}.</span> {step.title}</h3>
 							<p class="text-secondary">{step.description}</p>
-							<p class="step-client">
-								<span class="step-client-label">What we need from you</span>
-								{step.client}
-							</p>
+							{/*
+								Collapsed by default. Seven stages, each with a
+								paragraph and then a second block of equal weight,
+								was a wall: the page asked you to read fourteen
+								things to find out how a project runs. What the
+								stage IS stays open; what it asks of YOU is one
+								click away for the people who want it.
+
+								A native <details> rather than a scripted panel, so
+								it works with no JavaScript, is keyboard operable
+								and announced as expanded or collapsed for free,
+								and its content is in the HTML either way. Uses the
+								shared .faq-list / .faq-item classes rather than a
+								private copy of the same accordion.
+							*/}
+							<div class="faq-list step-details">
+								<details class="faq-item">
+									<summary>What we need from you</summary>
+									<p class="text-secondary">{step.client}</p>
+								</details>
+							</div>
 						</div>
 					</li>
 				))}
@@ -368,28 +385,22 @@ const schema = [breadcrumbSchema(Astro.site, trail), howToSchema, faqSchema(faqs
 	/* The "what we need from you" line is the one thing on this page a
 	   prospect is scanning for, so it gets its own field rather than being a
 	   sentence inside the paragraph above it. */
-	/* A panel inside a dark band, lifted by a wash of the band's own contrast
-	   colour rather than by a white fill. A white panel here would be the
-	   brightest thing on the page and would pull attention off the step it
-	   belongs to, and the muted text inside it is white on this band, so it
-	   would land white-on-white. */
-	.step-client {
-		margin: var(--space-4) 0 0;
-		padding: var(--space-4);
-		border-radius: var(--radius-md);
-		background: color-mix(in srgb, var(--color-brand-contrast) 8%, transparent);
-		font-size: var(--text-small);
-		color: var(--color-text-secondary);
+	/* The shared accordion, narrowed to this context. .faq-list centres itself
+	   and caps its width for a page-wide FAQ; inside a step it is already
+	   inside a measured column, so it just needs to sit flush. */
+	.step-details {
+		margin-top: var(--space-5);
+		max-width: none;
 	}
 
-	.step-client-label {
-		display: block;
-		font-size: var(--text-eyebrow);
-		font-weight: var(--weight-medium);
-		letter-spacing: var(--tracking-caps);
-		text-transform: uppercase;
-		color: var(--color-text-tertiary);
-		margin-bottom: var(--space-1);
+	.step-details summary {
+		font-size: var(--text-small);
+		padding-block: var(--space-3);
+	}
+
+	.step-details p {
+		font-size: var(--text-small);
+		max-width: none;
 	}
 
 	@media (max-width: 560px) {

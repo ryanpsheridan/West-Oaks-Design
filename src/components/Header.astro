@@ -360,6 +360,12 @@ const currentPath = Astro.url.pathname;
 	/* A filled disc rather than bare bars, so it reads as a control at the same
 	   weight as the CTA opposite it. Two bars that rotate into an X, the same
 	   elements in both states, so there's no icon swap. */
+	/* No container. The filled square was the only solid block in a bar that
+	   is otherwise a pale panel with text on it, so it read as a button
+	   floating inside another button. The bars alone are the control.
+
+	   The 2.5rem box stays as the hit area: it is invisible now, but a pair
+	   of 16px lines is nowhere near a 44px touch target on its own. */
 	.menu-toggle {
 		grid-row: 1;
 		grid-column: 2;
@@ -369,18 +375,18 @@ const currentPath = Astro.url.pathname;
 		height: 2.5rem;
 		border: none;
 		border-radius: var(--radius-md);
-		background: var(--color-ink);
+		background: none;
 		padding: 0;
 		cursor: pointer;
 		-webkit-tap-highlight-color: transparent;
 		transition:
-			background-color var(--duration-fast) var(--ease-out),
+			opacity var(--duration-fast) var(--ease-out),
 			transform var(--duration-fast) var(--ease-out);
 	}
 
 	@media (hover: hover) {
 		.menu-toggle:hover {
-			background: var(--color-ink-hover);
+			opacity: 0.65;
 		}
 	}
 
@@ -395,7 +401,9 @@ const currentPath = Astro.url.pathname;
 		margin-left: -8px;
 		height: 1.5px;
 		border-radius: 2px;
-		background: var(--color-ink-contrast);
+		/* Was the ink contrast colour, which only worked against the filled
+		   container that used to sit behind it. */
+		background: var(--color-text);
 		transition:
 			top var(--duration-base) var(--ease-out),
 			transform var(--duration-base) var(--ease-out);
